@@ -10,7 +10,7 @@ const Table = styled.table`
   padding: 20px;
   box-shadow: 0px 0px 5px #ccc;
   border-radius: 5px;
-  max-width: 1120px;
+  max-width: 2020px;
   margin: 20px auto;
   word-break: break-all;
 `;
@@ -67,22 +67,22 @@ const Grid = ({ users, setUsers, setOnEdit }) => {
           <Th>Nome</Th>
           <Th>Email</Th>
           <Th onlyWeb>Fone</Th>
-          <Th></Th>
-          <Th></Th>
+          <Th>Atualizar</Th>
+          <Th>Deletar</Th>
         </Tr>
       </Thead>
       <Tbody>
         {users.map((item, i) => (
           <Tr key={i}>
-            <Td width="30%">{item.nome}</Td>
-            <Td width="30%">{item.email}</Td>
+            <Td width="30%">{item.usr_nome}</Td>
+            <Td width="30%">{item.usr_email}</Td>
             <Td width="20%" onlyWeb>
-              {item.fone}
+              {item.usr_fone}
             </Td>
-            <Td alignCenter width="5%">
+            <Td alignCenter>
               <FaEdit onClick={() => handleEdit(item)} />
             </Td>
-            <Td alignCenter width="5%">
+            <Td alignCenter>
               <FaTrash onClick={() => handleDelete(item.id)} />
             </Td>
           </Tr>
