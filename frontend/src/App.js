@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import Background from "./components/Background.js";
 
 const Container = styled.div`
   width: 1500px;
@@ -27,7 +28,6 @@ function App() {
     try {
       const res = await axios.get("http://localhost:8800");
       setUsers(res.data.sort((a, b) => (a.usr_nome > b.usr_nome ? 1 : -1)));
-      console.log('user - ', res.data.sort((a, b) => (a.usr_nome > b.usr_nome ? 1 : -1)))
     } catch (error) {
       toast.error(error);
     }
@@ -39,6 +39,7 @@ function App() {
 
   return (
     <>
+      {/* <Background /> */}
       <Container>
         <Title>USUÁRIOS</Title>
         <Form onEdit={onEdit} setOnEdit={setOnEdit} getUsers={getUsers} />
