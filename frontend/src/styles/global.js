@@ -5,7 +5,7 @@ const Global = createGlobalStyle`
   * {
     margin: 0;
     padding: 0;
-    font-family: 'poppins', sans-serif;
+    font-family: 'roboto', sans-serif;
   }
   
   body {
@@ -18,6 +18,9 @@ const Global = createGlobalStyle`
     top: 0;
     margin-top: 0;
     height: 100vh;
+    background-attachment: fixed;
+    background-size: 60%;
+    position: relative;
     ::after {
       content: "";
       width: 100%;

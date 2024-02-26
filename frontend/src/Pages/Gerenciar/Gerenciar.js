@@ -1,0 +1,8 @@
+function Gerenciar() {
+
+	return (
+		<div>Gerenciar</div>
+	);
+}
+
+export default Gerenciar;
