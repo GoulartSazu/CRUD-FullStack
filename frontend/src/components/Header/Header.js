@@ -1,9 +1,13 @@
 import React from "react";
 import { Head } from "./Styles";
 import logo from "../../images/logo-horizontal.png";
+import { useLocation } from "react-router-dom";
 
 const Header = () => {
-  const title = window.location.pathname
+  const location = useLocation();
+  const pathname = location.pathname;
+
+  const title = pathname
     .split("/")
     .pop()
     .split("-")

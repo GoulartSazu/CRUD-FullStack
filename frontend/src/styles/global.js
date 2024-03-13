@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import styled from "styled-components";
 
 const Global = createGlobalStyle`
 
@@ -24,14 +25,20 @@ const Global = createGlobalStyle`
     ::after {
       content: "";
       width: 100%;
-      top: -50px;
-      height: 120%;
+      top: 0px;
+      height: 100%;
       position: absolute;
       background-color: black;
       opacity: 0.5;
       z-index: -9;
     }
   }
+`;
+
+export const Container = styled.div`
+  width: 95%;
+  margin: auto;
+  max-width: 1800px;
 `;
 
 export default Global;

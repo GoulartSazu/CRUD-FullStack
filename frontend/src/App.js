@@ -15,16 +15,6 @@ import Header from "./components/Header/Header.js";
 import Gerenciar from "./Pages/Gerenciar/Gerenciar.js";
 import Aprovar from "./Pages/Aprovar/Aprovar.js";
 
-const Container = styled.div`
-  width: 1500px;
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  position: relative;
-`;
-
 const Title = styled.h2``;
 
 function App() {
