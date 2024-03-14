@@ -12,6 +12,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Agendamentos from "./Pages/Agendamentos/Agendamentos.js";
 import Dashboard from "./Pages/Dashboard/Dashboard.js";
 import Header from "./components/Header/Header.js";
+import Footer from "./components/Footer/Footer.js";
 import Gerenciar from "./Pages/Gerenciar/Gerenciar.js";
 import Aprovar from "./Pages/Aprovar/Aprovar.js";
 
@@ -46,6 +47,7 @@ function App() {
       </Routes>
       <ToastContainer autoClose={5000} position={toast.POSITION.TOP_RIGHT} />
       <GlobalStyle />
+      <Footer />
     </Router>
   );
 }

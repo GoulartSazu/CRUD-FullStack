@@ -7,7 +7,7 @@ export const HomePage = styled.div`
     font-weight: 400;
     letter-spacing: 5px;
     position: absolute;
-    top: 45px;
+    top: 21px;
   }
 
   h2 {
@@ -19,6 +19,7 @@ export const HomePage = styled.div`
     width: 72%;
     text-align: center;
     margin-top: 100px;
+    height: 200px;
   }
 
   button {
@@ -39,13 +40,14 @@ export const HomePage = styled.div`
     overflow: hidden;
     display: flex;
     color: white;
-    transition: all 1s ease;
+    transition: all 0.9s;
   }
   .link {
     text-decoration: none !important;
   }
   button:hover {
     box-shadow: rgb(255, 255, 255, 1) 2px 2px 99px;
+    border-radius: 1005px;
   }
   /* bubbles */
   button::before {
