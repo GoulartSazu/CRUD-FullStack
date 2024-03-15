@@ -1,6 +1,5 @@
 import GlobalStyle from "./styles/global";
 import styled from "styled-components";
-// import { Routes } from "../src/router/Routes.js";
 import Home from "../src/Pages/Home/Home.js";
 import Form from "./components/FormAgendamento/Form.js";
 import Grid from "./components/FormAgendamento/Grid.js";

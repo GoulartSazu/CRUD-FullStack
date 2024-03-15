@@ -1,10 +1,16 @@
 import styled from "styled-components";
 
 export const Agendamento = styled.div`
-
-  img {
-    position: relative;
-    width: 300px;
+  h2 {
+    color: white;
+    font-size: 60px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin: auto;
+    width: 72%;
+    text-align: center;
+    margin-top: 100px;
+    height: 200px;
   }
 
   h1 {
@@ -15,5 +21,4 @@ export const Agendamento = styled.div`
     font-weight: 300;
     font-size: 40px;
   }
-
 `;
