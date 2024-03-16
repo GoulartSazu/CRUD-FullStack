@@ -1,7 +1,7 @@
 import React from "react";
 import { Head } from "./Styles";
 import logo from "../../images/logo-horizontal.png";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 const Header = () => {
   const location = useLocation();
@@ -11,9 +11,9 @@ const Header = () => {
     .split("/")
     .pop()
     .split("-")
-    .map(word => {
-      if (word.toLowerCase() === 'horarios') {
-        return 'Horários';
+    .map((word) => {
+      if (word.toLowerCase() === "horarios") {
+        return "Horários";
       }
       return word.charAt(0).toUpperCase() + word.slice(1);
     })
@@ -22,7 +22,9 @@ const Header = () => {
   return (
     <Head>
       <h1>{title}</h1>
-      <img src={logo} alt="Logo Splash" />
+      <Link to="/" className="link">
+        <img src={logo} alt="Logo Splash" />
+      </Link>
     </Head>
   );
 };

@@ -6,19 +6,10 @@ export const Agendamento = styled.div`
     font-size: 60px;
     font-weight: 600;
     letter-spacing: 2px;
-    margin: auto;
+    margin: 100px auto;
     width: 72%;
     text-align: center;
-    margin-top: 100px;
-    height: 200px;
+    height: 150px;
   }
 
-  h1 {
-    color: white;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-right: 100px;
-    font-weight: 300;
-    font-size: 40px;
-  }
 `;

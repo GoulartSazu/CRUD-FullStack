@@ -1,64 +1,18 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
+import {
+  FormContainer,
+  CheckboxButton,
+  SelectionContainer,
+  InputArea,
+  Input,
+  Button,
+} from "./Styles.js";
 import { toast } from "react-toastify";
+import { Container } from "../../styles/global";
 
 const { format } = require("date-fns");
-
 const getCurrentDateTime = () => format(new Date(), "yyyy-MM-dd HH:mm:ss");
-
-const FormContainer = styled.form`
-  display: flex;
-  align-items: flex-end;
-  gap: 10px;
-  flex-wrap: wrap;
-  background-color: #fff;
-  padding: 20px;
-  box-shadow: 0px 0px 5px #ccc;
-  border-radius: 5px;
-  width: 100%;
-  justify-content: space-between;
-`;
-
-const CheckboxButton = styled.button`
-  padding: 10px;
-  margin: 5px;
-  border: 1px solid #bbb;
-  border-radius: 5px;
-  background-color: ${({ checked }) => (checked ? "#ccc" : "transparent")};
-  color: ${({ checked }) => (checked ? "#000" : "#333")};
-  cursor: pointer;
-`;
-
-const SelectionContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-`;
-
-const InputArea = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Input = styled.input`
-  width: 120px;
-  padding: 0 10px;
-  border: 1px solid #bbb;
-  border-radius: 5px;
-  height: 40px;
-`;
-
-const Label = styled.label``;
-
-const Button = styled.button`
-  padding: 10px;
-  cursor: pointer;
-  border-radius: 5px;
-  border: none;
-  background-color: #2c73d2;
-  color: white;
-  height: 42px;
-`;
 
 const Form = ({ getUsers, onEdit, setOnEdit }) => {
   const ref = useRef();
@@ -83,7 +37,7 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
     setCheckTime(time === checkTime ? null : time);
   };
 
-  console.log(checkService)
+  console.log(checkService);
 
   useEffect(() => {
     if (onEdit) {
@@ -99,7 +53,7 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    return
+    return;
 
     const user = ref.current;
 
@@ -156,122 +110,136 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
   };
 
   return (
-    <FormContainer ref={ref} onSubmit={handleSubmit}>
-      <div>
-        <h3>Serviço</h3>
-        <p>Qual serviço deseja contratar?</p>
-        <SelectionContainer>
-          <CheckboxButton
-            checked={checkService === "lavagemCompleta"}
-            onClick={() => handleCheckService("lavagemCompleta")}
-          >
-            Lavagem Completa - Limpeza interna e externa
-          </CheckboxButton>
-          <CheckboxButton
-            checked={checkService === "aparencia"}
-            onClick={() => handleCheckService("aparencia")}
-          >
-            Aparência - Lavagem externa
-          </CheckboxButton>
-          <CheckboxButton
-            checked={checkService === "interna"}
-            onClick={() => handleCheckService("interna")}
-          >
-            Interna - Limpeza interna
-          </CheckboxButton>
-          {/* Adicione quantos botões de seleção desejar */}
-        </SelectionContainer>
-        {/* <InputArea>
+    <Container>
+      <FormContainer ref={ref} onSubmit={handleSubmit}>
+        <div className="section">
+          <h3>Serviço</h3>
+          <p>Qual serviço deseja contratar?</p>
+          <SelectionContainer>
+            <CheckboxButton
+              checked={checkService === "lavagemCompleta"}
+              onClick={() => handleCheckService("lavagemCompleta")}
+            >
+              <span>Lavagem Completa</span>{" "}
+              <i className="fas fa-angle-right"></i> Interna e externa
+            </CheckboxButton>
+            <CheckboxButton
+              checked={checkService === "aparencia"}
+              onClick={() => handleCheckService("aparencia")}
+            >
+              <span>Aparência</span> <i className="fas fa-angle-right"></i>{" "}
+              Lavagem externa
+            </CheckboxButton>
+            <CheckboxButton
+              checked={checkService === "interna"}
+              onClick={() => handleCheckService("interna")}
+            >
+              <span>Interna</span> <i className="fas fa-angle-right"></i>{" "}
+              Limpeza interna
+            </CheckboxButton>
+          </SelectionContainer>
+          {/* <InputArea>
           <Label>Nome</Label>
           <Input name="usr_nome" />
         </InputArea> */}
-      </div>
-      
-      <div>
-        <h3>Veículo</h3>
-        <p>Qual o tamanho do seu veículo?</p>
-        <SelectionContainer>
-          <CheckboxButton
-            checked={checkCar === "medio"}
-            onClick={() => handleCheckCar("medio")}
-          >
-            Médio - HB20, Celta, Onix, Kwid, Sandero, Corsa etc...
-          </CheckboxButton>
-          <CheckboxButton
-            checked={checkCar === "grande"}
-            onClick={() => handleCheckCar("grande")}
-          >
-            Grande - S10, Montana, Amarok, Ranger, Hilux, Strada etc...
-          </CheckboxButton>
-        </SelectionContainer>
-      </div>
+        </div>
 
-      <div>
-        <h3>Local</h3>
-        <p>Qual local seria o serviço?</p>
-        <SelectionContainer>
-          <CheckboxButton
-            checked={checkLocal === "delivery"}
-            onClick={() => handleCheckLocal("delivery")}
-          >
-            Delivery - Iremos até o local do seu veículo
-          </CheckboxButton>
-          <CheckboxButton
-            checked={checkLocal === "espacoSplash"}
-            onClick={() => handleCheckLocal("espacoSplash")}
-          >
-            Espaco Splash - Você irá trazer seu veículo em nosso endereço
-          </CheckboxButton>
-          <CheckboxButton
-            checked={checkLocal === "levaTras"}
-            onClick={() => handleCheckLocal("levaTras")}
-          >
-            Leva e Trás - Iremos buscar seu veículo, realizar a limpeza no espaço Splash e levar novamente para você.
-          </CheckboxButton>
-        </SelectionContainer>
-      </div>
+        <div className="section">
+          <h3>Veículo</h3>
+          <p>Qual o tamanho do seu veículo?</p>
+          <SelectionContainer>
+            <CheckboxButton
+              checked={checkCar === "medio"}
+              className="car"
+              onClick={() => handleCheckCar("medio")}
+            >
+              <span>Médio</span> <i className="fas fa-angle-right"></i> HB20,
+              Celta, Onix, Kwid, Sandero, Corsa
+            </CheckboxButton>
+            <CheckboxButton
+              checked={checkCar === "grande"}
+              className="car"
+              onClick={() => handleCheckCar("grande")}
+            >
+              <span>Grande</span> <i className="fas fa-angle-right"></i> S10,
+              Montana, Amarok, Ranger, Hilux, Strada
+            </CheckboxButton>
+          </SelectionContainer>
+        </div>
 
-      <div>
-        <h3>Data</h3>
-        <p>Para qual dia será o serviço?</p>
-        <InputArea>
-        <Input name="usr_data_nascimento" type="date" />
-      </InputArea>
-      {/* "aqui colocar qual dia da semana foi selcionado" */}
-      </div>
+        <div className="section">
+          <h3>Local</h3>
+          <p>Qual local seria o serviço?</p>
+          <SelectionContainer>
+            <CheckboxButton
+              checked={checkLocal === "delivery"}
+              onClick={() => handleCheckLocal("delivery")}
+            >
+              <span>Delivery</span> <i className="fas fa-angle-right"></i>{" "}
+              Iremos até o local do seu veículo para realizar o serviço
+            </CheckboxButton>
+            <CheckboxButton
+              checked={checkLocal === "espacoSplash"}
+              onClick={() => handleCheckLocal("espacoSplash")}
+            >
+              <span>Espaco Splash</span> <i className="fas fa-angle-right"></i>{" "}
+              Você irá trazer seu veículo em nosso endereço
+            </CheckboxButton>
+            <CheckboxButton
+              checked={checkLocal === "levaTras"}
+              onClick={() => handleCheckLocal("levaTras")}
+            >
+              <span>Leva e Trás</span> <i className="fas fa-angle-right"></i>{" "}
+              Iremos buscar seu veículo, realizar e levar novamente para você
+            </CheckboxButton>
+          </SelectionContainer>
+        </div>
 
-      <div>
-        <h3>Horário</h3>
-        <p>Qual horário do dia X deseja?</p>
-        <SelectionContainer>
-          <CheckboxButton
-            checked={checkTime === "8h"}
-            onClick={() => handleCheckTime("8h")}
-          >
-            8h
-          </CheckboxButton>
-          <CheckboxButton
-            checked={checkTime === "10h"}
-            onClick={() => handleCheckTime("10h")}
-          >
-            10h
-          </CheckboxButton>
-          <CheckboxButton
-            checked={checkTime === "13h"}
-            onClick={() => handleCheckTime("13h")}
-          >
-            13h
-          </CheckboxButton>
-          <CheckboxButton
-            checked={checkTime === "15h"}
-            onClick={() => handleCheckTime("15h")}
-          >
-            15h
-          </CheckboxButton>
-        </SelectionContainer>
-      </div>
+        <div className="section">
+          <h3>Data</h3>
+          <p>Para qual dia será o serviço?</p>
+          <InputArea>
+            <Input name="usr_data_nascimento" type="date" />
+          </InputArea>
+          {/* "aqui colocar qual dia da semana foi selcionado" */}
+        </div>
 
-      {/* <InputArea>
+        <div className="section">
+          <h3>Horário</h3>
+          <p>Qual horário do dia X deseja?</p>
+          <SelectionContainer>
+            <CheckboxButton
+              className="h"
+              checked={checkTime === "8h"}
+              onClick={() => handleCheckTime("8h")}
+            >
+              <span>8h</span>
+            </CheckboxButton>
+            <CheckboxButton
+              className="h"
+              checked={checkTime === "10h"}
+              onClick={() => handleCheckTime("10h")}
+            >
+              <span>10h</span>
+            </CheckboxButton>
+            <CheckboxButton
+              className="h"
+              checked={checkTime === "13h"}
+              onClick={() => handleCheckTime("13h")}
+            >
+              <span>13h</span>
+            </CheckboxButton>
+            <CheckboxButton
+              className="h"
+              checked={checkTime === "15h"}
+              onClick={() => handleCheckTime("15h")}
+            >
+              <span>15h</span>
+            </CheckboxButton>
+          </SelectionContainer>
+        </div>
+
+        {/* <InputArea>
         <Label>E-mail</Label>
         <Input name="usr_email" type="email" />
       </InputArea>
@@ -284,8 +252,9 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
         <Input name="usr_data_nascimento" type="date" />
       </InputArea> */}
 
-      <Button type="submit">SALVAR</Button>
-    </FormContainer>
+        <Button type="submit">SALVAR</Button>
+      </FormContainer>
+    </Container>
   );
 };
 

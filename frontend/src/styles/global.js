@@ -18,19 +18,21 @@ const Global = createGlobalStyle`
     position: relative;
     top: 0;
     margin-top: 0;
-    height: 100vh;
     background-attachment: fixed;
     background-size: 60%;
     position: relative;
     ::after {
       content: "";
       width: 100%;
-      top: 0px;
-      height: 100%;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
       position: absolute;
       background-color: black;
-      opacity: 0.5;
+      opacity: 0.6;
       z-index: -9;
+      height: 100%;
     }
   }
 `;

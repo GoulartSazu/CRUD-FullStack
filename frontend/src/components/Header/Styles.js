@@ -7,10 +7,15 @@ export const Head = styled.div`
   align-items: center;
   background: linear-gradient(to bottom right, #800080, #4B0082);
   position: relative;
+  height: 110px;
 
   img {
     position: relative;
     width: 200px;
+    transition: all 0.3s;
+    :hover {
+      filter: brightness(140%);
+    }
   }
 
   h1 {

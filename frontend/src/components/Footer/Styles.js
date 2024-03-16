@@ -4,7 +4,6 @@ export const Foot = styled.div`
   background: linear-gradient(to bottom right, #800080, #4b0082);
   position: relative;
   padding: 20px 0;
-  margin-top: 300px;
 
   .container {
     max-width: 1170px;

@@ -5,7 +5,7 @@ import Form from "../../components/FormAgendamento/Form.js"
 function Agendamentos() {
   const [title, setTitle] = useState("");
   const phrase = "PREENCHA O FORMULÁRIO E REALIZE SEU AGENDAMENTO DO NOSSOS SERVIÇOS =]";
-  const delay = 100;
+  const delay = 70;
   useEffect(() => {
     let currentIndex = 0;
 
