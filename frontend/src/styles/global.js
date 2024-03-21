@@ -41,6 +41,7 @@ export const Container = styled.div`
   width: 95%;
   margin: auto;
   max-width: 1800px;
+
 `;
 
 export default Global;

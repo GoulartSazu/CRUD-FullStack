@@ -14,6 +14,8 @@ import Header from "./components/Header/Header.js";
 import Footer from "./components/Footer/Footer.js";
 import Gerenciar from "./Pages/Gerenciar/Gerenciar.js";
 import Aprovar from "./Pages/Aprovar/Aprovar.js";
+import Modal from 'react-modal';
+
 
 const Title = styled.h2``;
 
@@ -33,6 +35,8 @@ function App() {
   useEffect(() => {
     getUsers();
   }, [setUsers]);
+
+  Modal.setAppElement('#root'); // Defina o elemento raiz da aplicação
 
   return (
     <Router>

@@ -28,7 +28,7 @@ function Home() {
           <h1>SPLASH</h1>
           <h2>{title}</h2>
 					<Link to="/agendamento" className="link">
-						<button href="https://twitter.com/kamildyrek">
+						<button>
 							<div className="left"></div>
 							AGENDAR UM HORÁRIO!
 							<div className="right"></div>
