@@ -12,14 +12,7 @@ const ConfirmationModal = ({data}) => {
   const [checkCar, setCheckCar] = useState(null);
   const [checkLocal, setCheckLocal] = useState(null);
   const [checkTime, setCheckTime] = useState(null);
-
   const [isModalOpen, setIsModalOpen] = useState(true);
-
-
-  console.log('llllllllll',data.car, data.local)
-  // console.log(data.form.car);
-
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
