@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import {
   FormContainer,
@@ -13,7 +12,6 @@ import { Container } from "../../styles/global";
 import ConfirmationModal from "./ConfirmationModal.js";
 import Modal from "react-modal"; // Importe a referência ao elemento raiz
 const { format } = require("date-fns");
-const getCurrentDateTime = () => format(new Date(), "yyyy-MM-dd HH:mm:ss");
 
 const Form = ({ getUsers, onEdit, setOnEdit }) => {
   const ref = useRef();
@@ -119,60 +117,39 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
       return toast.warn("Data passada não permitida!");
     }
 
+    let totalPrice = 0;
+
+    if (checkService === "lavagemCompleta") {
+      totalPrice = 100;
+      if (checkCar === "medio") {
+        totalPrice = 80;
+      }
+    }
+
+    if (checkService !== "lavagemCompleta") {
+      totalPrice = 60;
+      if (checkCar === "medio") {
+        totalPrice = 50;
+      }
+    }
+
+    if (checkLocal === "delivery") {
+      totalPrice = totalPrice + 20;
+    }
+
     const data = {
       service: checkService,
       car: checkCar,
       local: checkLocal,
       time: checkTime,
-      agendamentoDate: form.age_data.value,
+      agendamentoDate: selectedDate,
+      agendamentoDateValue: form.age_data.value,
+      totalPrice: totalPrice
     };
 
     setIsModalOpen(true);
     setInfosForm(data);
 
-    return;
-
-    // if (onEdit) {
-    //   await axios
-    //     .put("http://localhost:8800/" + onEdit.id, {
-    //       usr_nome: form.usr_nome.value,
-    //       usr_email: form.usr_email.value,
-    //       usr_fone: form.usr_fone.value,
-    //       usr_cidade: "Ponta Grossa",
-    //       usr_bairro: "Uvaranas",
-    //       usr_rua: "Jaguapitã",
-    //       usr_numero: 545,
-    //       usr_data_nascimento: form.usr_data_nascimento.value,
-    //       date_insert: getCurrentDateTime(),
-    //       date_update: getCurrentDateTime(),
-    //     })
-    //     .then(({ data }) => toast.success(data))
-    //     .catch(({ data }) => toast.error(data));
-    // } else {
-    //   await axios
-    //     .post("http://localhost:8800", {
-    //       usr_nome: form.usr_nome.value,
-    //       usr_email: form.usr_email.value,
-    //       usr_fone: form.usr_fone.value,
-    //       usr_cidade: "Ponta Grossa",
-    //       usr_bairro: "Uvaranas",
-    //       usr_rua: "Jaguapitã",
-    //       usr_numero: 545,
-    //       usr_data_nascimento: form.usr_data_nascimento.value,
-    //       date_insert: getCurrentDateTime(),
-    //       date_update: getCurrentDateTime(),
-    //     })
-    //     .then(({ data }) => toast.success(data))
-    //     .catch(({ data }) => toast.error(data));
-    // }
-
-    // form.usr_nome.value = "";
-    // form.usr_email.value = "";
-    // form.usr_fone.value = "";
-    // form.usr_data_nascimento.value = "";
-
-    // setOnEdit(null);
-    // getUsers();
   };
 
   return (

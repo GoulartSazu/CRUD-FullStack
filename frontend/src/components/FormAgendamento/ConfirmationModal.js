@@ -1,81 +1,104 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import { Confirmation, Button } from "./Styles.js";
 import { toast } from "react-toastify";
 import { Container } from "../../styles/global";
-import Modal from 'react-modal';
 const { format } = require("date-fns");
 const getCurrentDateTime = () => format(new Date(), "yyyy-MM-dd HH:mm:ss");
 
-const ConfirmationModal = ({data}) => {
-  const ref = useRef();
-  const [checkService, setCheckService] = useState("lavagemCompleta");
-  const [checkCar, setCheckCar] = useState(null);
-  const [checkLocal, setCheckLocal] = useState(null);
-  const [checkTime, setCheckTime] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(true);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const form = ref.current;
-
-    console.log(
-      form.age_data.value,
-      checkCar,
-      checkLocal,
-      checkTime,
-      checkService
-    );
-
-    if (!form.age_data.value) {
-      return toast.warn("Por favor, selecione uma data!");
+const ConfirmationModal = ({ data }) => {
+  function formatInfo(string) {
+    if (string === "LAVAGEMCOMPLETA") {
+      return "LAVAGEM COMPLETA";
     }
-    if (!checkCar) {
-      return toast.warn("Por favor, selecione o tamanho do seu veículo!");
+    if (string === "MEDIO") {
+      return "MÉDIO";
     }
-    if (!checkLocal) {
-      return toast.warn("Por favor, selecione o local do serviço!");
+    if (string === "ESPACOSPLASH") {
+      return "ESPAÇO SPLASH";
     }
-    if (!checkTime) {
-      return toast.warn("Por favor, selecione o horário!");
+    if (string === "LEVATRAS") {
+      return "LEVA E TRÁS";
     }
-    if (!checkService) {
-      return toast.warn("Por favor, selecione qual o tipo de serviço!");
+    if (string === "10H") {
+      return "10 HORAS DA MANHÃ";
     }
+    if (string === "08H") {
+      return "08 HORAS DA MANHÃ";
+    }
+    if (string === "13H") {
+      return "13 HORAS DA TARDE";
+    }
+    if (string === "15H") {
+      return "15 HORAS DA TARDE";
+    }
+    return string;
+  }
 
-    setIsModalOpen(true);
+  const finishAgendamento = async () => {
 
-
+    console.log(data.agendamentoDateValue);
+    console.log(data.service);
+    console.log(data.car);
+    console.log(data.local);
+    console.log(data.time);
+    if (56 + 66 === 2) {
       await axios
         .post("http://localhost:8800", {
-          usr_nome: form.usr_nome.value,
-          usr_email: form.usr_email.value,
-          usr_fone: form.usr_fone.value,
+          usr_nome: "Ponta Grossa",
+          usr_email: "Ponta Grossa",
+          usr_fone: "Ponta Grossa",
           usr_cidade: "Ponta Grossa",
           usr_bairro: "Uvaranas",
           usr_rua: "Jaguapitã",
           usr_numero: 545,
-          usr_data_nascimento: form.usr_data_nascimento.value,
+          usr_data_nascimento: "Ponta Grossa",
           date_insert: getCurrentDateTime(),
           date_update: getCurrentDateTime(),
         })
         .then(({ data }) => toast.success(data))
         .catch(({ data }) => toast.error(data));
-
-
-    form.usr_nome.value = "";
-    form.usr_email.value = "";
-    form.usr_fone.value = "";
-    form.usr_data_nascimento.value = "";
-
+    }
   };
 
   return (
     <Container>
-      <h1>{data.car}</h1>
-      <h1>{data.local}</h1>
-      <h1>{data.time}</h1>
-      <h1>{data.service}</h1>
-      <h1>{data.agendamentoDate}</h1>
+      <Confirmation>
+        <h2>Podemos realizar a confirmação?</h2>
+        <h3>
+          Serviço selecionado<i className="fas fa-angle-right"></i>{" "}
+          <span>{formatInfo(data.service.toUpperCase())}</span>
+        </h3>
+        <h3>
+          Tamanho do seu veículo<i className="fas fa-angle-right"></i>{" "}
+          <span>{formatInfo(data.car.toUpperCase())}</span>
+        </h3>
+        <h3>
+          Local escolhido<i className="fas fa-angle-right"></i>{" "}
+          <span>{formatInfo(data.local.toUpperCase())}</span>
+        </h3>
+        <h3>
+          Data do serviço<i className="fas fa-angle-right"></i>{" "}
+          <span
+            dangerouslySetInnerHTML={{
+              __html: data.agendamentoDate.toUpperCase().replace(/\./g, ""),
+            }}
+          />
+        </h3>
+        <h3>
+          Horário da lavagem<i className="fas fa-angle-right"></i>{" "}
+          <span>{formatInfo(data.time.toUpperCase())}</span>
+        </h3>
+        <h4>VALOR TOTAL R${data.totalPrice},00</h4>
+      </Confirmation>
+      <Button
+        onClick={(e) => {
+          e.preventDefault();
+          finishAgendamento();
+        }}
+      >
+        CONFIRMAR AGENDAMENTO
+      </Button>
     </Container>
   );
 };

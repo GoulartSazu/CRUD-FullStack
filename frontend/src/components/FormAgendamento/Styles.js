@@ -1,5 +1,19 @@
 import styled from "styled-components";
 
+export const Confirmation = styled.div`
+  h3 {
+    color: red;
+    display: flex;
+    align-items: center;
+    margin: 50px 0;
+
+    i {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+  }
+`;
+
 export const CheckboxButton = styled.button`
   padding: 20px;
   margin: 5px;
@@ -30,7 +44,7 @@ export const FormContainer = styled.form`
   background-color: #fff;
   padding: 50px;
   box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.5);
-  border-radius: 5px;
+  border-radius: 15px;
   width: 100%;
   justify-content: space-between;
   background-color: rgba(255, 255, 255, 0.1);

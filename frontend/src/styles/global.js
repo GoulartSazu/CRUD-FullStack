@@ -30,7 +30,7 @@ const Global = createGlobalStyle`
       right: 0;
       position: absolute;
       background-color: black;
-      opacity: 0.6;
+      opacity: 0.8;
       z-index: -9;
       height: 100%;
     }
