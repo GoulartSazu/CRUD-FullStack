@@ -11,6 +11,12 @@ const ConfirmationModal = ({ data }) => {
     if (string === "LAVAGEMCOMPLETA") {
       return "LAVAGEM COMPLETA";
     }
+    if (string === "INTERNA") {
+      return "LIMPEZA INTERNA";
+    }
+    if (string === "APARENCIA") {
+      return "LAVAGEM EXTERNA (APARENCIA)";
+    }
     if (string === "MEDIO") {
       return "MÉDIO";
     }
