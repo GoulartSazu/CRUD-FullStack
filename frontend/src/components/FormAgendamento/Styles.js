@@ -1,16 +1,46 @@
 import styled from "styled-components";
 
 export const Confirmation = styled.div`
+  color: white;
+  letter-spacing: 1px;
+
+  h2 {
+    text-align: center;
+    font-size: 42px;
+    font-weight: 400;
+  }
+
+  span {
+    background-color: white;
+    padding: 5px 10px 5px;
+    color: #4b0082;
+    border-radius: 2px;
+  }
+
   h3 {
-    color: red;
     display: flex;
     align-items: center;
     margin: 50px 0;
+    font-size: 22px;
+    font-weight: 400;
 
     i {
       margin-left: 10px;
       margin-right: 10px;
     }
+  }
+
+  h4 {
+    background-color: white;
+    color: #32cd32;
+    padding: 10px;
+    border-radius: 2px;
+    font-weight: 600;
+    text-align: center;
+    margin: 0px auto 80px;
+    width: 300px;
+    font-size: 22px;
+    letter-spacing: 2px;
   }
 `;
 
@@ -94,7 +124,6 @@ export const SelectionContainer = styled.div`
   justify-content: space-between;
 `;
 
-
 export const InputArea = styled.div`
   display: flex;
   align-items: center;
@@ -139,7 +168,6 @@ export const InputArea = styled.div`
       cursor: pointer;
     }
   }
-
 `;
 
 export const Input = styled.input`
@@ -151,110 +179,110 @@ export const Input = styled.input`
 `;
 
 export const Button = styled.button`
-    position: relative;
-    padding: 20px 80px;
-    border: none;
-    background: none;
-    cursor: pointer;
-    font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 5px;
-    font-size: 28px;
-    margin: auto;
-    background: linear-gradient(to bottom right, #800080, #4b0082);
-    box-shadow: rgb(255, 255, 255, 0.5) 0px 0px 55px;
-    border-radius: 10px;
-    z-index: 0;
-    overflow: hidden;
-    display: flex;
-    color: white;
-    transition: all 0.9s;
+  position: relative;
+  padding: 20px 80px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  font-size: 28px;
+  margin: auto;
+  background: linear-gradient(to bottom right, #800080, #4b0082);
+  box-shadow: rgb(255, 255, 255, 0.5) 0px 0px 55px;
+  border-radius: 10px;
+  z-index: 0;
+  overflow: hidden;
+  display: flex;
+  color: white;
+  transition: all 0.9s;
 
-    :hover {
-      box-shadow: rgb(255, 255, 255, 1) 2px 2px 99px;
-      border-radius: 1005px;
-    }
-    :disabled {
-      opacity: 0.6; /* Reduz a opacidade quando o botão está desativado */
-      cursor: not-allowed; /* Muda o cursor para 'not-allowed' quando o botão está desativado */
-      background: linear-gradient(to bottom right, black, #4b0082);
-    }
+  :hover {
+    box-shadow: rgb(255, 255, 255, 1) 2px 2px 99px;
+    border-radius: 1005px;
+  }
+  :disabled {
+    opacity: 0.6; /* Reduz a opacidade quando o botão está desativado */
+    cursor: not-allowed; /* Muda o cursor para 'not-allowed' quando o botão está desativado */
+    background: linear-gradient(to bottom right, black, #4b0082);
+  }
 
-    ::before {
-      content: "";
-      pointer-events: none;
-      opacity: 0.6;
-      background: radial-gradient(
-          circle at 20% 35%,
-          transparent 0,
-          transparent 2px,
-          hsla(210, 50%, 85%, 1) 3px,
-          hsla(210, 50%, 85%, 1) 4px,
-          transparent 4px
-        ),
-        radial-gradient(
-          circle at 5% 50%,
-          transparent 0,
-          transparent 2px,
-          hsla(210, 50%, 85%, 1) 3px,
-          hsla(210, 50%, 85%, 1) 4px,
-          transparent 4px
-        ),
-        radial-gradient(
-          circle at 25% 45%,
-          transparent 0,
-          transparent 2px,
-          hsla(210, 50%, 85%, 1) 3px,
-          hsla(210, 50%, 85%, 1) 4px,
-          transparent 4px
-        ),
-        radial-gradient(
-          circle at 75% 44%,
-          transparent 0,
-          transparent 2px,
-          hsla(210, 50%, 85%, 1) 3px,
-          hsla(210, 50%, 85%, 1) 4px,
-          transparent 4px
-        ),
-        radial-gradient(
-          circle at 70% 40%,
-          transparent 0,
-          transparent 2px,
-          hsla(210, 50%, 85%, 1) 3px,
-          hsla(210, 50%, 85%, 1) 4px,
-          transparent 4px
-        ),
-        radial-gradient(
-          circle at 85% 34%,
-          transparent 0,
-          transparent 2px,
-          hsla(210, 50%, 85%, 1) 3px,
-          hsla(210, 50%, 85%, 1) 4px,
-          transparent 4px
-        ),
-        radial-gradient(
-          circle at 90% 42%,
-          transparent 0,
-          transparent 2px,
-          hsla(210, 50%, 85%, 1) 3px,
-          hsla(210, 50%, 85%, 1) 4px,
-          transparent 4px
-        ),
-        radial-gradient(
-          circle at 46% 52%,
-          transparent 0,
-          transparent 4px,
-          hsla(210, 50%, 85%, 1) 5px,
-          hsla(210, 50%, 85%, 1) 6px,
-          transparent 6px
-        );
-      width: 100%;
-      height: 300%;
-      top: 0;
-      left: 0;
-      position: absolute;
-      animation: bubbles 1s linear infinite both;
-    }
+  ::before {
+    content: "";
+    pointer-events: none;
+    opacity: 0.6;
+    background: radial-gradient(
+        circle at 20% 35%,
+        transparent 0,
+        transparent 2px,
+        hsla(210, 50%, 85%, 1) 3px,
+        hsla(210, 50%, 85%, 1) 4px,
+        transparent 4px
+      ),
+      radial-gradient(
+        circle at 5% 50%,
+        transparent 0,
+        transparent 2px,
+        hsla(210, 50%, 85%, 1) 3px,
+        hsla(210, 50%, 85%, 1) 4px,
+        transparent 4px
+      ),
+      radial-gradient(
+        circle at 25% 45%,
+        transparent 0,
+        transparent 2px,
+        hsla(210, 50%, 85%, 1) 3px,
+        hsla(210, 50%, 85%, 1) 4px,
+        transparent 4px
+      ),
+      radial-gradient(
+        circle at 75% 44%,
+        transparent 0,
+        transparent 2px,
+        hsla(210, 50%, 85%, 1) 3px,
+        hsla(210, 50%, 85%, 1) 4px,
+        transparent 4px
+      ),
+      radial-gradient(
+        circle at 70% 40%,
+        transparent 0,
+        transparent 2px,
+        hsla(210, 50%, 85%, 1) 3px,
+        hsla(210, 50%, 85%, 1) 4px,
+        transparent 4px
+      ),
+      radial-gradient(
+        circle at 85% 34%,
+        transparent 0,
+        transparent 2px,
+        hsla(210, 50%, 85%, 1) 3px,
+        hsla(210, 50%, 85%, 1) 4px,
+        transparent 4px
+      ),
+      radial-gradient(
+        circle at 90% 42%,
+        transparent 0,
+        transparent 2px,
+        hsla(210, 50%, 85%, 1) 3px,
+        hsla(210, 50%, 85%, 1) 4px,
+        transparent 4px
+      ),
+      radial-gradient(
+        circle at 46% 52%,
+        transparent 0,
+        transparent 4px,
+        hsla(210, 50%, 85%, 1) 5px,
+        hsla(210, 50%, 85%, 1) 6px,
+        transparent 6px
+      );
+    width: 100%;
+    height: 300%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    animation: bubbles 1s linear infinite both;
+  }
 
   @keyframes bubbles {
     from {

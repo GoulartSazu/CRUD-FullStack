@@ -1,6 +1,17 @@
 import styled from "styled-components";
 
 export const HomePage = styled.div`
+  video {
+    width: 600px;
+    box-shadow: 0px 0px 30px rgba(255, 255, 255, 0.9);
+    margin-bottom: 100px;
+    border-radius: 10px;
+  }
+  .videos {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+  }
   h1 {
     color: white;
     font-size: 60px;
@@ -19,7 +30,7 @@ export const HomePage = styled.div`
     width: 72%;
     text-align: center;
     margin-top: 100px;
-    height: 200px;
+    height: 150px;
   }
 
   button {

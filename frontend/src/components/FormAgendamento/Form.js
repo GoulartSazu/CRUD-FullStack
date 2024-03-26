@@ -252,8 +252,8 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
                 handleCheckLocal("levaTras");
               }}
             >
-              <span>Leva e Trás</span> <i className="fas fa-angle-right"></i>{" "}
-              Iremos buscar seu veículo, realizar e levar novamente para você
+              <span>Leva e Traz</span> <i className="fas fa-angle-right"></i>{" "}
+              Iremos buscar seu veículo, realizar o serviçoe levar novamente para você
             </CheckboxButton>
           </SelectionContainer>
         </div>
@@ -334,7 +334,11 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
           },
           content: {
             width: "50%",
-            margin: "auto"
+            margin: "auto",
+            background: "linear-gradient(to bottom right, #5c0a5c, #4b0082)",
+            border: "none",
+            borderRadius: "10px",
+            padding: "100px"
           },
         }}
         isOpen={isModalOpen}

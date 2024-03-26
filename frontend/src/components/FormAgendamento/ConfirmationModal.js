@@ -15,7 +15,7 @@ const ConfirmationModal = ({ data }) => {
       return "LIMPEZA INTERNA";
     }
     if (string === "APARENCIA") {
-      return "LAVAGEM EXTERNA (APARENCIA)";
+      return "LAVAGEM EXTERNA (APARÊNCIA)";
     }
     if (string === "MEDIO") {
       return "MÉDIO";
@@ -24,7 +24,7 @@ const ConfirmationModal = ({ data }) => {
       return "ESPAÇO SPLASH";
     }
     if (string === "LEVATRAS") {
-      return "LEVA E TRÁS";
+      return "LEVA E TRAZ";
     }
     if (string === "10H") {
       return "10 HORAS DA MANHÃ";
@@ -70,7 +70,7 @@ const ConfirmationModal = ({ data }) => {
   return (
     <Container>
       <Confirmation>
-        <h2>Podemos realizar a confirmação?</h2>
+        <h2>Podemos realizar a confirmação? 🧼</h2>
         <h3>
           Serviço selecionado<i className="fas fa-angle-right"></i>{" "}
           <span>{formatInfo(data.service.toUpperCase())}</span>
