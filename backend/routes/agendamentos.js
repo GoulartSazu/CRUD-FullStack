@@ -1,16 +1,16 @@
 import express from "express";
 import {
-  addUser,
+  addAgendamento,
   deleteUser,
   getUsers,
   updateUser,
-} from "../controllers/user.js";
+} from "../controllers/agendamento.js";
 
 const router = express.Router();
 
 router.get("/", getUsers);
 
-router.post("/", addUser);
+router.post("/agendamento", addAgendamento);
 
 router.put("/:id", updateUser);
 

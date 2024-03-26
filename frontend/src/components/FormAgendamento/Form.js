@@ -11,7 +11,6 @@ import { toast } from "react-toastify";
 import { Container } from "../../styles/global";
 import ConfirmationModal from "./ConfirmationModal.js";
 import Modal from "react-modal"; // Importe a referência ao elemento raiz
-const { format } = require("date-fns");
 
 const Form = ({ getUsers, onEdit, setOnEdit }) => {
   const ref = useRef();
@@ -333,12 +332,12 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
             backgroundColor: "rgba(255, 255, 255, 0.5)"
           },
           content: {
-            width: "50%",
+            width: "40%",
             margin: "auto",
             background: "linear-gradient(to bottom right, #5c0a5c, #4b0082)",
             border: "none",
             borderRadius: "10px",
-            padding: "100px"
+            padding: "40px"
           },
         }}
         isOpen={isModalOpen}

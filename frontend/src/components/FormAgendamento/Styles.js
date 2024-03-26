@@ -21,7 +21,7 @@ export const Confirmation = styled.div`
     display: flex;
     align-items: center;
     margin: 50px 0;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 400;
 
     i {

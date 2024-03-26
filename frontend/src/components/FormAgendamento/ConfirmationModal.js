@@ -7,7 +7,38 @@ const { format } = require("date-fns");
 const getCurrentDateTime = () => format(new Date(), "yyyy-MM-dd HH:mm:ss");
 
 const ConfirmationModal = ({ data }) => {
-  function formatInfo(string) {
+  function formatInfo(string, zap) {
+    console.log(string, zap, 'kkk')
+    if (zap) {
+      if (string === "LAVAGEMCOMPLETA" ) {
+        console.log("kkkkk")
+        return "LAVAGEM%20COMPLETA";
+      }
+      if (string === "LEVATRAS") {
+        return "LEVA%20E%20TRAZ";
+      }
+      if (string === "INTERNA") {
+        return "LIMPEZA%20INTERNA";
+      }
+      if (string === "APARENCIA") {
+        return "LAVAGEM%20EXTERNA%20(APARÊNCIA)";
+      }
+      if (string === "ESPACOSPLASH") {
+        return "ESPAÇO%20SPLASH";
+      }
+      if (string === "10H") {
+        return "10%20HORAS%20DA%20MANHÃ";
+      }
+      if (string === "08H") {
+        return "08%20HORAS%20DA%20MANHÃ";
+      }
+      if (string === "13H") {
+        return "13%20HORAS%20DA%20TARDE";
+      }
+      if (string === "15H") {
+        return "15%20HORAS%20DA%20TARDE";
+      }
+    }
     if (string === "LAVAGEMCOMPLETA") {
       return "LAVAGEM COMPLETA";
     }
@@ -38,33 +69,32 @@ const ConfirmationModal = ({ data }) => {
     if (string === "15H") {
       return "15 HORAS DA TARDE";
     }
+
     return string;
   }
 
   const finishAgendamento = async () => {
-
-    console.log(data.agendamentoDateValue);
-    console.log(data.service);
-    console.log(data.car);
-    console.log(data.local);
-    console.log(data.time);
-    if (56 + 66 === 2) {
-      await axios
-        .post("http://localhost:8800", {
-          usr_nome: "Ponta Grossa",
-          usr_email: "Ponta Grossa",
-          usr_fone: "Ponta Grossa",
-          usr_cidade: "Ponta Grossa",
-          usr_bairro: "Uvaranas",
-          usr_rua: "Jaguapitã",
-          usr_numero: 545,
-          usr_data_nascimento: "Ponta Grossa",
-          date_insert: getCurrentDateTime(),
-          date_update: getCurrentDateTime(),
-        })
-        .then(({ data }) => toast.success(data))
-        .catch(({ data }) => toast.error(data));
-    }
+    const hashService = `serviço%20*${formatInfo(data.service.toUpperCase(), true)}*,%20`;
+    const hashLocal = `local:%20*${formatInfo(data.local.toUpperCase(), true)}*,%20`;
+    const hashVeiculo = `veículo:%20*${formatInfo(data.car.toUpperCase(), true)}*,%20`;
+    const hashDate = `data:%20*${data.agendamentoDateValue.split("-").reverse().join("-")}*,%20`;
+    const hashTime = `no%20horário%20de%20*${formatInfo(data.time.toUpperCase(), true)}.*%20`;
+    const hashPrice = `*Valor%20Total%20R$%20${data.totalPrice},00*`;
+    const hash = hashService + hashLocal + hashVeiculo + hashDate + hashTime + hashPrice;
+    console.log("https://api.whatsapp.com/send?phone=554299858888&text=Olá.%20Gostaria%20de%20contratar%20o%20"+hash)
+    await axios
+      .post("http://localhost:8800/agendamento", {
+        age_servico: data.service.toUpperCase(),
+        age_veiculo: data.car.toUpperCase(),
+        age_local: data.local.toUpperCase(),
+        age_data: data.agendamentoDateValue + " 00:00:00",
+        age_horario: data.time.toUpperCase(),
+        age_valor_total: data.totalPrice,
+        age_hash: hash
+      })
+      .then(({ data }) => toast.success(data))
+      .catch(({ data }) => toast.error(data));
+    
   };
 
   return (
@@ -73,15 +103,15 @@ const ConfirmationModal = ({ data }) => {
         <h2>Podemos realizar a confirmação? 🧼</h2>
         <h3>
           Serviço selecionado<i className="fas fa-angle-right"></i>{" "}
-          <span>{formatInfo(data.service.toUpperCase())}</span>
+          <span>{formatInfo(data.service.toUpperCase(), false)}</span>
         </h3>
         <h3>
           Tamanho do seu veículo<i className="fas fa-angle-right"></i>{" "}
-          <span>{formatInfo(data.car.toUpperCase())}</span>
+          <span>{formatInfo(data.car.toUpperCase(), false)}</span>
         </h3>
         <h3>
           Local escolhido<i className="fas fa-angle-right"></i>{" "}
-          <span>{formatInfo(data.local.toUpperCase())}</span>
+          <span>{formatInfo(data.local.toUpperCase(), false)}</span>
         </h3>
         <h3>
           Data do serviço<i className="fas fa-angle-right"></i>{" "}
@@ -93,7 +123,7 @@ const ConfirmationModal = ({ data }) => {
         </h3>
         <h3>
           Horário da lavagem<i className="fas fa-angle-right"></i>{" "}
-          <span>{formatInfo(data.time.toUpperCase())}</span>
+          <span>{formatInfo(data.time.toUpperCase(), false)}</span>
         </h3>
         <h4>VALOR TOTAL R${data.totalPrice},00</h4>
       </Confirmation>
