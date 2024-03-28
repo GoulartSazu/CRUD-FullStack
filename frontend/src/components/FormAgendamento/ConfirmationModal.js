@@ -1,17 +1,16 @@
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Confirmation, Button } from "./Styles.js";
 import { toast } from "react-toastify";
 import { Container } from "../../styles/global";
-const { format } = require("date-fns");
-const getCurrentDateTime = () => format(new Date(), "yyyy-MM-dd HH:mm:ss");
 
 const ConfirmationModal = ({ data }) => {
+  const navigate = useNavigate();
+
   function formatInfo(string, zap) {
-    console.log(string, zap, 'kkk')
     if (zap) {
-      if (string === "LAVAGEMCOMPLETA" ) {
-        console.log("kkkkk")
+      if (string === "LAVAGEMCOMPLETA") {
         return "LAVAGEM%20COMPLETA";
       }
       if (string === "LEVATRAS") {
@@ -74,14 +73,29 @@ const ConfirmationModal = ({ data }) => {
   }
 
   const finishAgendamento = async () => {
-    const hashService = `serviço%20*${formatInfo(data.service.toUpperCase(), true)}*,%20`;
-    const hashLocal = `local:%20*${formatInfo(data.local.toUpperCase(), true)}*,%20`;
-    const hashVeiculo = `veículo:%20*${formatInfo(data.car.toUpperCase(), true)}*,%20`;
-    const hashDate = `data:%20*${data.agendamentoDateValue.split("-").reverse().join("-")}*,%20`;
-    const hashTime = `no%20horário%20de%20*${formatInfo(data.time.toUpperCase(), true)}.*%20`;
+    const hashService = `serviço%20*${formatInfo(
+      data.service.toUpperCase(),
+      true
+    )}*,%20`;
+    const hashLocal = `local:%20*${formatInfo(
+      data.local.toUpperCase(),
+      true
+    )}*,%20`;
+    const hashVeiculo = `veículo:%20*${formatInfo(
+      data.car.toUpperCase(),
+      true
+    )}*,%20`;
+    const hashDate = `data:%20*${data.agendamentoDateValue
+      .split("-")
+      .reverse()
+      .join("-")}*,%20`;
+    const hashTime = `no%20horário%20de%20*${formatInfo(
+      data.time.toUpperCase(),
+      true
+    )}.*%20`;
     const hashPrice = `*Valor%20Total%20R$%20${data.totalPrice},00*`;
-    const hash = hashService + hashLocal + hashVeiculo + hashDate + hashTime + hashPrice;
-    console.log("https://api.whatsapp.com/send?phone=554299858888&text=Olá.%20Gostaria%20de%20contratar%20o%20"+hash)
+    const hash =
+      hashService + hashLocal + hashVeiculo + hashDate + hashTime + hashPrice;
     await axios
       .post("http://localhost:8800/agendamento", {
         age_servico: data.service.toUpperCase(),
@@ -90,11 +104,28 @@ const ConfirmationModal = ({ data }) => {
         age_data: data.agendamentoDateValue + " 00:00:00",
         age_horario: data.time.toUpperCase(),
         age_valor_total: data.totalPrice,
-        age_hash: hash
+        age_hash: hash,
       })
-      .then(({ data }) => toast.success(data))
-      .catch(({ data }) => toast.error(data));
-    
+      .then(({ data }) => {
+        toast.success(data);
+        setTimeout(() => {
+          toast.success("Você será direcionado em 3");
+        }, 1000);
+
+        setTimeout(() => {
+          toast.success("Você será direcionado em 2");
+        }, 2000);
+
+        setTimeout(() => {
+          toast.success("Você será direcionado em 1");
+          setTimeout(() => {
+            localStorage.setItem("hash", hash);
+            navigate("/finalizacao");
+          }, 1000);
+        }, 3000);
+      })
+
+      .catch(({ response }) => toast.error(response.data));
   };
 
   return (

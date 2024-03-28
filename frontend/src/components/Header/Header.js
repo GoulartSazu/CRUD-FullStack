@@ -15,6 +15,9 @@ const Header = () => {
       if (word.toLowerCase() === "horarios") {
         return "Horários";
       }
+      if (word.toLowerCase() === "finalizacao") {
+        return "Finalização";
+      }
       return word.charAt(0).toUpperCase() + word.slice(1);
     })
     .join(" ");

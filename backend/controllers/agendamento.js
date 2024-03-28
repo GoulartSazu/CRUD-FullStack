@@ -11,26 +11,44 @@ export const getUsers = (_, res) => {
 };
 
 export const addAgendamento = (req, res) => {
-  const queryInsert =
-    "INSERT INTO agendamentos(`age_servico`, `age_veiculo`, `age_local`, `age_data`, `age_horario`,  `age_valor_total`,  `age_status`, `age_hash`) VALUES(?)";
+  const hash = req.body.age_hash;
 
-  const values = [
-    req.body.age_servico,
-    req.body.age_veiculo,
-    req.body.age_local,
-    req.body.age_data,
-    req.body.age_horario,
-    req.body.age_valor_total,
-    "PENDENTE",
-    req.body.age_hash
-  ];
+  const queryCheckHash = "SELECT * FROM agendamentos WHERE age_hash = ?";
+  db.query(queryCheckHash, [hash], (err, results) => {
+    if (err) {
+      return res.status(500).json(err);
+    }
 
-  db.query(queryInsert, [values], (err) => {
-    if (err) return res.json(err);
+    // Se já existir um registro com o mesmo hash, retornar uma mensagem de erro
+    if (results.length > 0) {
+      return res.status(400).json("Já existe um agendamento com todos esses mesmos dados.");
+    }
 
-    return res.status(200).json("Agendamento criado com sucesso.");
+    // Se não existir, proceder com a inserção
+    const queryInsert =
+      "INSERT INTO agendamentos(`age_servico`, `age_veiculo`, `age_local`, `age_data`, `age_horario`,  `age_valor_total`,  `age_status`, `age_hash`) VALUES(?)";
+
+    const values = [
+      req.body.age_servico,
+      req.body.age_veiculo,
+      req.body.age_local,
+      req.body.age_data,
+      req.body.age_horario,
+      req.body.age_valor_total,
+      "PENDENTE",
+      hash
+    ];
+
+    db.query(queryInsert, [values], (err) => {
+      if (err) {
+        return res.status(500).json(err);
+      }
+
+      return res.status(200).json("Agendamento criado com sucesso.");
+    });
   });
 };
+
 
 export const updateUser = (req, res) => {
   const queryUpdate =

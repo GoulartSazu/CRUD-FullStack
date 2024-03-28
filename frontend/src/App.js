@@ -14,6 +14,7 @@ import Header from "./components/Header/Header.js";
 import Footer from "./components/Footer/Footer.js";
 import Gerenciar from "./Pages/Gerenciar/Gerenciar.js";
 import Aprovar from "./Pages/Aprovar/Aprovar.js";
+import Finalizacao from "./Pages/Finalizacao/Finalizacao.js";
 import Modal from 'react-modal';
 
 
@@ -36,7 +37,7 @@ function App() {
     getUsers();
   }, [setUsers]);
 
-  Modal.setAppElement('#root'); // Defina o elemento raiz da aplicação
+  Modal.setAppElement('#root');
 
   return (
     <Router>
@@ -47,6 +48,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/dashboard/aprovar-horarios" element={<Aprovar />} />
         <Route path="/dashboard/gerenciar-horarios" element={<Gerenciar />} />
+        <Route path="/finalizacao" element={<Finalizacao/>} />
       </Routes>
       <ToastContainer autoClose={5000} position={toast.POSITION.TOP_RIGHT} />
       <GlobalStyle />
