@@ -26,5 +26,12 @@ export const Head = styled.div`
     font-weight: 300;
     font-size: 40px;
   }
+  @media only screen and (max-width: 600px) {
+  img {
+    width: 100px;
+  }
+  height: 55px;
+}
+  
 
 `;

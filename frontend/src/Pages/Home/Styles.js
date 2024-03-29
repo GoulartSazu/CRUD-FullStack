@@ -145,4 +145,37 @@ export const HomePage = styled.div`
       transform: translate(0, -66.666%);
     }
   }
+  @media only screen and (max-width: 600px) {
+  h1 {
+    font-size: 30px;
+    top: 9px;
+  }
+  img {
+    width: 100px;
+  }
+  h2 {
+    font-size: 24px;
+    margin: 40px auto auto;
+  }
+  button {
+    margin: 0 auto 40px;
+    font-size: 15px;
+    padding: 10px;
+    width: 88%;
+    text-align: center;
+    justify-content: center;
+  }
+  video {
+    width: 88%;
+    margin: 0 auto 40px;
+    
+  
+  }
+  .videos {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0;
+  }
+}
 `;

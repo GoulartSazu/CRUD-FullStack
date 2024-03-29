@@ -18,7 +18,7 @@ const Footer = () => {
             </ul>
           </div>
           <div className="footer-col">
-            <h4>Nosso instagram</h4>
+            <h4>Entre em contato</h4>
             <div className="social-links">
               <a
                 href="https://www.instagram.com/splash_pg/"
@@ -26,6 +26,13 @@ const Footer = () => {
                 rel="noreferrer"
               >
                 <i className="fab fa-instagram"></i>
+              </a>
+              <a
+                href="https://api.whatsapp.com/send?phone=554299858888&text=Olá.%20Gostaria%20de%20contratar%20um%20serviço!"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <i className="fab fa-whatsapp"></i>
               </a>
             </div>
           </div>
