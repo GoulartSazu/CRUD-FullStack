@@ -37,10 +37,41 @@ export const Confirmation = styled.div`
     border-radius: 2px;
     font-weight: 600;
     text-align: center;
-    margin: 0px auto 80px;
+    margin: 0px auto 20px;
     width: 300px;
     font-size: 22px;
     letter-spacing: 2px;
+  }
+  p {
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  @media only screen and (max-width: 950px) {
+    h2 {
+      font-size: 20px;
+    }
+    h3 {
+      font-size: 14px;
+      flex-direction: column;
+      margin: 25px auto;
+      i {
+        rotate: 90deg;
+        margin: 2px 0;
+      }
+    }
+    h4 {
+      width: inherit;
+      font-size: 14px;
+      padding: 5px;
+    }
+    p {
+      font-size: 10px;
+      margin-bottom: 25px;
+    }
+    span {
+      text-align: center;
+    }
   }
 `;
 
@@ -67,11 +98,15 @@ export const CheckboxButton = styled.button`
     box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.9);
     transform: scale(1.05);
   }
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 950px) {
     width: 100%;
-    font-size: 14px;
+    font-size: 12px;
     padding: 10px;
     transform: ${({ checked }) => (checked ? "scale(1)" : "scale(1)")};
+    :hover {
+      box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.9);
+      transform: scale(1);
+    }
   }
 `;
 
@@ -120,15 +155,18 @@ export const FormContainer = styled.form`
       border-radius: 2px;
       font-weight: 400;
     }
-    @media only screen and (max-width: 600px) {
+    @media only screen and (max-width: 950px) {
       margin-bottom: 20px;
       .car {
         width: 100%;
       }
+      .h {
+        width: 100%;
+      }
     }
   }
-  @media only screen and (max-width: 600px) {
-    margin: 0px auto;
+  @media only screen and (max-width: 950px) {
+    margin: 0px auto 50px;
     width: 80%;
     padding: 20px;
     h3 {
@@ -149,7 +187,7 @@ export const SelectionContainer = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 950px) {
     flex-direction: column;
   }
 `;
@@ -196,6 +234,19 @@ export const InputArea = styled.div`
       filter: brightness(0) invert(1);
       font-size: 30px;
       cursor: pointer;
+    }
+  }
+  @media only screen and (max-width: 950px) {
+    flex-direction: column;
+    input {
+      width: 80%;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 12px;
+      text-align: center;
+      margin: 0;
     }
   }
 `;
@@ -321,5 +372,10 @@ export const Button = styled.button`
     to {
       transform: translate(0, -66.666%);
     }
+  }
+  @media only screen and (max-width: 950px) {
+    font-size: 20px;
+    padding: 10px 20px;
+    text-align: center;
   }
 `;

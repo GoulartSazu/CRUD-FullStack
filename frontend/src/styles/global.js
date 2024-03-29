@@ -44,6 +44,12 @@ export const Container = styled.div`
   width: 95%;
   margin: auto;
   max-width: 1800px;
+  @media only screen and (max-width: 950px) {
+  .mob {
+      width: 100%;
+      font-size: 14px;
+    }
+  }
 
 `;
 

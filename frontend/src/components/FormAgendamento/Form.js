@@ -23,6 +23,7 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
   const [textHours, setTextHours] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [infosForm, setInfosForm] = useState({});
+  const [contentWidth, setContentWidth] = useState("40%");
 
   const handleCheckService = (service) => {
     setCheckService(service === checkService ? null : service);
@@ -87,6 +88,21 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
       form.age_data.value = onEdit.age_data;
     }
   }, [onEdit]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 950) {
+        setContentWidth("inherit");
+      } else {
+        setContentWidth("40%");
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -332,12 +348,15 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
             backgroundColor: "rgba(255, 255, 255, 0.5)"
           },
           content: {
-            width: "40%",
+            width: contentWidth,
             margin: "auto",
             background: "linear-gradient(to bottom right, #5c0a5c, #4b0082)",
             border: "none",
             borderRadius: "10px",
-            padding: "40px"
+            padding: "40px",
+            '@media only screen and (max-width: 950px)': {
+              width: "100%" // Largura alterada para 100%
+            }
           },
         }}
         isOpen={isModalOpen}

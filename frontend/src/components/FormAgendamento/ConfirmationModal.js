@@ -157,8 +157,11 @@ const ConfirmationModal = ({ data }) => {
           <span>{formatInfo(data.time.toUpperCase(), false)}</span>
         </h3>
         <h4>VALOR TOTAL R${data.totalPrice},00</h4>
+        <p>*Sujeito a mudanças de valores de acordo com a localização e veículos de altos padrões.</p>
+        
       </Confirmation>
       <Button
+        className="mob"
         onClick={(e) => {
           e.preventDefault();
           finishAgendamento();
