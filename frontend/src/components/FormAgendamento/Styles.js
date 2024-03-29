@@ -67,6 +67,12 @@ export const CheckboxButton = styled.button`
     box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.9);
     transform: scale(1.05);
   }
+  @media only screen and (max-width: 600px) {
+    width: 100%;
+    font-size: 14px;
+    padding: 10px;
+    transform: ${({ checked }) => (checked ? "scale(1)" : "scale(1)")};
+  }
 `;
 
 export const FormContainer = styled.form`
@@ -75,7 +81,6 @@ export const FormContainer = styled.form`
   padding: 50px;
   box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.5);
   border-radius: 15px;
-  width: 100%;
   justify-content: space-between;
   background-color: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(5px);
@@ -115,6 +120,27 @@ export const FormContainer = styled.form`
       border-radius: 2px;
       font-weight: 400;
     }
+    @media only screen and (max-width: 600px) {
+      margin-bottom: 20px;
+      .car {
+        width: 100%;
+      }
+    }
+  }
+  @media only screen and (max-width: 600px) {
+    margin: 0px auto;
+    width: 80%;
+    padding: 20px;
+    h3 {
+      font-size: 20px;
+    }
+    p {
+      font-size: 14px;
+    }
+    h3,
+    p {
+      margin-bottom: 10px;
+    }
   }
 `;
 
@@ -122,6 +148,10 @@ export const SelectionContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+
+  @media only screen and (max-width: 600px) {
+    flex-direction: column;
+  }
 `;
 
 export const InputArea = styled.div`

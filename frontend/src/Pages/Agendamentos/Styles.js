@@ -11,5 +11,12 @@ export const Agendamento = styled.div`
     text-align: center;
     height: 150px;
   }
+  @media only screen and (max-width: 600px) {
+    h2 {
+      margin: 40px auto;
+      font-size: 20px;
+      height: 100px;
+    }
+  }
 
 `;

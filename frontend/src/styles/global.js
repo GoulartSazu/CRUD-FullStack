@@ -35,6 +35,9 @@ const Global = createGlobalStyle`
       height: 100%;
     }
   }
+  /* * {
+    border: 1px solid red;
+  } */
 `;
 
 export const Container = styled.div`

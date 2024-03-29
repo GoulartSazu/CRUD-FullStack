@@ -5,7 +5,7 @@ export const Head = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(to bottom right, #800080, #4B0082);
+  background: linear-gradient(to bottom right, #800080, #4b0082);
   position: relative;
   height: 110px;
 
@@ -27,11 +27,14 @@ export const Head = styled.div`
     font-size: 40px;
   }
   @media only screen and (max-width: 600px) {
-  img {
-    width: 100px;
+    img {
+      width: 100px;
+    }
+    height: 55px;
+    h1 {
+      font-size: 20px;
+      top: 9px;
+      margin-left: 15px;
+    }
   }
-  height: 55px;
-}
-  
-
 `;
