@@ -1,12 +1,21 @@
 import axios from "axios";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Confirmation, Button } from "./Styles.js";
 import { toast } from "react-toastify";
 import { Container } from "../../styles/global";
 
 const ConfirmationModal = ({ data }) => {
+  const [free, setFree] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (data.fidelidade) {
+      if (data.fidelidade % 10 === 0 ) {
+        setFree("🌟 Parabéns! O serviço será 100% gratuito! 🌟");
+      }
+    }
+  }, [data.fidelidade]);
 
   function formatInfo(string, zap) {
     if (zap) {
@@ -155,6 +164,10 @@ const ConfirmationModal = ({ data }) => {
         <h3>
           Horário da lavagem<i className="fas fa-angle-right"></i>{" "}
           <span>{formatInfo(data.time.toUpperCase(), false)}</span>
+        </h3>
+        <h3>
+          Programa Fidelidade<i className="fas fa-angle-right"></i>{" "}
+          <span>{free.toUpperCase() ?? `LAVAGEM DE NÚMERO ${data.fidelidade}`}</span>
         </h3>
         <h4>VALOR TOTAL R${data.totalPrice},00</h4>
         <p>*Sujeito a mudanças de valores de acordo com a localização e veículos de altos padrões.</p>

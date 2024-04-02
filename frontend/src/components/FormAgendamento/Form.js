@@ -6,6 +6,10 @@ import {
   InputArea,
   Input,
   Button,
+  InputContainer,
+  InputAreaName,
+  ButtonParticipar,
+  InputAreaDate
 } from "./Styles.js";
 import { toast } from "react-toastify";
 import { Container } from "../../styles/global";
@@ -24,6 +28,9 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [infosForm, setInfosForm] = useState({});
   const [contentWidth, setContentWidth] = useState("40%");
+  const [active, setActive] = useState("PARTICIPAR");
+  const [fidelidade, setFidelidade] = useState("");
+  const [agendamento, setAgendamento] = useState(false);
 
   const handleCheckService = (service) => {
     setCheckService(service === checkService ? null : service);
@@ -98,15 +105,63 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
       }
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     handleResize();
 
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = ref.current;
+    console.log(form.vei_placa.value);
+
+    if (!agendamento) {
+      console.log("wtf", agendamento);
+      if (form.vei_placa.value) {
+        if (!form.vei_nome.value || !form.vei_telefone.value) {
+          setActive("PARTICIPAR");
+          setFidelidade("");
+          return toast.warn(
+            "Preencha o nome e o telefone para participar do programa de fidelidade!"
+          );
+        }
+      }
+
+      if (form.vei_nome.value) {
+        if (!form.vei_placa.value || !form.vei_telefone.value) {
+          setActive("PARTICIPAR");
+          setFidelidade("");
+          return toast.warn(
+            "Preencha a placa e o telefone para participar do programa de fidelidade!"
+          );
+        }
+      }
+
+      if (form.vei_telefone.value) {
+        if (!form.vei_placa.value || !form.vei_nome.value) {
+          setActive("PARTICIPAR");
+          setFidelidade("");
+          return toast.warn(
+            "Preencha o nome e a placa para participar do programa de fidelidade!"
+          );
+        }
+      }
+
+      if (
+        form.vei_telefone.value &&
+        form.vei_nome.value &&
+        form.vei_placa.value
+      ) {
+        setActive("PARTICIPANDO");
+        setFidelidade(
+          "Esse é seu agendamento de número 1, contrate mais 9 lavagens para obter o serviço gratuito!"
+        );
+        return toast.success(
+          "Parabéns, você está participando do programa de fidelidade!"
+        );
+      }
+    }
 
     if (!form.age_data.value) {
       return toast.warn("Por favor, selecione uma data!");
@@ -159,12 +214,14 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
       time: checkTime,
       agendamentoDate: selectedDate,
       agendamentoDateValue: form.age_data.value,
-      totalPrice: totalPrice
+      totalPrice: totalPrice,
+      fidelidade: 70
     };
 
-    setIsModalOpen(true);
-    setInfosForm(data);
-
+    if (agendamento) {
+      setIsModalOpen(true);
+      setInfosForm(data);
+    }
   };
 
   return (
@@ -268,7 +325,8 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
               }}
             >
               <span>Leva e Traz</span> <i className="fas fa-angle-right"></i>{" "}
-              Iremos buscar seu veículo, realizar o serviçoe levar novamente para você
+              Iremos buscar seu veículo, realizar o serviçoe levar novamente
+              para você
             </CheckboxButton>
           </SelectionContainer>
         </div>
@@ -276,12 +334,12 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
         <div className="section">
           <h3>Data</h3>
           <p>Para qual dia será o serviço?</p>
-          <InputArea>
+          <InputAreaDate>
             <Input name="age_data" type="date" onChange={handleDateChange} />
             {selectedDate && (
               <p dangerouslySetInnerHTML={{ __html: selectedDate }} />
             )}
-          </InputArea>
+          </InputAreaDate>
         </div>
 
         <div className="section">
@@ -338,14 +396,81 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
             )}
           </SelectionContainer>
         </div>
-        <Button type="submit" disabled={weekDay === "DOMINGO"}>
+        <div className="section">
+          <h3>Programa Fidelidade</h3>
+
+          <p>
+            Gostaria de ganhar uma <strong>lavagem totalmente gratuita?</strong>{" "}
+            A cada 10 lavagens conosco a próxima é por nossa conta! 🤩
+          </p>
+          <p>Para participar basta preencher as 3 informações abaixo! ⬇️</p>
+          <InputContainer>
+            <InputAreaName>
+              {/* <h5>Nome Completo</h5> */}
+              <Input
+                placeholder="Nome Completo"
+                name="vei_nome"
+                type="text"
+                onChange={() => {
+                  setActive("PARTICIPAR");
+                  setFidelidade("");
+                }}
+              />
+            </InputAreaName>
+            <InputArea>
+              {/* <h5>Telefone</h5> */}
+              <Input
+                placeholder="Telefone"
+                name="vei_telefone"
+                type="text"
+                onChange={() => {
+                  setActive("PARTICIPAR");
+                  setFidelidade("");
+                }}
+              />
+            </InputArea>
+            <InputArea>
+              {/* <h5>Placa do veículo</h5> */}
+              <Input
+                placeholder="Placa do Veículo"
+                name="vei_placa"
+                type="text"
+                onChange={() => {
+                  setActive("PARTICIPAR");
+                  setFidelidade("");
+                }}
+              />
+            </InputArea>
+            <InputArea>
+              {/* <h5 className="transp">Placa do veículo</h5> */}
+              <ButtonParticipar
+                className={active}
+                type="submit"
+                disabled={weekDay === "DOMINGO"}
+                onClick={() => {
+                  setAgendamento(false);
+                }}
+              >
+                {active} ✅
+              </ButtonParticipar>
+            </InputArea>
+          </InputContainer>
+          <p>{fidelidade}</p>
+        </div>
+        <Button
+          onClick={() => {
+            setAgendamento(true);
+          }}
+          type="submit"
+          disabled={weekDay === "DOMINGO"}
+        >
           AGENDAR
         </Button>
       </FormContainer>
       <Modal
         style={{
           overlay: {
-            backgroundColor: "rgba(255, 255, 255, 0.5)"
+            backgroundColor: "rgba(255, 255, 255, 0.5)",
           },
           content: {
             width: contentWidth,
@@ -354,9 +479,6 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
             border: "none",
             borderRadius: "10px",
             padding: "40px",
-            '@media only screen and (max-width: 950px)': {
-              width: "100%" // Largura alterada para 100%
-            }
           },
         }}
         isOpen={isModalOpen}

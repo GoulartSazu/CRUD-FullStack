@@ -6,7 +6,7 @@ export const Confirmation = styled.div`
 
   h2 {
     text-align: center;
-    font-size: 42px;
+    font-size: 32px;
     font-weight: 400;
   }
 
@@ -21,7 +21,7 @@ export const Confirmation = styled.div`
     display: flex;
     align-items: center;
     margin: 50px 0;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 400;
 
     i {
@@ -192,9 +192,102 @@ export const SelectionContainer = styled.div`
   }
 `;
 
+export const InputContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  @media only screen and (max-width: 950px) {
+    flex-direction: column;
+  }
+`;
+
 export const InputArea = styled.div`
+  width: 20%;
+  .transp {
+    color: transparent;
+  }
+
+  .PARTICIPANDO {
+    box-shadow: rgb(255, 255, 255, 1) 2px 2px 20px;
+    background: linear-gradient(to bottom right, green, #723172);
+    opacity: 1;
+  }
+
+  p {
+    margin-bottom: 0;
+    margin-left: 20px;
+    text-transform: uppercase;
+    font-size: 16px;
+
+    strong {
+      font-weight: 800;
+    }
+  }
+  h5 {
+    font-size: 16px;
+    color: white;
+    margin-bottom: 20px;
+    font-weight: 400;
+    letter-spacing: 2px;
+  }
+  input {
+    padding: 20px;
+    border-radius: 5px;
+    background: linear-gradient(to bottom right, #800080, #4b0082);
+    color: white;
+    letter-spacing: 1px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0px 0px 5px rgba(255, 255, 255, 0.9);
+    font-weight: 300;
+    transition: all 0.3s;
+    transform: ${({ checked }) => (checked ? "scale(1.05)" : "scale(1)")};
+    width: 90%;
+    line-height: 24px;
+    :hover {
+      box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.9);
+      transform: scale(1);
+    }
+    :focus-visible {
+      border: none;
+      outline: none;
+    }
+    ::placeholder {
+      color: white;
+      opacity: 0.5;
+    }
+    ::-webkit-calendar-picker-indicator {
+      /* Filter para ajustar a cor do ícone para branco */
+      filter: brightness(0) invert(1);
+      font-size: 30px;
+      cursor: pointer;
+    }
+  }
+  @media only screen and (max-width: 950px) {
+    flex-direction: column;
+    input {
+      width: 80%;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 12px;
+      text-align: center;
+      margin: 0;
+    }
+  }
+`;
+
+export const InputAreaDate = styled.div`
+  width: 100%;
   display: flex;
   align-items: center;
+
+
   p {
     margin-bottom: 0;
     margin-left: 20px;
@@ -207,7 +300,6 @@ export const InputArea = styled.div`
   }
   input {
     padding: 20px;
-    margin: 5px;
     border-radius: 5px;
     background: linear-gradient(to bottom right, #800080, #4b0082);
     color: white;
@@ -219,15 +311,88 @@ export const InputArea = styled.div`
     font-weight: 300;
     transition: all 0.3s;
     transform: ${({ checked }) => (checked ? "scale(1.05)" : "scale(1)")};
-    width: 30%;
+    width: 15%;
     line-height: 24px;
     :hover {
       box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.9);
-      transform: scale(1.05);
+      transform: scale(1);
     }
     :focus-visible {
       border: none;
       outline: none;
+    }
+    ::placeholder {
+      color: white;
+      opacity: 0.5;
+    }
+    ::-webkit-calendar-picker-indicator {
+      /* Filter para ajustar a cor do ícone para branco */
+      filter: brightness(0) invert(1);
+      font-size: 30px;
+      cursor: pointer;
+    }
+  }
+  @media only screen and (max-width: 950px) {
+    flex-direction: column;
+    input {
+      width: 80%;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 12px;
+      text-align: center;
+      margin: 0;
+    }
+  }
+`;
+
+export const InputAreaName = styled.div`
+
+  width: 30%;
+  p {
+    margin-bottom: 0;
+    margin-left: 20px;
+    text-transform: uppercase;
+    font-size: 16px;
+
+    strong {
+      font-weight: 800;
+    }
+  }
+  h5 {
+    font-size: 16px;
+    color: white;
+    margin-bottom: 20px;
+    font-weight: 400;
+    letter-spacing: 2px;
+  }
+  input {
+    padding: 20px;
+    border-radius: 5px;
+    background: linear-gradient(to bottom right, #800080, #4b0082);
+    color: white;
+    letter-spacing: 1px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0px 0px 5px rgba(255, 255, 255, 0.9);
+    font-weight: 300;
+    transition: all 0.3s;
+    transform: ${({ checked }) => (checked ? "scale(1.05)" : "scale(1)")};
+    width: 90%;
+    line-height: 24px;
+    :hover {
+      box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.9);
+      transform: scale(1);
+    }
+    :focus-visible {
+      border: none;
+      outline: none;
+    }
+    ::placeholder {
+      color: white;
+      opacity: 0.5;
     }
     ::-webkit-calendar-picker-indicator {
       /* Filter para ajustar a cor do ícone para branco */
@@ -256,7 +421,6 @@ export const Input = styled.input`
   padding: 0 10px;
   border: 1px solid #bbb;
   border-radius: 5px;
-  height: 40px;
 `;
 
 export const Button = styled.button`
@@ -378,4 +542,48 @@ export const Button = styled.button`
     padding: 10px 20px;
     text-align: center;
   }
+  
+`;
+
+export const ButtonParticipar = styled.button`
+  position: relative;
+  padding: 15px;
+  width: 100%;
+  border: none;
+  text-align: center;
+  background: none;
+  cursor: pointer;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  font-size: 21px;
+  margin: auto;
+  background: linear-gradient(to bottom right, transparent, #723172);
+  box-shadow: rgb(255, 255, 255, 0.5) 0px 0px 2px;
+  border-radius: 5px;
+  z-index: 0;
+  overflow: hidden;
+  display: flex;
+  color: white;
+  transition: all 0.9s;
+  justify-content: center;
+  opacity: 0.7;
+
+  :hover {
+    box-shadow: rgb(255, 255, 255, 1) 2px 2px 20px;
+    background: linear-gradient(to bottom right, green, #723172);
+    opacity: 1;
+  }
+  :disabled {
+    opacity: 0.6; /* Reduz a opacidade quando o botão está desativado */
+    cursor: not-allowed; /* Muda o cursor para 'not-allowed' quando o botão está desativado */
+    background: linear-gradient(to bottom right, black, #4b0082);
+  }
+  
+  @media only screen and (max-width: 950px) {
+    font-size: 20px;
+    padding: 10px 20px;
+    text-align: center;
+  }
+  
 `;
