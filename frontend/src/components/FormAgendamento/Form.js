@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import axios from "axios";
 import {
   FormContainer,
   CheckboxButton,
@@ -153,14 +154,51 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
         form.vei_nome.value &&
         form.vei_placa.value
       ) {
+        await axios
+      .post("http://localhost:8800/veiculo", {
+        vei_placa: form.vei_placa.value.toUpperCase(),
+        vei_nome_dono: form.vei_nome.value.toUpperCase(),
+        vei_telefone_dono: form.vei_telefone.value.toUpperCase(),
+        atualizar: false
+      })
+      .then(({ data }) => {
+        console.log(data);
+        if (data[1] === -1) {
+          setFidelidade(
+            `Já existe um veículo cadastrado com a placa ${form.vei_placa.value.toUpperCase()} porém com dados diferentes, deseja atualizar o nome e telefone?`
+          );
+          return toast.warning(data[0]);
+        }
         setActive("PARTICIPANDO");
+        let qtdAgendamentos = 0;
+
+        if (data[1] < 10) {
+          qtdAgendamentos = 10 - data[1];
+        }
+
+        if (data[1] >= 10) {
+          if (data[1] % 10 === 1) {
+            return setFidelidade(
+              `🌟 Parabéns! Esse é seu agendamento de número ${data[1]}! Essa lavagem será 100% gratuita! 🌟`
+            );
+          }
+          if (data[1] % 10 === 0) {
+            return setFidelidade(
+              `Esse é seu agendamento de número ${data[1]}! Sua próxima lavagem será por nossa conta! 😎`
+            );
+          }
+          qtdAgendamentos = 10 - data[1] % 10;
+        }
+
+
         setFidelidade(
-          "Esse é seu agendamento de número 1, contrate mais 9 lavagens para obter o serviço gratuito!"
+          `Esse é seu agendamento de número ${data[1]}, contrate mais ${qtdAgendamentos} lavagens para obter o serviço gratuito!`
         );
-        return toast.success(
-          "Parabéns, você está participando do programa de fidelidade!"
-        );
+
+      })
+      .catch(({ response }) => toast.error(response.data));
       }
+      return
     }
 
     if (!form.age_data.value) {

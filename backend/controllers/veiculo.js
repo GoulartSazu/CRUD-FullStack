@@ -1,0 +1,117 @@
+import { db } from "../db.js";
+
+export const getVeiculos = (_, res) => {
+  const q = "SELECT * FROM veiculos";
+
+  db.query(q, (err, data) => {
+    if (err) return res.json(err);
+
+    return res.status(200).json(data);
+  });
+};
+
+export const addVeiculo = (req, res) => {
+  const placa = req.body.vei_placa;
+  const phone = req.body.vei_telefone_dono;
+  const nome = req.body.vei_nome_dono;
+  const atualizar = req.body.atualizar;
+
+  const queryCheckPlaca =
+    "SELECT id FROM veiculos WHERE vei_placa = ? and vei_telefone_dono = ? and vei_nome_dono = ? ";
+  db.query(queryCheckPlaca, [placa, phone, nome], (err, results) => {
+    if (err) {
+      return res.status(500).json(err);
+    }
+
+    // Se já existir um registro com a mesma placa
+    if (results.length > 0) {
+      const veiculoId = results[0].id;
+      let qtdAgendamentos = 0;
+      const queryQtdAgendamentos = `SELECT COUNT(*) AS qtdAgendamentos FROM agendamentos WHERE age_id_veiculo = ${veiculoId}`;
+
+      db.query(queryQtdAgendamentos, (err, results) => {
+        if (err) {
+          return res.status(500).json(err);
+        }
+
+        if (results.length > 0) {
+          qtdAgendamentos = results[0].qtdAgendamentos;
+        }
+
+        // Agora que todas as consultas foram concluídas, envie a resposta HTTP
+        return res
+          .status(200)
+          .json([
+            "Parabéns, você está participando do programa de fidelidade!",
+            qtdAgendamentos,
+          ]);
+      });
+    } else {
+      if (!atualizar) {
+        const queryCheckVeiculo = "SELECT * FROM veiculos WHERE vei_placa = ?";
+        db.query(queryCheckVeiculo, [placa], (err, results) => {
+          if (err) {
+            return res.status(500).json(err);
+          }
+          if (results.length > 0) {
+            return res
+              .status(200)
+              .json([
+                `Já existe um veículo cadastrado com a placa ${placa} porém dados diferentes.`,
+                -1,
+              ]);
+          }
+
+          // Se não existir, proceder com a inserção
+          const queryInsert =
+            "INSERT INTO veiculos(`vei_placa`, `vei_free_servicos`, `vei_nome_dono`, `vei_telefone_dono`) VALUES(?)";
+
+          const values = [placa, 0, nome, phone];
+
+          db.query(queryInsert, [values], (err) => {
+            if (err) {
+              return res.status(500).json(err);
+            }
+
+            return res
+              .status(200)
+              .json([
+                "Parabéns, você está participando do programa de fidelidade!",
+                1,
+              ]);
+          });
+        });
+      }
+    }
+  });
+};
+
+
+export const updateVeiculo = (req, res) => {
+  const queryUpdate =
+    "UPDATE veiculos SET `vei_placa` = ?, `vei_free_servicos` = ?, `vei_nome_dono` = ?, `vei_telefone_dono` = ?, `date_update` = ? WHERE `id` = ?";
+
+  const values = [
+    req.body.vei_placa,
+    req.body.vei_free_servicos,
+    req.body.vei_nome_dono,
+    req.body.vei_telefone_dono,
+    req.body.date_update,
+  ];
+
+  db.query(queryUpdate, [...values, req.params.id], (err) => {
+    if (err) return res.json(err);
+
+    return res.status(200).json("Veículo atualizado com sucesso.");
+  });
+};
+
+export const deleteVeiculo = (req, res) => {
+  const q = "DELETE FROM veiculos WHERE `id` = ?";
+
+  db.query(q, [req.params.id], (err) => {
+    if (err) return res.json(err);
+
+    return res.status(200).json("Veículo deletado com sucesso.");
+  });
+};

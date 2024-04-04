@@ -11,7 +11,7 @@ const ConfirmationModal = ({ data }) => {
 
   useEffect(() => {
     if (data.fidelidade) {
-      if (data.fidelidade % 10 === 0 ) {
+      if (data.fidelidade % 10 === 0) {
         setFree("🌟 Parabéns! O serviço será 100% gratuito! 🌟");
       }
     }
@@ -167,11 +167,15 @@ const ConfirmationModal = ({ data }) => {
         </h3>
         <h3>
           Programa Fidelidade<i className="fas fa-angle-right"></i>{" "}
-          <span>{free.toUpperCase() ?? `LAVAGEM DE NÚMERO ${data.fidelidade}`}</span>
+          <span>
+            {free.toUpperCase() ?? `LAVAGEM DE NÚMERO ${data.fidelidade}`}
+          </span>
         </h3>
         <h4>VALOR TOTAL R${data.totalPrice},00</h4>
-        <p>*Sujeito a mudanças de valores de acordo com a localização e veículos de altos padrões.</p>
-        
+        <p>
+          *Sujeito a mudanças de valores de acordo com a localização e veículos
+          de altos padrões.
+        </p>
       </Confirmation>
       <Button
         className="mob"
