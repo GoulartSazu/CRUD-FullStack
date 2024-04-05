@@ -10,7 +10,8 @@ import {
   InputContainer,
   InputAreaName,
   ButtonParticipar,
-  InputAreaDate
+  InputAreaDate,
+  InputAreaYesNot
 } from "./Styles.js";
 import { toast } from "react-toastify";
 import { Container } from "../../styles/global";
@@ -155,50 +156,57 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
         form.vei_placa.value
       ) {
         await axios
-      .post("http://localhost:8800/veiculo", {
-        vei_placa: form.vei_placa.value.toUpperCase(),
-        vei_nome_dono: form.vei_nome.value.toUpperCase(),
-        vei_telefone_dono: form.vei_telefone.value.toUpperCase(),
-        atualizar: false
-      })
-      .then(({ data }) => {
-        console.log(data);
-        if (data[1] === -1) {
-          setFidelidade(
-            `Já existe um veículo cadastrado com a placa ${form.vei_placa.value.toUpperCase()} porém com dados diferentes, deseja atualizar o nome e telefone?`
-          );
-          return toast.warning(data[0]);
-        }
-        setActive("PARTICIPANDO");
-        let qtdAgendamentos = 0;
+          .post("http://localhost:8800/veiculo", {
+            vei_placa: form.vei_placa.value.toUpperCase(),
+            vei_nome_dono: form.vei_nome.value.toUpperCase(),
+            vei_telefone_dono: form.vei_telefone.value.toUpperCase(),
+            atualizar: false,
+          })
+          .then(({ data }) => {
+            console.log(data);
+            if (data[1] === -1) {
+              setFidelidade(
+                `Já existe um veículo cadastrado com a placa ${form.vei_placa.value.toUpperCase()} porém com dados diferentes, deseja atualizar o nome e telefone?`
+              );
+              return toast.warning(data[0]);
+            }
+            setActive("PARTICIPANDO");
+            let qtdAgendamentos = 0;
 
-        if (data[1] < 10) {
-          qtdAgendamentos = 10 - data[1];
-        }
+            if (data[1] < 10) {
+              qtdAgendamentos = 10 - data[1];
+            }
 
-        if (data[1] >= 10) {
-          if (data[1] % 10 === 1) {
-            return setFidelidade(
-              `🌟 Parabéns! Esse é seu agendamento de número ${data[1]}! Essa lavagem será 100% gratuita! 🌟`
+            if (data[1] >= 10) {
+              if (data[1] % 10 === 1) {
+                toast.success(data[0]);
+                return setFidelidade(
+                  `🌟 Parabéns! Esse é seu agendamento de número ${data[1]}! Essa lavagem será 100% gratuita! 🌟`
+                );
+              }
+              if (data[1] % 10 === 0) {
+                toast.success(data[0]);
+                return setFidelidade(
+                  `Esse é seu agendamento de número ${data[1]}! Sua próxima lavagem será por nossa conta! 😎`
+                );
+              }
+              qtdAgendamentos = 10 - (data[1] % 10);
+            }
+            setFidelidade(
+              `Esse é seu agendamento de número ${data[1]}, contrate mais ${qtdAgendamentos} lavagens para obter o serviço gratuito!`
             );
-          }
-          if (data[1] % 10 === 0) {
-            return setFidelidade(
-              `Esse é seu agendamento de número ${data[1]}! Sua próxima lavagem será por nossa conta! 😎`
-            );
-          }
-          qtdAgendamentos = 10 - data[1] % 10;
-        }
 
+            if (data[1] === 0) {
+              setFidelidade(
+                `Esse é seu primeiro agendamento com fidelidade, contrate mais 9 lavagens para obter o serviço gratuito!`
+              );
+            }
 
-        setFidelidade(
-          `Esse é seu agendamento de número ${data[1]}, contrate mais ${qtdAgendamentos} lavagens para obter o serviço gratuito!`
-        );
-
-      })
-      .catch(({ response }) => toast.error(response.data));
+            toast.success(data[0]);
+          })
+          .catch(({ response }) => toast.error(response.data));
       }
-      return
+      return;
     }
 
     if (!form.age_data.value) {
@@ -253,7 +261,7 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
       agendamentoDate: selectedDate,
       agendamentoDateValue: form.age_data.value,
       totalPrice: totalPrice,
-      fidelidade: 70
+      fidelidade: 70,
     };
 
     if (agendamento) {
@@ -494,6 +502,27 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
             </InputArea>
           </InputContainer>
           <p>{fidelidade}</p>
+          <InputAreaYesNot>
+            <ButtonParticipar
+              className={`yesNot`}
+              type="submit"
+              onClick={() => {
+                setAgendamento(false);
+              }}
+            >
+              SIM ✔️
+            </ButtonParticipar>
+            <ButtonParticipar
+              className={`yesNot`}
+              type="submit"
+              onClick={() => {
+                setAgendamento(false);
+              }}
+            >
+              NÃO ❌
+            </ButtonParticipar>
+         
+          </InputAreaYesNot>
         </div>
         <Button
           onClick={() => {

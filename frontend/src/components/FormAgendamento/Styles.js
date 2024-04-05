@@ -209,6 +209,9 @@ export const InputArea = styled.div`
   .transp {
     color: transparent;
   }
+  .simNao {
+    display: flex;
+  }
 
   .PARTICIPANDO {
     box-shadow: rgb(255, 255, 255, 1) 2px 2px 20px;
@@ -226,6 +229,7 @@ export const InputArea = styled.div`
       font-weight: 800;
     }
   }
+
   h5 {
     font-size: 16px;
     color: white;
@@ -267,6 +271,39 @@ export const InputArea = styled.div`
       cursor: pointer;
     }
   }
+  .yesNot{
+    box-shadow: rgb(255, 255, 255, 1) 2px 2px 20px;
+    background: linear-gradient(to bottom right, green, #723172);
+    opacity: 1;
+  }
+  @media only screen and (max-width: 950px) {
+    flex-direction: column;
+    input {
+      width: 80%;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 12px;
+      text-align: center;
+      margin: 0;
+    }
+  }
+`;
+
+export const InputAreaYesNot = styled.div`
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+
+  .yesNot{
+    box-shadow: rgb(255, 255, 255, 0.5) 2px 2px 20px;
+    background: linear-gradient(to bottom right, green, #723172);
+    opacity: 1;
+    width: 40% !important;
+  }
+
   @media only screen and (max-width: 950px) {
     flex-direction: column;
     input {
