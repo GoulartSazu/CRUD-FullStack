@@ -11,7 +11,7 @@ import {
   InputAreaName,
   ButtonParticipar,
   InputAreaDate,
-  InputAreaYesNot
+  InputAreaYesNot,
 } from "./Styles.js";
 import { toast } from "react-toastify";
 import { Container } from "../../styles/global";
@@ -33,6 +33,11 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
   const [active, setActive] = useState("PARTICIPAR");
   const [fidelidade, setFidelidade] = useState("");
   const [agendamento, setAgendamento] = useState(false);
+  const [yesNot, setYesNot] = useState({
+    show: false,
+    update: false,
+    veiculoId: null,
+  });
 
   const handleCheckService = (service) => {
     setCheckService(service === checkService ? null : service);
@@ -116,10 +121,8 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = ref.current;
-    console.log(form.vei_placa.value);
 
     if (!agendamento) {
-      console.log("wtf", agendamento);
       if (form.vei_placa.value) {
         if (!form.vei_nome.value || !form.vei_telefone.value) {
           setActive("PARTICIPAR");
@@ -150,6 +153,57 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
         }
       }
 
+      if (yesNot.update && yesNot.veiculoId) {
+        await axios
+          .put(`http://localhost:8800/veiculo/${yesNot.veiculoId}`, {
+            vei_placa: form.vei_placa.value.toUpperCase(),
+            vei_nome_dono: form.vei_nome.value.toUpperCase(),
+            vei_telefone_dono: form.vei_telefone.value.toUpperCase(),
+          })
+          .then(({ data }) => {
+            setActive("PARTICIPANDO");
+            setYesNot({
+              show: false,
+              update: yesNot.update,
+              veiculoId: yesNot.veiculoId,
+            });
+            
+            let qtdAgendamentos = 0;
+
+            if (data[1] < 10) {
+              qtdAgendamentos = 10 - data[1];
+            }
+
+            if (data[1] >= 10) {
+              if (data[1] % 10 === 1) {
+                toast.success(data[0]);
+                return setFidelidade(
+                  `🌟 Parabéns! Esse é seu agendamento de número ${data[1]}! Essa lavagem será 100% gratuita! 🌟`
+                );
+              }
+              if (data[1] % 10 === 0) {
+                toast.success(data[0]);
+                return setFidelidade(
+                  `Esse é seu agendamento de número ${data[1]}! Sua próxima lavagem será por nossa conta! 😎`
+                );
+              }
+              qtdAgendamentos = 10 - (data[1] % 10);
+            }
+            setFidelidade(
+              `Esse é seu agendamento de número ${data[1]}, contrate mais ${qtdAgendamentos} lavagens para obter o serviço gratuito!`
+            );
+
+            if (data[1] === 0) {
+              setFidelidade(
+                `Esse é seu primeiro agendamento com fidelidade, contrate mais 9 lavagens para obter o serviço gratuito!`
+              );
+            }
+
+            return toast.success(data[0]);
+          })
+          .catch(({ response }) => toast.error(response.data));
+      }
+
       if (
         form.vei_telefone.value &&
         form.vei_nome.value &&
@@ -168,6 +222,11 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
               setFidelidade(
                 `Já existe um veículo cadastrado com a placa ${form.vei_placa.value.toUpperCase()} porém com dados diferentes, deseja atualizar o nome e telefone?`
               );
+              setYesNot({
+                show: true,
+                update: yesNot.update,
+                veiculoId: data[2],
+              });
               return toast.warning(data[0]);
             }
             setActive("PARTICIPANDO");
@@ -454,7 +513,7 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
             <InputAreaName>
               {/* <h5>Nome Completo</h5> */}
               <Input
-                placeholder="Nome Completo"
+                placeholder="Nome"
                 name="vei_nome"
                 type="text"
                 onChange={() => {
@@ -487,7 +546,7 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
                 }}
               />
             </InputArea>
-            <InputArea>
+            <InputArea className="wd">
               {/* <h5 className="transp">Placa do veículo</h5> */}
               <ButtonParticipar
                 className={active}
@@ -502,27 +561,38 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
             </InputArea>
           </InputContainer>
           <p>{fidelidade}</p>
-          <InputAreaYesNot>
-            <ButtonParticipar
-              className={`yesNot`}
-              type="submit"
-              onClick={() => {
-                setAgendamento(false);
-              }}
-            >
-              SIM ✔️
-            </ButtonParticipar>
-            <ButtonParticipar
-              className={`yesNot`}
-              type="submit"
-              onClick={() => {
-                setAgendamento(false);
-              }}
-            >
-              NÃO ❌
-            </ButtonParticipar>
-         
-          </InputAreaYesNot>
+          {yesNot.show && (
+            <InputAreaYesNot>
+              <ButtonParticipar
+                className={`yesNot`}
+                type="submit"
+                onClick={() => {
+                  setYesNot({
+                    show: true,
+                    update: true,
+                    veiculoId: yesNot.veiculoId,
+                  });
+                  setAgendamento(false);
+                }}
+              >
+                SIM ✔️
+              </ButtonParticipar>
+              <ButtonParticipar
+                className={`yesNot`}
+                type="submit"
+                onClick={() => {
+                  setYesNot({
+                    show: true,
+                    update: false,
+                    veiculoId: yesNot.veiculoId,
+                  });
+                  setAgendamento(false);
+                }}
+              >
+                NÃO ❌
+              </ButtonParticipar>
+            </InputAreaYesNot>
+          )}
         </div>
         <Button
           onClick={() => {

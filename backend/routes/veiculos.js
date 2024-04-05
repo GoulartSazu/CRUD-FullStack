@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get("/getVeiculos", getVeiculos);
 
-router.post("/veiculo", addVeiculo);
+router.post("/", addVeiculo);
 
 router.put("/:id", updateVeiculo);
 

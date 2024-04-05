@@ -1,4 +1,6 @@
 import { db } from "../db.js";
+import { promisify } from 'util';
+const queryAsync = promisify(db.query).bind(db);
 
 export const getVeiculos = (_, res) => {
   const q = "SELECT * FROM veiculos";
@@ -10,6 +12,22 @@ export const getVeiculos = (_, res) => {
   });
 };
 
+async function obterQuantidadeAgendamentos(veiculoId) {
+
+  const queryQtdAgendamentos = `SELECT COUNT(*) AS qtdAgendamentos FROM agendamentos WHERE age_id_veiculo = ${veiculoId}`;
+  try {
+    const results = await queryAsync(queryQtdAgendamentos);
+
+    if (results.length > 0) {
+      return parseInt(results[0].qtdAgendamentos);
+    } else {
+      return 0;
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
 export const addVeiculo = (req, res) => {
   const placa = req.body.vei_placa;
   const phone = req.body.vei_telefone_dono;
@@ -18,34 +36,25 @@ export const addVeiculo = (req, res) => {
 
   const queryCheckPlaca =
     "SELECT id FROM veiculos WHERE vei_placa = ? and vei_telefone_dono = ? and vei_nome_dono = ? ";
-  db.query(queryCheckPlaca, [placa, phone, nome], (err, results) => {
+  db.query(queryCheckPlaca, [placa, phone, nome], async (err, results) => {
     if (err) {
       return res.status(500).json(err);
     }
+    
 
-    // Se já existir um registro com a mesma placa
     if (results.length > 0) {
+
       const veiculoId = results[0].id;
       let qtdAgendamentos = 0;
-      const queryQtdAgendamentos = `SELECT COUNT(*) AS qtdAgendamentos FROM agendamentos WHERE age_id_veiculo = ${veiculoId}`;
+      qtdAgendamentos = await obterQuantidadeAgendamentos(veiculoId);
+     
+      return res
+        .status(200)
+        .json([
+          "Parabéns, você está participando do programa de fidelidade!",
+          qtdAgendamentos,
+        ]);
 
-      db.query(queryQtdAgendamentos, (err, results) => {
-        if (err) {
-          return res.status(500).json(err);
-        }
-
-        if (results.length > 0) {
-          qtdAgendamentos = results[0].qtdAgendamentos;
-        }
-
-        // Agora que todas as consultas foram concluídas, envie a resposta HTTP
-        return res
-          .status(200)
-          .json([
-            "Parabéns, você está participando do programa de fidelidade!",
-            qtdAgendamentos,
-          ]);
-      });
     } else {
       if (!atualizar) {
         const queryCheckVeiculo = "SELECT * FROM veiculos WHERE vei_placa = ?";
@@ -59,6 +68,7 @@ export const addVeiculo = (req, res) => {
               .json([
                 `Já existe um veículo cadastrado com a placa ${placa} porém dados diferentes.`,
                 -1,
+                results[0].id,
               ]);
           }
 
@@ -86,23 +96,22 @@ export const addVeiculo = (req, res) => {
   });
 };
 
-
 export const updateVeiculo = (req, res) => {
+  const today = new Date().toISOString().slice(0, 19).replace("T", " ");
   const queryUpdate =
-    "UPDATE veiculos SET `vei_placa` = ?, `vei_free_servicos` = ?, `vei_nome_dono` = ?, `vei_telefone_dono` = ?, `date_update` = ? WHERE `id` = ?";
+    "UPDATE veiculos SET `vei_placa` = ?, `vei_nome_dono` = ?, `vei_telefone_dono` = ?, `date_update` = ? WHERE `id` = ?";
 
   const values = [
     req.body.vei_placa,
-    req.body.vei_free_servicos,
     req.body.vei_nome_dono,
     req.body.vei_telefone_dono,
-    req.body.date_update,
+    today,
   ];
 
   db.query(queryUpdate, [...values, req.params.id], (err) => {
     if (err) return res.json(err);
 
-    return res.status(200).json("Veículo atualizado com sucesso.");
+    return res.status(200).json(["Veículo atualizado com sucesso.", 5]);
   });
 };
 

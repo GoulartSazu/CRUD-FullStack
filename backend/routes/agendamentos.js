@@ -8,9 +8,9 @@ import {
 
 const router = express.Router();
 
-router.get("/", getUsers);
+router.get("/getAgendamentos", getUsers);
 
-router.post("/agendamento", addAgendamento);
+router.post("/", addAgendamento);
 
 router.put("/:id", updateUser);
 

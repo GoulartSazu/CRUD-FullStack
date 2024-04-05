@@ -26,8 +26,8 @@ function App() {
 
   const getUsers = async () => {
     try {
-      const res = await axios.get("http://localhost:8800");
-      setUsers(res.data.sort((a, b) => (a.usr_nome > b.usr_nome ? 1 : -1)));
+      const res = await axios.get("http://localhost:8800/veiculo/getVeiculos");
+      // setUsers(res.data.sort((a, b) => (a.usr_nome > b.usr_nome ? 1 : -1)));
     } catch (error) {
       toast.error(error);
     }

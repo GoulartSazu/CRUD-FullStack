@@ -199,6 +199,10 @@ export const InputContainer = styled.div`
   align-items: center;
   margin-bottom: 20px;
 
+  .wd {
+    width: 30%;
+  }
+
   @media only screen and (max-width: 950px) {
     flex-direction: column;
   }
@@ -214,7 +218,7 @@ export const InputArea = styled.div`
   }
 
   .PARTICIPANDO {
-    box-shadow: rgb(255, 255, 255, 1) 2px 2px 20px;
+    box-shadow: rgb(255, 255, 255, 0.62) 2px 2px 20px;
     background: linear-gradient(to bottom right, green, #723172);
     opacity: 1;
   }
@@ -386,7 +390,7 @@ export const InputAreaDate = styled.div`
 
 export const InputAreaName = styled.div`
 
-  width: 30%;
+  width: 20%;
   p {
     margin-bottom: 0;
     margin-left: 20px;
@@ -593,7 +597,7 @@ export const ButtonParticipar = styled.button`
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 5px;
-  font-size: 21px;
+  font-size: 22px;
   margin: auto;
   background: linear-gradient(to bottom right, transparent, #723172);
   box-shadow: rgb(255, 255, 255, 0.5) 0px 0px 2px;
