@@ -1,5 +1,5 @@
 import { db } from "../db.js";
-import { promisify } from 'util';
+import { promisify } from "util";
 const queryAsync = promisify(db.query).bind(db);
 
 export const getVeiculos = (_, res) => {
@@ -13,7 +13,6 @@ export const getVeiculos = (_, res) => {
 };
 
 async function obterQuantidadeAgendamentos(veiculoId) {
-
   const queryQtdAgendamentos = `SELECT COUNT(*) AS qtdAgendamentos FROM agendamentos WHERE age_id_veiculo = ${veiculoId}`;
   try {
     const results = await queryAsync(queryQtdAgendamentos);
@@ -40,21 +39,18 @@ export const addVeiculo = (req, res) => {
     if (err) {
       return res.status(500).json(err);
     }
-    
 
     if (results.length > 0) {
-
       const veiculoId = results[0].id;
       let qtdAgendamentos = 0;
       qtdAgendamentos = await obterQuantidadeAgendamentos(veiculoId);
-     
+
       return res
         .status(200)
         .json([
           "Parabéns, você está participando do programa de fidelidade!",
           qtdAgendamentos,
         ]);
-
     } else {
       if (!atualizar) {
         const queryCheckVeiculo = "SELECT * FROM veiculos WHERE vei_placa = ?";
@@ -96,7 +92,7 @@ export const addVeiculo = (req, res) => {
   });
 };
 
-export const updateVeiculo = (req, res) => {
+export const updateVeiculo = async (req, res) => {
   const today = new Date().toISOString().slice(0, 19).replace("T", " ");
   const queryUpdate =
     "UPDATE veiculos SET `vei_placa` = ?, `vei_nome_dono` = ?, `vei_telefone_dono` = ?, `date_update` = ? WHERE `id` = ?";
@@ -107,6 +103,18 @@ export const updateVeiculo = (req, res) => {
     req.body.vei_telefone_dono,
     today,
   ];
+
+  if (req.body.vei_id > 0) {
+    let qtdAgendamentos = 0;
+    qtdAgendamentos = await obterQuantidadeAgendamentos(req.body.vei_id);
+
+    return res
+      .status(200)
+      .json([
+        "Parabéns, você está participando do programa de fidelidade!",
+        qtdAgendamentos,
+      ]);
+  }
 
   db.query(queryUpdate, [...values, req.params.id], (err) => {
     if (err) return res.json(err);

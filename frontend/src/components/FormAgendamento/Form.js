@@ -124,6 +124,11 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
 
     if (!agendamento) {
       if (form.vei_placa.value) {
+        if (form.vei_placa.value.length !== 7) {
+          return toast.warn(
+            "A Placa deve possuir 7 caracteres"
+          );
+        }
         if (!form.vei_nome.value || !form.vei_telefone.value) {
           setActive("PARTICIPAR");
           setFidelidade("");
@@ -144,6 +149,12 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
       }
 
       if (form.vei_telefone.value) {
+        console.log(form.vei_telefone.value.length)
+        if (form.vei_telefone.value.length !== 15) {
+          return toast.warn(
+            "O Número de Telefone deve possuir 15 caracteres"
+          );
+        }
         if (!form.vei_placa.value || !form.vei_nome.value) {
           setActive("PARTICIPAR");
           setFidelidade("");
@@ -167,7 +178,56 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
               update: yesNot.update,
               veiculoId: yesNot.veiculoId,
             });
-            
+
+            let qtdAgendamentos = 0;
+
+            if (data[1] < 10) {
+              qtdAgendamentos = 10 - data[1];
+            }
+
+            if (data[1] >= 10) {
+              if (data[1] % 10 === 1) {
+                toast.success(data[0]);
+                return setFidelidade(
+                  `🌟 Parabéns! Esse é seu agendamento de número ${data[1]}! Essa lavagem será 100% gratuita! 🌟`
+                );
+              }
+              if (data[1] % 10 === 0) {
+                toast.success(data[0]);
+                return setFidelidade(
+                  `Esse é seu agendamento de número ${data[1]}! Sua próxima lavagem será por nossa conta! 😎`
+                );
+              }
+              qtdAgendamentos = 10 - (data[1] % 10);
+            }
+            setFidelidade(
+              `Esse é seu agendamento de número ${data[1]}, contrate mais ${qtdAgendamentos} lavagens para obter o serviço gratuito!`
+            );
+
+            if (data[1] === 0) {
+              setFidelidade(
+                `Esse é seu primeiro agendamento com fidelidade, contrate mais 9 lavagens para obter o serviço gratuito!`
+              );
+            }
+
+            return toast.success(data[0]);
+          })
+          .catch(({ response }) => toast.error(response.data));
+      }
+
+      if (!yesNot.update && yesNot.veiculoId) {
+        await axios
+          .put(`http://localhost:8800/veiculo/${yesNot.veiculoId}`, {
+            vei_id: yesNot.veiculoId,
+          })
+          .then(({ data }) => {
+            setActive("PARTICIPANDO");
+            setYesNot({
+              show: false,
+              update: yesNot.update,
+              veiculoId: yesNot.veiculoId,
+            });
+
             let qtdAgendamentos = 0;
 
             if (data[1] < 10) {
@@ -207,17 +267,18 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
       if (
         form.vei_telefone.value &&
         form.vei_nome.value &&
-        form.vei_placa.value
+        form.vei_placa.value &&
+        !yesNot.update &&
+        !yesNot.veiculoId
       ) {
         await axios
           .post("http://localhost:8800/veiculo", {
             vei_placa: form.vei_placa.value.toUpperCase(),
             vei_nome_dono: form.vei_nome.value.toUpperCase(),
             vei_telefone_dono: form.vei_telefone.value.toUpperCase(),
-            atualizar: false,
+            atualizar: yesNot.update,
           })
           .then(({ data }) => {
-            console.log(data);
             if (data[1] === -1) {
               setFidelidade(
                 `Já existe um veículo cadastrado com a placa ${form.vei_placa.value.toUpperCase()} porém com dados diferentes, deseja atualizar o nome e telefone?`
@@ -525,10 +586,25 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
             <InputArea>
               {/* <h5>Telefone</h5> */}
               <Input
-                placeholder="Telefone"
+                placeholder="Telefone com DDD"
                 name="vei_telefone"
                 type="text"
-                onChange={() => {
+                maxLength={14}
+                onChange={(e) => {
+                  let phoneNumber = e.target.value.replace(/\D/g, ""); // Remove caracteres não numéricos
+                  if (phoneNumber.length <= 2) {
+                    e.target.value = phoneNumber; // Mantém apenas os dígitos se o tamanho for menor ou igual a 2
+                  } else if (phoneNumber.length <= 10) {
+                    e.target.value = `(${phoneNumber.slice(
+                      0,
+                      2
+                    )}) ${phoneNumber.slice(2)}`; // Adiciona o formato (99) nos primeiros 2 dígitos
+                  } else {
+                    e.target.value = `(${phoneNumber.slice(
+                      0,
+                      2
+                    )}) ${phoneNumber.slice(2, 7)}-${phoneNumber.slice(7)}`; // Adiciona o formato (99) 99999-9999
+                  }
                   setActive("PARTICIPAR");
                   setFidelidade("");
                 }}
@@ -539,6 +615,7 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
               <Input
                 placeholder="Placa do Veículo"
                 name="vei_placa"
+                maxLength={7}
                 type="text"
                 onChange={() => {
                   setActive("PARTICIPAR");
