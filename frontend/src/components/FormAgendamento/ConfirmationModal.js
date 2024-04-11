@@ -6,14 +6,12 @@ import { toast } from "react-toastify";
 import { Container } from "../../styles/global";
 
 const ConfirmationModal = ({ data }) => {
-  const [free, setFree] = useState("");
+  const [free, setFree] = useState("Não participando.");
   const navigate = useNavigate();
 
   useEffect(() => {
     if (data.fidelidade) {
-      if (data.fidelidade % 10 === 0) {
-        setFree("🌟 Parabéns! O serviço será 100% gratuito! 🌟");
-      }
+      setFree(data.fidelidade);
     }
   }, [data.fidelidade]);
 
@@ -81,30 +79,33 @@ const ConfirmationModal = ({ data }) => {
     return string;
   }
 
+  console.log('data.qtdFidelidade',data.qtdFidelidade);
+
   const finishAgendamento = async () => {
-    const hashService = `serviço%20*${formatInfo(
+    const hashService = `%0A%0A🔹%20Serviço:%20*${formatInfo(
       data.service.toUpperCase(),
       true
-    )}*,%20`;
-    const hashLocal = `local:%20*${formatInfo(
+    )}*%20`;
+    const hashLocal = `%0A%0A🔹%20Local:%20*${formatInfo(
       data.local.toUpperCase(),
       true
-    )}*,%20`;
-    const hashVeiculo = `veículo:%20*${formatInfo(
+    )}*%20`;
+    const hashVeiculo = `%0A%0A🔹%20Veículo:%20*${formatInfo(
       data.car.toUpperCase(),
       true
-    )}*,%20`;
-    const hashDate = `data:%20*${data.agendamentoDateValue
+    )}*%20`;
+    const hashDate = `%0A%0A🔹%20Data:%20*${data.agendamentoDateValue
       .split("-")
       .reverse()
-      .join("-")}*,%20`;
-    const hashTime = `no%20horário%20de%20*${formatInfo(
+      .join("-")}*%20`;
+    const hashTime = `%0A%0A🔹%20Horário:%20*${formatInfo(
       data.time.toUpperCase(),
       true
-    )}.*%20`;
-    const hashPrice = `*Valor%20Total%20R$%20${data.totalPrice},00*`;
+    )}*%20`;
+    const qtdServico = `%0A%0A🔹%20Serviço%20de%20Número:%20*${data.qtdFidelidade}*%20`;
+    const hashPrice = `%0A%0A🔹%20*Valor%20Total%20R$%20${data.totalPrice},00*`;
     const hash =
-      hashService + hashLocal + hashVeiculo + hashDate + hashTime + hashPrice;
+      hashService + hashLocal + hashVeiculo + hashDate + hashTime + qtdServico + hashPrice;
     await axios
       .post("http://localhost:8800/agendamento", {
         age_servico: data.service.toUpperCase(),
@@ -113,7 +114,12 @@ const ConfirmationModal = ({ data }) => {
         age_data: data.agendamentoDateValue + " 00:00:00",
         age_horario: data.time.toUpperCase(),
         age_valor_total: data.totalPrice,
-        age_hash: hash,
+        age_hash: hash.replace(/🔹/g, ""),
+        vei_placa: data.placa,
+        vei_telefone: data.telefone,
+        vei_nome: data.nome,
+        vei_free_servicos: free.toUpperCase().includes("PARABÉNS!")  ? true : false
+        
       })
       .then(({ data }) => {
         toast.success(data);

@@ -53,7 +53,7 @@ function Finalizacao() {
         <Finish>
           <h2>{title}<br /><br />{title2}</h2>
           <Link
-            to={`https://api.whatsapp.com/send?phone=554299858888&text=Olá.%20Gostaria%20de%20contratar%20o%20${hash}`}
+            to={`https://api.whatsapp.com/send?phone=554299858888&text=Olá!%20😃%0ARealizei%20um%20*agendamento*%20pelo%20site,%20segue%20os%20detalhes%20⤵️${hash}`}
             target="_blank"
             className="link"
           >

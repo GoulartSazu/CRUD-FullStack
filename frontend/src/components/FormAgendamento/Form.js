@@ -33,6 +33,7 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
   const [active, setActive] = useState("PARTICIPAR");
   const [fidelidade, setFidelidade] = useState("");
   const [agendamento, setAgendamento] = useState(false);
+  const [qtdFidelidade, setQtdFidelidade] = useState(null);
   const [yesNot, setYesNot] = useState({
     show: false,
     update: false,
@@ -149,7 +150,6 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
       }
 
       if (form.vei_telefone.value) {
-        console.log(form.vei_telefone.value.length)
         if (form.vei_telefone.value.length !== 15) {
           return toast.warn(
             "O Número de Telefone deve possuir 15 caracteres"
@@ -188,18 +188,25 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
             if (data[1] >= 10) {
               if (data[1] % 10 === 1) {
                 toast.success(data[0]);
+                console.log('1', data[1])
+                setQtdFidelidade(data[1]);
                 return setFidelidade(
                   `🌟 Parabéns! Esse é seu agendamento de número ${data[1]}! Essa lavagem será 100% gratuita! 🌟`
                 );
               }
               if (data[1] % 10 === 0) {
                 toast.success(data[0]);
+                console.log('2', data[1])
+                setQtdFidelidade(data[1]);
                 return setFidelidade(
                   `Esse é seu agendamento de número ${data[1]}! Sua próxima lavagem será por nossa conta! 😎`
                 );
               }
               qtdAgendamentos = 10 - (data[1] % 10);
+              console.log('3', data[1])
+              setQtdFidelidade(data[1]);
             }
+            setQtdFidelidade(data[1]);
             setFidelidade(
               `Esse é seu agendamento de número ${data[1]}, contrate mais ${qtdAgendamentos} lavagens para obter o serviço gratuito!`
             );
@@ -209,7 +216,6 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
                 `Esse é seu primeiro agendamento com fidelidade, contrate mais 9 lavagens para obter o serviço gratuito!`
               );
             }
-
             return toast.success(data[0]);
           })
           .catch(({ response }) => toast.error(response.data));
@@ -237,23 +243,31 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
             if (data[1] >= 10) {
               if (data[1] % 10 === 1) {
                 toast.success(data[0]);
+                console.log('4', data[1])
+                setQtdFidelidade(data[1]);
                 return setFidelidade(
                   `🌟 Parabéns! Esse é seu agendamento de número ${data[1]}! Essa lavagem será 100% gratuita! 🌟`
                 );
               }
               if (data[1] % 10 === 0) {
                 toast.success(data[0]);
+                console.log('5', data[1])
+                setQtdFidelidade(data[1]);
                 return setFidelidade(
                   `Esse é seu agendamento de número ${data[1]}! Sua próxima lavagem será por nossa conta! 😎`
                 );
               }
               qtdAgendamentos = 10 - (data[1] % 10);
+              console.log('6', data[1])
+              setQtdFidelidade(data[1]);
             }
+            setQtdFidelidade(data[1]);
             setFidelidade(
               `Esse é seu agendamento de número ${data[1]}, contrate mais ${qtdAgendamentos} lavagens para obter o serviço gratuito!`
             );
 
             if (data[1] === 0) {
+              setQtdFidelidade(1);
               setFidelidade(
                 `Esse é seu primeiro agendamento com fidelidade, contrate mais 9 lavagens para obter o serviço gratuito!`
               );
@@ -300,18 +314,25 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
             if (data[1] >= 10) {
               if (data[1] % 10 === 1) {
                 toast.success(data[0]);
+                console.log('7', data[1])
+                setQtdFidelidade(data[1]);
                 return setFidelidade(
                   `🌟 Parabéns! Esse é seu agendamento de número ${data[1]}! Essa lavagem será 100% gratuita! 🌟`
                 );
               }
               if (data[1] % 10 === 0) {
                 toast.success(data[0]);
+                console.log('8', data[1])
+                setQtdFidelidade(data[1]);
                 return setFidelidade(
                   `Esse é seu agendamento de número ${data[1]}! Sua próxima lavagem será por nossa conta! 😎`
                 );
               }
               qtdAgendamentos = 10 - (data[1] % 10);
+              console.log('9', data[1])
+              setQtdFidelidade(data[1]);
             }
+            setQtdFidelidade(data[1]);
             setFidelidade(
               `Esse é seu agendamento de número ${data[1]}, contrate mais ${qtdAgendamentos} lavagens para obter o serviço gratuito!`
             );
@@ -372,6 +393,8 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
     if (checkLocal === "delivery") {
       totalPrice = totalPrice + 20;
     }
+    console.log(qtdFidelidade, 'wtf')
+    
 
     const data = {
       service: checkService,
@@ -381,7 +404,11 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
       agendamentoDate: selectedDate,
       agendamentoDateValue: form.age_data.value,
       totalPrice: totalPrice,
-      fidelidade: 70,
+      fidelidade: fidelidade,
+      placa: form.vei_placa.value ? form.vei_placa.value.toUpperCase() : null,
+      telefone: form.vei_telefone.value ? form.vei_telefone.value.toUpperCase() : null,
+      nome: form.vei_nome.value ? form.vei_nome.value.toUpperCase() : null,
+      qtdFidelidade: qtdFidelidade
     };
 
     if (agendamento) {
