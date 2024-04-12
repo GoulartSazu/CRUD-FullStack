@@ -1,4 +1,5 @@
 import { db } from "../db.js";
+import moment from 'moment';
 
 export const getUsers = (_, res) => {
   const q = "SELECT * FROM users";
@@ -7,6 +8,57 @@ export const getUsers = (_, res) => {
     if (err) return res.json(err);
 
     return res.status(200).json(data);
+  });
+};
+
+export const getAgendamentos = (_, res) => {
+  const q = `SELECT 
+  ag.id AS id,
+  v.vei_placa AS veiculo_placa,
+  v.id AS veiculo_id,
+  v.vei_nome_dono AS nome_dono_veiculo,
+  v.vei_telefone_dono AS telefone_dono_veiculo,
+  v.vei_free_servicos AS free_servicos,
+  age_servico AS servico,
+  age_tamanho_veiculo AS tamanho_veiculo,
+  age_local AS local,
+  age_data AS data_agendamento,
+  age_horario AS horario_agendamento,
+  age_valor_total AS valor_total,
+  age_status AS status,
+  ag.date_insert as date_insert,
+  (SELECT COUNT(*)
+     FROM agendamentos
+    WHERE age_id_veiculo = v.id
+      AND age_status = 'PENDENTE') AS qtd_agendamentos_pendentes,
+  (SELECT COUNT(*)
+     FROM agendamentos
+    WHERE age_id_veiculo = v.id
+      AND age_status = 'APROVADO') AS qtd_agendamentos_aprovados,
+  (SELECT COUNT(*)
+     FROM agendamentos
+    WHERE age_id_veiculo = v.id
+      AND age_status = 'REPROVADO') AS qtd_agendamentos_reprovados,
+  (SELECT COUNT(*)
+     FROM agendamentos
+    WHERE age_id_veiculo = v.id) AS qtd_agendamentos_total
+
+     FROM agendamentos ag
+     LEFT JOIN veiculos v 
+       ON v.id = ag.age_id_veiculo
+    ORDER BY ag.date_insert DESC , ag.age_status`;
+
+  db.query(q, (err, data) => {
+    if (err) return res.json(err);
+
+    // Formatar a data antes de enviar para o frontend
+    const formatted = data.map(item => ({
+      ...item,
+      data_agendamento: moment(item.data_agendamento).format('YYYY-MM-DD HH:mm:ss'),
+      date_insert: moment(item.date_insert).format('YYYY-MM-DD HH:mm:ss')
+    }));
+
+    return res.status(200).json(formatted);
   });
 };
 

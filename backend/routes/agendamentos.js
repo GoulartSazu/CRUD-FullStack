@@ -2,13 +2,13 @@ import express from "express";
 import {
   addAgendamento,
   deleteUser,
-  getUsers,
+  getAgendamentos,
   updateUser,
 } from "../controllers/agendamento.js";
 
 const router = express.Router();
 
-router.get("/getAgendamentos", getUsers);
+router.get("/getAgendamentos", getAgendamentos);
 
 router.post("/", addAgendamento);
 
