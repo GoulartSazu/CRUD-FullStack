@@ -15,6 +15,10 @@ const Footer = () => {
               <Link to="/agendamento" className="link">
                 Agendar</Link>
               </li>
+              <li>
+              <Link to="/feedback" className="link">
+                Avaliar</Link>
+              </li>
             </ul>
           </div>
           <div className="footer-col">

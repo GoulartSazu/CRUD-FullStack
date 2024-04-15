@@ -68,3 +68,43 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+CREATE TABLE `splash`.`feedbacks` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `fdb_message` VARCHAR(2000),
+  `fdb_placa` VARCHAR(10),
+  `fdb_stars` integer,
+  `fdb_hash` VARCHAR(300) ,
+  `date_insert` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_update` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+);
+CREATE TABLE `splash`.`agendamentos` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `age_servico` VARCHAR(45) NOT NULL,
+  `age_veiculo` VARCHAR(45) NOT NULL,
+  `age_local` VARCHAR(45) NOT NULL,
+  `age_data` DATE NOT NULL,
+  `age_horario` VARCHAR(45) NULL,
+  `age_valor_total` numeric NOT NULL,
+  `age_status`  VARCHAR(25) NOT NULL,
+  `age_hash` VARCHAR(300),
+  `date_insert` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_update` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+);
+CREATE TABLE `splash`.`users` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `usr_nome` VARCHAR(45) NOT NULL,
+  `usr_email` VARCHAR(45) NOT NULL,
+  `usr_fone` VARCHAR(45) NOT NULL,
+  `usr_cidade` VARCHAR(45) NULL,
+  `usr_bairro` VARCHAR(45) NULL,
+  `usr_rua` VARCHAR(45) NULL,
+  `usr_numero` VARCHAR(45) NULL,
+  `usr_data_nascimento` DATE NOT NULL,
+  `date_insert` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_update` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+);

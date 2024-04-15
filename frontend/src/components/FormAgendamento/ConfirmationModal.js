@@ -79,8 +79,6 @@ const ConfirmationModal = ({ data }) => {
     return string;
   }
 
-  console.log('data.qtdFidelidade',data.qtdFidelidade);
-
   const finishAgendamento = async () => {
     const hashService = `%0A%0A🔹%20Serviço:%20*${formatInfo(
       data.service.toUpperCase(),
@@ -105,7 +103,15 @@ const ConfirmationModal = ({ data }) => {
     const qtdServico = `%0A%0A🔹%20Serviço%20de%20Número:%20*${data.qtdFidelidade}*%20`;
     const hashPrice = `%0A%0A🔹%20*Valor%20Total%20R$%20${data.totalPrice},00*`;
     const hash =
-      hashService + hashLocal + hashVeiculo + hashDate + hashTime + qtdServico + hashPrice;
+      hashService +
+      hashLocal +
+      hashVeiculo +
+      hashDate +
+      hashTime +
+      qtdServico +
+      hashPrice;
+    localStorage.setItem("placa", data.placa ?? "-");
+    localStorage.setItem("hash", hash);
     await axios
       .post("http://localhost:8800/agendamento", {
         age_servico: data.service.toUpperCase(),
@@ -118,8 +124,9 @@ const ConfirmationModal = ({ data }) => {
         vei_placa: data.placa,
         vei_telefone: data.telefone,
         vei_nome: data.nome,
-        vei_free_servicos: free.toUpperCase().includes("PARABÉNS!")  ? true : false
-        
+        vei_free_servicos: free.toUpperCase().includes("PARABÉNS!")
+          ? true
+          : false,
       })
       .then(({ data }) => {
         toast.success(data);
@@ -134,7 +141,6 @@ const ConfirmationModal = ({ data }) => {
         setTimeout(() => {
           toast.success("Você será direcionado em 1");
           setTimeout(() => {
-            localStorage.setItem("hash", hash);
             navigate("/finalizacao");
           }, 1000);
         }, 3000);

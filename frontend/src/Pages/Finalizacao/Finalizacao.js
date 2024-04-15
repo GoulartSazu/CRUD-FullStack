@@ -8,9 +8,8 @@ function Finalizacao() {
   const [title, setTitle] = useState("");
   const [title2, setTitle2] = useState("");
   const hash = localStorage.getItem("hash");
-  const phrase =
-    "AGENDAMENTO CONCLUÍDO COM SUCESSO! ✅";
-    const phrase2 =
+  const phrase = "AGENDAMENTO CONCLUÍDO COM SUCESSO! ✅";
+  const phrase2 =
     "POR FAVOR CONTINUE O PROCESSO PELO CHAT DO WHATSAPP CLICANDO NO BOTÃO ABAIXO 😄";
   const delay = 40;
 
@@ -20,7 +19,7 @@ function Finalizacao() {
     if (hash.length < 50) {
       navigate("/");
     }
-    
+
     const typingInterval = setInterval(() => {
       if (currentIndex <= phrase.length) {
         setTitle(phrase.slice(0, currentIndex));
@@ -29,9 +28,9 @@ function Finalizacao() {
         clearInterval(typingInterval);
       }
     }, delay);
-    
+
     return () => clearInterval(typingInterval);
-  }, [phrase, delay]);
+  }, [phrase, delay, navigate, hash]);
 
   useEffect(() => {
     let currentIndex = 0;
@@ -44,14 +43,19 @@ function Finalizacao() {
         clearInterval(typingInterval2);
       }
     }, delay);
-    
+
     return () => clearInterval(typingInterval2);
   }, [phrase2, delay]);
   return (
     <>
       <Container>
         <Finish>
-          <h2>{title}<br /><br />{title2}</h2>
+          <h2>
+            {title}
+            <br />
+            <br />
+            {title2}
+          </h2>
           <Link
             to={`https://api.whatsapp.com/send?phone=554299858888&text=Olá!%20😃%0ARealizei%20um%20*agendamento*%20pelo%20site,%20segue%20os%20detalhes%20⤵️${hash}`}
             target="_blank"
