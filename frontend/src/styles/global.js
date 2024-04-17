@@ -80,6 +80,51 @@ export const Container = styled.div`
   }
   .dataTable {
     margin: 50px auto;
+    header {
+      justify-content: flex-start;
+    }
+    .rdt_TableCell {
+      input {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background: papayawhip;
+        border-radius: 0px;
+        border: 0px solid #ccc;
+        outline: none;
+        cursor: pointer;
+        position: relative;
+        &::after {
+          content: "🧼";
+          position: absolute;
+          top: 1.5px;
+          left: 2px;
+          font-size: 20px;
+          width: 50px;
+          height: 50px;
+          opacity: 0.2;
+        }
+
+        &:checked {
+          background: rgba(147, 255, 0, 1);
+          &::after {
+            visibility: visible;
+            opacity: 1;
+          }
+        }
+
+        &:hover {
+          background: rgba(147, 255, 0, 0.9);
+          &::after {
+            visibility: visible;
+            opacity: 1;
+          }
+        }
+
+        width: 30px;
+        height: 30px;
+      }
+    }
   }
   h5 {
     margin: 50px auto;
@@ -88,12 +133,11 @@ export const Container = styled.div`
     font-weight: 400;
   }
   @media only screen and (max-width: 950px) {
-  .mob {
+    .mob {
       width: 100%;
       font-size: 14px;
     }
   }
-
 `;
 
 export default Global;

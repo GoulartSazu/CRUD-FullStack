@@ -108,3 +108,6 @@ CREATE TABLE `splash`.`users` (
   `date_update` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 );
+
+ALTER TABLE `splash`.`agendamentos` 
+ADD COLUMN `age_endereco` VARCHAR(300) NULL AFTER `age_status`;

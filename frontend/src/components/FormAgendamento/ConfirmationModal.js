@@ -120,6 +120,7 @@ const ConfirmationModal = ({ data }) => {
         age_data: data.agendamentoDateValue + " 00:00:00",
         age_horario: data.time.toUpperCase(),
         age_valor_total: data.totalPrice,
+        age_endereco: data.endereco,
         age_hash: hash.replace(/🔹/g, ""),
         vei_placa: data.placa,
         vei_telefone: data.telefone,

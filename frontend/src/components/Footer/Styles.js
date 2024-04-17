@@ -78,8 +78,6 @@ export const Foot = styled.div`
   }
   .footer-col ul li a:hover {
     color: #ffffff;
-    margin-bottom: 8px;
-    padding-bottom: 10px;
   }
   .footer-col .social-links a {
     display: inline-block;

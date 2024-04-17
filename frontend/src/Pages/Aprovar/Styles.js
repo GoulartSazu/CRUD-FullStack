@@ -40,7 +40,7 @@ export const TextField = styled.input`
   border: none;
   box-shadow: 0px 0px 5px rgba(255, 255, 255, 0.9);
   font-weight: 300;
-  margin: 20px;
+  margin: 20px 0px;
   line-height: 24px;
   justify-content: center;
   display: flex;

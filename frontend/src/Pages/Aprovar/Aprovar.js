@@ -153,12 +153,12 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
     },
     {
       name: "Nome",
-      selector: (row) => row.nome_dono_veiculo,
+      selector: (row) => row.nome_dono_veiculo ?? "-",
       sortable: true,
     },
     {
       name: "Telefone",
-      selector: (row) => row.telefone_dono_veiculo,
+      selector: (row) => row.telefone_dono_veiculo ?? "-",
     },
     {
       name: "Inserido Em",
@@ -262,7 +262,6 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
           <div className="dataTable">
             <DataTable
               // dense - Para compactar
-              title="Lista de Agendamentos"
               clearSelectedRows={toggleCleared}
               columns={columns}
               data={filteredItems}

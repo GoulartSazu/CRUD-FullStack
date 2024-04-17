@@ -142,6 +142,9 @@ export const FormContainer = styled.form`
   }
   .section {
     margin-bottom: 100px;
+    .loc {
+      width: 100%;
+    }
     .car {
       width: 45%;
     }
@@ -389,7 +392,6 @@ export const InputAreaDate = styled.div`
 `;
 
 export const InputAreaName = styled.div`
-
   width: 20%;
   p {
     margin-bottom: 0;
@@ -454,6 +456,16 @@ export const InputAreaName = styled.div`
       text-align: center;
       margin: 0;
     }
+  }
+  .endereco {
+    font-size: 20px;
+    text-transform: inherit;
+    font-weight: 300;
+    color: white;
+    margin: 20px 0;
+  }
+  .end {
+    width: 50%;
   }
 `;
 

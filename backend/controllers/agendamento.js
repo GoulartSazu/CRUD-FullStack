@@ -25,6 +25,7 @@ export const getAgendamentos = (_, res) => {
   age_data AS data_agendamento,
   age_horario AS horario_agendamento,
   age_valor_total AS valor_total,
+  age_endereco AS endereco,
   age_status AS status,
   ag.date_insert as date_insert,
   (SELECT COUNT(*)
@@ -101,7 +102,7 @@ export const addAgendamento = (req, res) => {
 
     // Se não existir, proceder com a inserção
     const queryInsert =
-      "INSERT INTO agendamentos(`age_servico`, `age_id_veiculo`,`age_tamanho_veiculo`, `age_local`, `age_data`, `age_horario`,  `age_valor_total`,  `age_status`, `age_hash`) VALUES(?)";
+      "INSERT INTO agendamentos(`age_servico`, `age_id_veiculo`,`age_tamanho_veiculo`, `age_local`, `age_data`, `age_horario`,  `age_valor_total`,  `age_status`, `age_endereco`, `age_hash`) VALUES(?)";
 
     const values = [
       req.body.age_servico,
@@ -112,6 +113,7 @@ export const addAgendamento = (req, res) => {
       req.body.age_horario,
       req.body.age_valor_total,
       "PENDENTE",
+      req.body.age_endereco,
       hash,
     ];
 

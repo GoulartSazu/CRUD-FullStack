@@ -123,12 +123,21 @@ const Form = ({ onEdit }) => {
     e.preventDefault();
     const form = ref.current;
 
+    if (checkLocal === "levaTras" || checkLocal === "delivery") {
+      if (form.age_endereco?.value?.length < 10) {
+        return toast.warn("Necessário informar mais detalhes do endereço.");
+      }
+      if (!form.age_endereco.value) {
+        return toast.warn(
+          "Para esse tipo de serviço é necessário informar o endereço."
+        );
+      }
+    }
+
     if (!agendamento) {
       if (form.vei_placa.value) {
         if (form.vei_placa.value.length !== 7) {
-          return toast.warn(
-            "A Placa deve possuir 7 caracteres"
-          );
+          return toast.warn("A Placa deve possuir 7 caracteres");
         }
         if (!form.vei_nome.value || !form.vei_telefone.value) {
           setActive("PARTICIPAR");
@@ -151,9 +160,7 @@ const Form = ({ onEdit }) => {
 
       if (form.vei_telefone.value) {
         if (form.vei_telefone.value.length !== 15) {
-          return toast.warn(
-            "O Número de Telefone deve possuir 15 caracteres"
-          );
+          return toast.warn("O Número de Telefone deve possuir 15 caracteres");
         }
         if (!form.vei_placa.value || !form.vei_nome.value) {
           setActive("PARTICIPAR");
@@ -188,7 +195,7 @@ const Form = ({ onEdit }) => {
             if (data[1] >= 10) {
               if (data[1] % 10 === 1) {
                 toast.success(data[0]);
-                console.log('1', data[1])
+                console.log("1", data[1]);
                 setQtdFidelidade(data[1]);
                 return setFidelidade(
                   `🌟 Parabéns! Esse é seu agendamento de número ${data[1]}! Essa lavagem será 100% gratuita! 🌟`
@@ -196,14 +203,14 @@ const Form = ({ onEdit }) => {
               }
               if (data[1] % 10 === 0) {
                 toast.success(data[0]);
-                console.log('2', data[1])
+                console.log("2", data[1]);
                 setQtdFidelidade(data[1]);
                 return setFidelidade(
                   `Esse é seu agendamento de número ${data[1]}! Sua próxima lavagem será por nossa conta! 😎`
                 );
               }
               qtdAgendamentos = 10 - (data[1] % 10);
-              console.log('3', data[1])
+              console.log("3", data[1]);
               setQtdFidelidade(data[1]);
             }
             setQtdFidelidade(data[1]);
@@ -243,7 +250,7 @@ const Form = ({ onEdit }) => {
             if (data[1] >= 10) {
               if (data[1] % 10 === 1) {
                 toast.success(data[0]);
-                console.log('4', data[1])
+                console.log("4", data[1]);
                 setQtdFidelidade(data[1]);
                 return setFidelidade(
                   `🌟 Parabéns! Esse é seu agendamento de número ${data[1]}! Essa lavagem será 100% gratuita! 🌟`
@@ -251,14 +258,14 @@ const Form = ({ onEdit }) => {
               }
               if (data[1] % 10 === 0) {
                 toast.success(data[0]);
-                console.log('5', data[1])
+                console.log("5", data[1]);
                 setQtdFidelidade(data[1]);
                 return setFidelidade(
                   `Esse é seu agendamento de número ${data[1]}! Sua próxima lavagem será por nossa conta! 😎`
                 );
               }
               qtdAgendamentos = 10 - (data[1] % 10);
-              console.log('6', data[1])
+              console.log("6", data[1]);
               setQtdFidelidade(data[1]);
             }
             setQtdFidelidade(data[1]);
@@ -314,7 +321,7 @@ const Form = ({ onEdit }) => {
             if (data[1] >= 10) {
               if (data[1] % 10 === 1) {
                 toast.success(data[0]);
-                console.log('7', data[1])
+                console.log("7", data[1]);
                 setQtdFidelidade(data[1]);
                 return setFidelidade(
                   `🌟 Parabéns! Esse é seu agendamento de número ${data[1]}! Essa lavagem será 100% gratuita! 🌟`
@@ -322,14 +329,14 @@ const Form = ({ onEdit }) => {
               }
               if (data[1] % 10 === 0) {
                 toast.success(data[0]);
-                console.log('8', data[1])
+                console.log("8", data[1]);
                 setQtdFidelidade(data[1]);
                 return setFidelidade(
                   `Esse é seu agendamento de número ${data[1]}! Sua próxima lavagem será por nossa conta! 😎`
                 );
               }
               qtdAgendamentos = 10 - (data[1] % 10);
-              console.log('9', data[1])
+              console.log("9", data[1]);
               setQtdFidelidade(data[1]);
             }
             setQtdFidelidade(data[1]);
@@ -393,22 +400,23 @@ const Form = ({ onEdit }) => {
     if (checkLocal === "delivery") {
       totalPrice = totalPrice + 20;
     }
-    console.log(qtdFidelidade, 'wtf')
-    
 
     const data = {
       service: checkService,
       car: checkCar,
       local: checkLocal,
       time: checkTime,
+      endereco: form.age_endereco?.value ? form.age_endereco.value.toUpperCase() : null,
       agendamentoDate: selectedDate,
       agendamentoDateValue: form.age_data.value,
       totalPrice: totalPrice,
       fidelidade: fidelidade,
       placa: form.vei_placa.value ? form.vei_placa.value.toUpperCase() : null,
-      telefone: form.vei_telefone.value ? form.vei_telefone.value.toUpperCase() : null,
+      telefone: form.vei_telefone.value
+        ? form.vei_telefone.value.toUpperCase()
+        : null,
       nome: form.vei_nome.value ? form.vei_nome.value.toUpperCase() : null,
-      qtdFidelidade: qtdFidelidade
+      qtdFidelidade: qtdFidelidade,
     };
 
     if (agendamento) {
@@ -522,6 +530,17 @@ const Form = ({ onEdit }) => {
               para você
             </CheckboxButton>
           </SelectionContainer>
+          {(checkLocal === "levaTras" || checkLocal === "delivery") && (
+            <InputAreaName className="loc">
+              <p className="endereco">Por favor, informe seu endereço ⬇️</p>
+              <Input
+                placeholder="Endereço"
+                name="age_endereco"
+                className="end"
+                type="text"
+              />
+            </InputAreaName>
+          )}
         </div>
 
         <div className="section">
