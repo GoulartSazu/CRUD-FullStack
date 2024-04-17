@@ -16,9 +16,9 @@ import {
 import { toast } from "react-toastify";
 import { Container } from "../../styles/global";
 import ConfirmationModal from "./ConfirmationModal.js";
-import Modal from "react-modal"; // Importe a referência ao elemento raiz
+import Modal from "react-modal";
 
-const Form = ({ getUsers, onEdit, setOnEdit }) => {
+const Form = ({ onEdit }) => {
   const ref = useRef();
   const [checkService, setCheckService] = useState("lavagemCompleta");
   const [checkCar, setCheckCar] = useState(null);
@@ -377,16 +377,16 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
     let totalPrice = 0;
 
     if (checkService === "lavagemCompleta") {
-      totalPrice = 100;
+      totalPrice = 105;
       if (checkCar === "medio") {
-        totalPrice = 80;
+        totalPrice = 85;
       }
     }
 
     if (checkService !== "lavagemCompleta") {
-      totalPrice = 60;
+      totalPrice = 65;
       if (checkCar === "medio") {
-        totalPrice = 50;
+        totalPrice = 55;
       }
     }
 

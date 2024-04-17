@@ -28,34 +28,62 @@ export const Th = styled.th`
 `;
 
 export const TextField = styled.input`
-height: 32px;
-width: 200px;
-border-radius: 3px;
-border-top-left-radius: 5px;
-border-bottom-left-radius: 5px;
-border-top-right-radius: 0;
-border-bottom-right-radius: 0;
-border: 1px solid #e5e5e5;
-padding: 0 32px 0 16px;
-
-&:hover {
+  width: 400px;
+  font-size: 14px;
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+  background: linear-gradient(to bottom right, #800080, #4b0082);
+  color: white;
+  letter-spacing: 1px;
   cursor: pointer;
-}
+  border: none;
+  box-shadow: 0px 0px 5px rgba(255, 255, 255, 0.9);
+  font-weight: 300;
+  margin: 20px;
+  line-height: 24px;
+  justify-content: center;
+  display: flex;
+  color: white;
+
+  :hover {
+    cursor: pointer;
+  }
+  :focus-visible {
+    border: none;
+    outline: none;
+  }
+  ::placeholder {
+    color: white;
+    opacity: 0.7;
+  }
 `;
 
 export const ClearButton = styled.button`
-border-top-left-radius: 0;
-border-bottom-left-radius: 0;
-border-top-right-radius: 5px;
-border-bottom-right-radius: 5px;
-height: 34px;
-width: 32px;
-text-align: center;
-display: flex;
-align-items: center;
-justify-content: center;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  height: 34px;
+  width: 32px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
+export const Button = styled.button`
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  height: 34px;
+  width: 32px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 export const Td = styled.td`
   padding-top: 15px;

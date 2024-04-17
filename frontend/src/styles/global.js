@@ -44,6 +44,49 @@ export const Container = styled.div`
   width: 95%;
   margin: auto;
   max-width: 1800px;
+  .log {
+    width: 100%;
+    height: 200px;
+    font-size: 55px;
+    padding: 100px;
+    border-radius: 5px;
+    background: linear-gradient(to bottom right, #800080, #4b0082);
+    color: white;
+    letter-spacing: 5px;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0px 0px 5px rgba(255, 255, 255, 0.9);
+    font-weight: 300;
+    width: 60%;
+    margin: 200px auto;
+    line-height: 24px;
+    justify-content: center;
+    display: flex;
+
+    :focus-visible {
+      border: none;
+      outline: none;
+    }
+    ::placeholder {
+      color: white;
+      opacity: 0.5;
+    }
+    ::-webkit-calendar-picker-indicator {
+      /* Filter para ajustar a cor do ícone para branco */
+      filter: brightness(0) invert(1);
+      font-size: 30px;
+      cursor: pointer;
+    }
+  }
+  .dataTable {
+    margin: 50px auto;
+  }
+  h5 {
+    margin: 50px auto;
+    font-size: 30px;
+    letter-spacing: 3px;
+    font-weight: 400;
+  }
   @media only screen and (max-width: 950px) {
   .mob {
       width: 100%;
