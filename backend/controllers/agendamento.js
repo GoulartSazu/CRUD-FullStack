@@ -47,7 +47,14 @@ export const getAgendamentos = (_, res) => {
      FROM agendamentos ag
      LEFT JOIN veiculos v 
        ON v.id = ag.age_id_veiculo
-    ORDER BY ag.date_insert DESC , ag.age_status`;
+    ORDER BY 
+    CASE 
+        WHEN ag.age_status = 'PENDENTE' THEN 1
+        WHEN ag.age_status = 'APROVADO' THEN 2
+        WHEN ag.age_status = 'REPROVADO' THEN 3
+        WHEN ag.age_status = 'CANCELADO' THEN 4
+        ELSE 5 
+    END, ag.age_data`;
 
   db.query(q, (err, data) => {
     if (err) return res.json(err);

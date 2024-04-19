@@ -187,7 +187,7 @@ const ConfirmationModal = ({ data }) => {
         <h4>VALOR TOTAL R${data.totalPrice},00</h4>
         <p>
           *Sujeito a mudanças de valores de acordo com a localização e veículos
-          de altos padrões.
+          de altos padrões. Cancelamento sem custos até 12 horas antes do serviço, após isso será cobrado uma taxa de 30% do preço total.
         </p>
       </Confirmation>
       <Button

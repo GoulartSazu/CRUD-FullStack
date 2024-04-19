@@ -30,7 +30,6 @@ export const Finish = styled.div`
     width: 72%;
     text-align: center;
     margin-top: 100px;
-
   }
 
   button {
@@ -45,7 +44,7 @@ export const Finish = styled.div`
     font-size: 30px;
     margin: 100px auto;
     background: linear-gradient(to bottom right, #800080, #4b0082);
-    box-shadow: rgb(255, 255, 255, 0.5) 0px 0px 55px;
+    box-shadow: rgb(255, 255, 255, 0.5) 0px 0px 20px;
     border-radius: 10px;
     z-index: 0;
     overflow: hidden;
@@ -67,7 +66,7 @@ export const Finish = styled.div`
     text-decoration: none !important;
   }
   button:hover {
-    box-shadow: rgb(255, 255, 255, 1) 2px 2px 99px;
+    box-shadow: rgb(255, 255, 255, 1) 2px 2px 30px;
     border-radius: 1005px;
   }
   /* bubbles */
@@ -155,37 +154,48 @@ export const Finish = styled.div`
       transform: translate(0, -66.666%);
     }
   }
+  .cancel {
+    button {
+      padding: 20px;
+      font-size: 20px;
+      background: linear-gradient(to bottom right, #800080, #7c0e0e, #4b0082);
+      box-shadow: none;
+      :hover {
+        box-shadow: none;
+        border-radius: 5px;
+        background: linear-gradient(to bottom right, #800080, #BC1B1B, #4b0082);
+      }
+    }
+  }
   @media only screen and (max-width: 950px) {
-  h1 {
-    font-size: 30px;
-    top: 9px;
+    h1 {
+      font-size: 30px;
+      top: 9px;
+    }
+    img {
+      width: 100px;
+    }
+    h2 {
+      font-size: 24px;
+      margin: 40px auto auto;
+    }
+    button {
+      margin: 40px auto;
+      font-size: 15px;
+      padding: 10px;
+      width: 88%;
+      text-align: center;
+      justify-content: center;
+    }
+    video {
+      width: 88%;
+      margin: 0 auto 40px;
+    }
+    .videos {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      gap: 0;
+    }
   }
-  img {
-    width: 100px;
-  }
-  h2 {
-    font-size: 24px;
-    margin: 40px auto auto;
-  }
-  button {
-    margin: 40px auto;
-    font-size: 15px;
-    padding: 10px;
-    width: 88%;
-    text-align: center;
-    justify-content: center;
-  }
-  video {
-    width: 88%;
-    margin: 0 auto 40px;
-    
-  
-  }
-  .videos {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    gap: 0;
-  }
-}
 `;

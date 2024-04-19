@@ -107,32 +107,10 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
 
   const columns = [
     {
-      name: "Placa",
-      selector: (row) => row.veiculo_placa ?? "-",
+      name: "Status",
+      selector: (row) => row.status,
       sortable: true,
-    },
-    {
-      name: "Valor",
-      selector: (row) => parseFloat(row.valor_total),
-      sortable: true,
-      width: "150px",
-      format: (row) => `R$ ${row.valor_total},00`,
-    },
-    {
-      name: "Serviço",
-      selector: (row) => row.servico,
-      sortable: true,
-      width: "250px",
-    },
-    {
-      name: "Tamanho",
-      selector: (row) => row.tamanho_veiculo,
-      sortable: true,
-    },
-    {
-      name: "Local",
-      selector: (row) => row.local,
-      sortable: true,
+      width: "150px"
     },
     {
       name: "Data",
@@ -145,28 +123,58 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
       name: "Horário",
       selector: (row) => row.horario_agendamento,
       sortable: true,
+      width: "120px",
     },
     {
-      name: "Status",
-      selector: (row) => row.status,
+      name: "Endereço",
+      selector: (row) => row.endereco,
+      sortable: false,
+      width: "600px",
+    },
+    {
+      name: "Serviço",
+      selector: (row) => row.servico,
+      sortable: true,
+      width: "250px",
+    },
+    {
+      name: "Local",
+      selector: (row) => row.local,
       sortable: true,
     },
     {
-      name: "Nome",
-      selector: (row) => row.nome_dono_veiculo ?? "-",
-      sortable: true,
-    },
-    {
-      name: "Telefone",
-      selector: (row) => row.telefone_dono_veiculo ?? "-",
-    },
-    {
-      name: "Inserido Em",
-      selector: (row) => row.date_insert,
+      name: "Valor",
+      selector: (row) => parseFloat(row.valor_total),
       sortable: true,
       width: "150px",
-      format: (row) => formatDate(row.date_insert),
+      format: (row) => `R$ ${row.valor_total},00`,
     },
+    // {
+    //   name: "Placa",
+    //   selector: (row) => row.veiculo_placa ?? "-",
+    //   sortable: true,
+    // },
+    // {
+    //   name: "Tamanho",
+    //   selector: (row) => row.tamanho_veiculo,
+    //   sortable: true,
+    // },
+    // {
+    //   name: "Nome",
+    //   selector: (row) => row.nome_dono_veiculo ?? "-",
+    //   sortable: true,
+    // },
+    // {
+    //   name: "Telefone",
+    //   selector: (row) => row.telefone_dono_veiculo ?? "-",
+    // },
+    // {
+    //   name: "Inserido Em",
+    //   selector: (row) => row.date_insert,
+    //   sortable: true,
+    //   width: "150px",
+    //   format: (row) => formatDate(row.date_insert),
+    // },
   ];
 
   const MyExpander = (props) => <div>{props.data.tamanho_veiculo}</div>;
@@ -206,6 +214,16 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
         },
       },
     },
+    {
+    when: (row) => row.status === "CANCELADO",
+    style: {
+      backgroundColor: "rgba(108, 108, 108, 1)",
+      color: "white",
+      "&:hover": {
+        cursor: "pointer",
+      },
+    },
+  },
     {
       when: (row) => row.status === "REPROVADO",
       style: {
