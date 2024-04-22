@@ -45,7 +45,7 @@ export const HomePage = styled.div`
     font-size: 30px;
     margin: 100px auto;
     background: linear-gradient(to bottom right, #800080, #4b0082);
-    box-shadow: rgb(255, 255, 255, 0.5) 0px 0px 55px;
+    box-shadow: rgb(255, 255, 255, 0.5) 0px 0px 10px;
     border-radius: 10px;
     z-index: 0;
     overflow: hidden;
@@ -57,7 +57,7 @@ export const HomePage = styled.div`
     text-decoration: none !important;
   }
   button:hover {
-    box-shadow: rgb(255, 255, 255, 1) 2px 2px 99px;
+    box-shadow: rgb(255, 255, 255, 1) 2px 2px 20px;
     border-radius: 1005px;
   }
   /* bubbles */

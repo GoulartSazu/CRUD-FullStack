@@ -81,7 +81,7 @@ export const Container = styled.div`
   .dataTable {
     margin: 50px auto;
     header {
-      justify-content: flex-start;
+      justify-content: space-between;
     }
     .rdt_TableCell {
       input {
@@ -131,6 +131,19 @@ export const Container = styled.div`
     font-size: 30px;
     letter-spacing: 3px;
     font-weight: 400;
+  }
+  #reprovar {
+    background: linear-gradient(to bottom right, #ff0000, #900000, #6e0000);
+  }
+  #cancelar {
+    background: linear-gradient(to bottom right, #4e4c4c, #272424, #000000);
+  }
+  .active {
+    opacity: 1 !important;
+    pointer-events: all !important;
+    :hover {
+      cursor: pointer !important;
+    }
   }
   @media only screen and (max-width: 950px) {
     .mob {

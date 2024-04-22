@@ -1,17 +1,40 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { FaTrash, FaEdit } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { TextField, Button } from "./Styles";
+import { TextField, Button, Detalhes } from "./Styles";
 import DataTable from "react-data-table-component";
 import { Container } from "../../styles/global";
 
-const FilterGlobal = ({ filterText, onFilter, onClear }) => (
+const FilterGlobal = ({ filterText, onFilter, selectedRows }) => (
   <>
+    <Button
+      type="button"
+      className={selectedRows?.length > 0 ? "active" : "inative"}
+      onChange={onFilter}
+    >
+      APROVAR
+    </Button>
+    {console.log("kkkkk", selectedRows)}
+    <Button
+      id="reprovar"
+      type="button"
+      className={selectedRows?.length > 0 ? "active" : "inative"}
+      onChange={onFilter}
+    >
+      REPROVAR
+    </Button>
+    <Button
+      id="cancelar"
+      type="button"
+      className={selectedRows?.length > 0 ? "active" : "inative"}
+      onChange={onFilter}
+    >
+      CANCELAR
+    </Button>
     <TextField
       id="search"
       type="text"
-      placeholder="FILTRE POR PLACA, NOME OU SERVIÇO"
+      placeholder="FILTRE POR PLACA, NOME OU SERVIÇO 🔎"
       aria-label="Search Input"
       value={filterText}
       onChange={onFilter}
@@ -27,7 +50,6 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
   const [filterText, setFilterText] = useState("");
   const [filterTextService, setFilterTextService] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  const [selectedLinha, setSelectedLinha] = useState([]);
   const [login, setLogin] = useState(
     localStorage.getItem("log") === "PÃO DA VÓ" ?? false
   );
@@ -57,12 +79,13 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
       <>
         <FilterGlobal
           onFilter={(e) => setFilterText(e.target.value)}
+          selectedRows={selectedRows}
           onClear={handleClear}
           filterText={filterText}
         />
       </>
     );
-  }, [filterText, resetPaginationToggle, filterTextService]);
+  }, [filterText, resetPaginationToggle, filterTextService, selectedRows]);
 
   const getAgendamentos = async () => {
     try {
@@ -75,6 +98,10 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
       toast.error(error);
     }
   };
+
+  useEffect(() => {
+    console.log("state", selectedRows);
+  }, [selectedRows]);
 
   useEffect(() => {
     if (loading) {
@@ -105,18 +132,33 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
     return date.toLocaleDateString("pt-BR");
   };
 
+  const formatServicoLocal = (servicoLocal) => {
+    switch (servicoLocal) {
+      case "LAVAGEMCOMPLETA":
+        return "LAVAGEM COMPLETA";
+      case "ESPACOSPLASH":
+        return "ESPAÇO SPLASH";
+      case "LEVATRAS":
+        return "LEVA E TRAZ";
+      default:
+        return servicoLocal;
+    }
+  };
+
   const columns = [
     {
       name: "Status",
       selector: (row) => row.status,
       sortable: true,
-      width: "150px"
+      width: "150px",
+      reorder: true,
     },
     {
       name: "Data",
       selector: (row) => row.data_agendamento,
       sortable: true,
       width: "150px",
+      reorder: true,
       format: (row) => formatDate(row.data_agendamento),
     },
     {
@@ -124,23 +166,29 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
       selector: (row) => row.horario_agendamento,
       sortable: true,
       width: "120px",
+      reorder: true,
+    },
+
+    {
+      name: "Serviço",
+      selector: (row) => formatServicoLocal(row.servico),
+      sortable: true,
+      width: "250px",
+      reorder: true,
+    },
+    {
+      name: "Local",
+      selector: (row) => formatServicoLocal(row.local),
+      sortable: true,
+      width: "250px",
+      reorder: true,
     },
     {
       name: "Endereço",
       selector: (row) => row.endereco,
       sortable: false,
-      width: "600px",
-    },
-    {
-      name: "Serviço",
-      selector: (row) => row.servico,
-      sortable: true,
-      width: "250px",
-    },
-    {
-      name: "Local",
-      selector: (row) => row.local,
-      sortable: true,
+      width: "350px",
+      reorder: true,
     },
     {
       name: "Valor",
@@ -148,47 +196,105 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
       sortable: true,
       width: "150px",
       format: (row) => `R$ ${row.valor_total},00`,
+      reorder: true,
     },
-    // {
-    //   name: "Placa",
-    //   selector: (row) => row.veiculo_placa ?? "-",
-    //   sortable: true,
-    // },
-    // {
-    //   name: "Tamanho",
-    //   selector: (row) => row.tamanho_veiculo,
-    //   sortable: true,
-    // },
-    // {
-    //   name: "Nome",
-    //   selector: (row) => row.nome_dono_veiculo ?? "-",
-    //   sortable: true,
-    // },
-    // {
-    //   name: "Telefone",
-    //   selector: (row) => row.telefone_dono_veiculo ?? "-",
-    // },
-    // {
-    //   name: "Inserido Em",
-    //   selector: (row) => row.date_insert,
-    //   sortable: true,
-    //   width: "150px",
-    //   format: (row) => formatDate(row.date_insert),
-    // },
+    {
+      name: "Ações",
+      cell: (row) => (
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Button
+            type="button"
+            className={selectedRows?.[0]?.id === row?.id ? "active" : "inative"}
+            onClick={(e) => {
+              e.preventDefault();
+              console.log(row?.id);
+            }}
+          >
+            ✔️
+          </Button>
+          <Button
+            id="reprovar"
+            type="button"
+            className={selectedRows?.[0]?.id === row?.id ? "active" : "inative"}
+            onClick={(e) => {
+              e.preventDefault();
+              console.log(row?.id);
+            }}
+          >
+            ❌
+          </Button>
+          <Button
+            id="cancelar"
+            type="button"
+            className={selectedRows?.[0]?.id === row?.id ? "active" : "inative"}
+            onClick={(e) => {
+              e.preventDefault();
+              console.log(row.id);
+            }}
+          >
+            ❗️
+          </Button>
+        </div>
+      ),
+      allowOverflow: true,
+      button: true,
+      width: "300px",
+      reorder: true,
+    },
   ];
 
-  const MyExpander = (props) => <div>{props.data.tamanho_veiculo}</div>;
-
+  const MyExpander = (props) => (
+    <Detalhes>
+      <h3>DETALHES DO AGENDAMENTO NÚMERO {props.data?.id}</h3>
+      <div>
+        <div>ENDEREÇO COMPLETO 📍 {props.data?.endereco}</div>
+        <div>TAMANHO DO VEÍCULO 🚗 {props.data?.tamanho_veiculo}</div>
+      </div>
+      <div>
+        <div>STATUS 🔥 {props.data?.status}</div>
+        <div>TIPO DO SERVIÇO 🚿 {formatServicoLocal(props.data?.servico)}</div>
+      </div>
+      <div>
+        <div>
+          DATA DATA LAVAGEM 📅 {formatDate(props.data?.data_agendamento)}
+        </div>
+        <div>HORÁRIO 🕒 {props.data?.horario_agendamento}</div>
+      </div>
+      <div>
+        <div>LOCAL 📌 {formatServicoLocal(props.data?.local)}</div>
+        <div>VALOR TOTAL 💸 R${props.data?.valor_total},00</div>
+      </div>
+      <div>
+        <div>PLACA 🚘 {props.data?.veiculo_placa ?? "(NÃO PREENCHIDO)"}</div>
+        <div>
+          DONO DO VEÍCULO 👦🏻{" "}
+          {props.data?.nome_dono_veiculo ?? "(NÃO PREENCHIDO)"}
+        </div>
+      </div>
+      <div>
+        <div>
+          TELEFONE 📱 {props.data.telefone_dono_veiculo ?? "(NÃO PREENCHIDO)"}
+        </div>
+        <div>INSERIDO EM 📁 {formatDate(props.data?.date_insert)}</div>
+      </div>
+    </Detalhes>
+  );
   const customStyles = {
     rows: {
       style: {
         fontSize: "16px",
-        letterSpacing: "1px", // Defina o tamanho da fonte desejado
+        letterSpacing: "1px",
+        whiteSpace: "normal",
+      },
+    },
+    cells: {
+      style: {
+        whiteSpace: "normal",
       },
     },
     headCells: {
       style: {
-        fontSize: "18px", // Defina o tamanho da fonte do cabeçalho desejado
+        fontSize: "18px",
       },
     },
   };
@@ -215,15 +321,15 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
       },
     },
     {
-    when: (row) => row.status === "CANCELADO",
-    style: {
-      backgroundColor: "rgba(108, 108, 108, 1)",
-      color: "white",
-      "&:hover": {
-        cursor: "pointer",
+      when: (row) => row.status === "CANCELADO",
+      style: {
+        backgroundColor: "rgba(108, 108, 108, 1)",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
+        },
       },
     },
-  },
     {
       when: (row) => row.status === "REPROVADO",
       style: {
