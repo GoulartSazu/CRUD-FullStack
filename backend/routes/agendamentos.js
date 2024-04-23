@@ -3,7 +3,7 @@ import {
   addAgendamento,
   deleteUser,
   getAgendamentos,
-  updateUser,
+  updateAgendamento,
 } from "../controllers/agendamento.js";
 
 const router = express.Router();
@@ -12,7 +12,7 @@ router.get("/getAgendamentos", getAgendamentos);
 
 router.post("/", addAgendamento);
 
-router.put("/:id", updateUser);
+router.put("/:id", updateAgendamento);
 
 router.delete("/:id", deleteUser);
 

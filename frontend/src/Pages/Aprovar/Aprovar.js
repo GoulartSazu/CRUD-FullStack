@@ -4,32 +4,33 @@ import { toast } from "react-toastify";
 import { TextField, Button, Detalhes } from "./Styles";
 import DataTable from "react-data-table-component";
 import { Container } from "../../styles/global";
+import Modal from "react-modal";
+import ConfirmationAcao from "./ConfirmationAcao.js";
 
-const FilterGlobal = ({ filterText, onFilter, selectedRows }) => (
+const FilterGlobal = ({ filterText, onFilter, selectedRows, handleClick }) => (
   <>
     <Button
       type="button"
       className={selectedRows?.length > 0 ? "active" : "inative"}
-      onChange={onFilter}
+      onClick={() => handleClick("APROVAR")}
     >
-      APROVAR
+      APROVAR ✔️
     </Button>
-    {console.log("kkkkk", selectedRows)}
     <Button
       id="reprovar"
       type="button"
       className={selectedRows?.length > 0 ? "active" : "inative"}
-      onChange={onFilter}
+      onClick={() => handleClick("REPROVAR")}
     >
-      REPROVAR
+      REPROVAR ❌
     </Button>
     <Button
       id="cancelar"
       type="button"
       className={selectedRows?.length > 0 ? "active" : "inative"}
-      onChange={onFilter}
+      onClick={() => handleClick("CANCELAR")}
     >
-      CANCELAR
+      CANCELAR ❗️
     </Button>
     <TextField
       id="search"
@@ -45,9 +46,12 @@ const FilterGlobal = ({ filterText, onFilter, selectedRows }) => (
 const Aprovar = ({ users, setUsers, setOnEdit }) => {
   const [agendamentos, setAgendamentos] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedRows, setSelectedRows] = React.useState([]);
-  const [toggleCleared, setToggleCleared] = React.useState(false);
+  const [contentWidth, setContentWidth] = useState("40%");
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [toggledClearRows, setToggleClearRows] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [filterText, setFilterText] = useState("");
+  const [infosAgendamento, setInfosAgendamento] = useState({});
   const [filterTextService, setFilterTextService] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [login, setLogin] = useState(
@@ -75,10 +79,30 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
       }
     };
 
+    const handleClick = (acao) => {
+      if (selectedRows.length > 0) {
+        const id = selectedRows[0]?.id;
+        if (acao === "APROVAR") {
+          setInfosAgendamento({ id, acao: "APROVAR" });
+        } else if (acao === "REPROVAR") {
+          setInfosAgendamento({ id, acao: "REPROVAR" });
+        } else if (acao === "CANCELAR") {
+          setInfosAgendamento({ id, acao: "CANCELAR" });
+        }
+        setIsModalOpen(true);
+
+        const contentElement = document.querySelector(".content");
+        if (contentElement) {
+          contentElement.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    };
+
     return (
       <>
         <FilterGlobal
           onFilter={(e) => setFilterText(e.target.value)}
+          handleClick={handleClick}
           selectedRows={selectedRows}
           onClear={handleClear}
           filterText={filterText}
@@ -92,6 +116,8 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
       const res = await axios.get(
         "http://localhost:8800/agendamento/getAgendamentos"
       );
+      setSelectedRows([]);
+      setToggleClearRows(!toggledClearRows);
       setAgendamentos(res.data);
       setLoading(false);
     } catch (error) {
@@ -100,32 +126,30 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
   };
 
   useEffect(() => {
-    console.log("state", selectedRows);
-  }, [selectedRows]);
+    const fetchData = async () => {
+      if (loading) {
+        await getAgendamentos();
+      }
+    };
+
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading, agendamentos]);
 
   useEffect(() => {
-    if (loading) {
-      getAgendamentos();
-    }
-  }, [loading]);
+    const handleResize = () => {
+      if (window.innerWidth <= 950) {
+        setContentWidth("inherit");
+      } else {
+        setContentWidth("40%");
+      }
+    };
 
-  const handleEdit = (item) => {
-    setOnEdit(item);
-  };
+    window.addEventListener("resize", handleResize);
+    handleResize();
 
-  const handleDelete = async (id) => {
-    await axios
-      .delete("http://localhost:8800/" + id)
-      .then(({ data }) => {
-        const newArray = users.filter((user) => user.id !== id);
-
-        setUsers(newArray);
-        toast.success(data);
-      })
-      .catch(({ data }) => toast.error(data));
-
-    setOnEdit(null);
-  };
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -165,10 +189,9 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
       name: "Horário",
       selector: (row) => row.horario_agendamento,
       sortable: true,
-      width: "120px",
+      width: "115px",
       reorder: true,
     },
-
     {
       name: "Serviço",
       selector: (row) => formatServicoLocal(row.servico),
@@ -180,7 +203,7 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
       name: "Local",
       selector: (row) => formatServicoLocal(row.local),
       sortable: true,
-      width: "250px",
+      width: "200px",
       reorder: true,
     },
     {
@@ -194,7 +217,7 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
       name: "Valor",
       selector: (row) => parseFloat(row.valor_total),
       sortable: true,
-      width: "150px",
+      width: "120px",
       format: (row) => `R$ ${row.valor_total},00`,
       reorder: true,
     },
@@ -207,7 +230,8 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
             className={selectedRows?.[0]?.id === row?.id ? "active" : "inative"}
             onClick={(e) => {
               e.preventDefault();
-              console.log(row?.id);
+              setInfosAgendamento({ id: row?.id, acao: "APROVAR" });
+              setIsModalOpen(true);
             }}
           >
             ✔️
@@ -218,7 +242,8 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
             className={selectedRows?.[0]?.id === row?.id ? "active" : "inative"}
             onClick={(e) => {
               e.preventDefault();
-              console.log(row?.id);
+              setInfosAgendamento({ id: row?.id, acao: "REPROVAR" });
+              setIsModalOpen(true);
             }}
           >
             ❌
@@ -229,7 +254,8 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
             className={selectedRows?.[0]?.id === row?.id ? "active" : "inative"}
             onClick={(e) => {
               e.preventDefault();
-              console.log(row.id);
+              setInfosAgendamento({ id: row?.id, acao: "CANCELAR" });
+              setIsModalOpen(true);
             }}
           >
             ❗️
@@ -245,7 +271,9 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
 
   const MyExpander = (props) => (
     <Detalhes>
-      <h3>DETALHES DO AGENDAMENTO NÚMERO {props.data?.id}</h3>
+      <h3>
+        DETALHES DO AGENDAMENTO NÚMERO <strong>{props.data?.id}</strong>
+      </h3>
       <div>
         <div>ENDEREÇO COMPLETO 📍 {props.data?.endereco}</div>
         <div>TAMANHO DO VEÍCULO 🚗 {props.data?.tamanho_veiculo}</div>
@@ -346,38 +374,42 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
     setSelectedRows(state.selectedRows);
   }, []);
 
-  const contextActions = React.useMemo(() => {
-    const handleDelete = () => {
-      if (
-        window.confirm(
-          `SAZU = :\r ${selectedRows.map((r) => r.veiculo_placa)}?`
-        )
-      ) {
-        setToggleCleared(!toggleCleared);
-      }
-    };
-
-    return (
-      <Button
-        key="delete"
-        onClick={handleDelete}
-        style={{ backgroundColor: "red" }}
-        icon
-      >
-        Delete
-      </Button>
-    );
-  }, [filteredItems, selectedRows, toggleCleared]);
-
   return (
     <>
+      <Modal
+        style={{
+          overlay: {
+            backgroundColor: "rgba(255, 255, 255, 0.5)",
+            zIndex: "3",
+          },
+          content: {
+            width: contentWidth,
+            margin: "auto",
+            background:
+              "linear-gradient(to bottom right,  #5c0a5c,#0F1B38, #4b0082",
+            borderRadius: "10px",
+            border: "0px",
+            padding: "40px",
+            height: "300px",
+            display: "flex",
+            alignItems: "center",
+          },
+        }}
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+      >
+        <ConfirmationAcao
+          data={infosAgendamento}
+          onCloseModal={() => setIsModalOpen(false)}
+          onGetAgendamentos={() => getAgendamentos()}
+        />
+      </Modal>
       <Container>
         {!login ? (
           <input
             className="log"
             onChange={(e) => {
               if (e.target.value === "PÃO DA VÓ") {
-                localStorage.setItem("log", e.target.value);
                 setLogin(true);
               }
             }}
@@ -386,10 +418,9 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
           <div className="dataTable">
             <DataTable
               // dense - Para compactar
-              clearSelectedRows={toggleCleared}
+              clearSelectedRows={toggledClearRows}
               columns={columns}
               data={filteredItems}
-              contextActions={contextActions}
               onSelectedRowsChange={handleRowSelected}
               conditionalRowStyles={conditionalRowStyles}
               selectableRows

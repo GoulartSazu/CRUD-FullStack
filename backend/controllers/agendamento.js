@@ -1,5 +1,5 @@
 import { db } from "../db.js";
-import moment from 'moment';
+import moment from "moment";
 
 export const getUsers = (_, res) => {
   const q = "SELECT * FROM users";
@@ -60,10 +60,12 @@ export const getAgendamentos = (_, res) => {
     if (err) return res.json(err);
 
     // Formatar a data antes de enviar para o frontend
-    const formatted = data.map(item => ({
+    const formatted = data.map((item) => ({
       ...item,
-      data_agendamento: moment(item.data_agendamento).format('YYYY-MM-DD HH:mm:ss'),
-      date_insert: moment(item.date_insert).format('YYYY-MM-DD HH:mm:ss')
+      data_agendamento: moment(item.data_agendamento).format(
+        "YYYY-MM-DD HH:mm:ss"
+      ),
+      date_insert: moment(item.date_insert).format("YYYY-MM-DD HH:mm:ss"),
     }));
 
     return res.status(200).json(formatted);
@@ -138,22 +140,29 @@ export const addAgendamento = (req, res) => {
   });
 };
 
-export const updateUser = (req, res) => {
+export const updateAgendamento = (req, res) => {
   const queryUpdate =
-    "UPDATE users SET `usr_nome` = ?, `usr_email` = ?, `usr_fone` = ?, `usr_data_nascimento` = ?, `date_update` = ? WHERE `id` = ?";
+    "UPDATE agendamentos SET `age_status` =  ? WHERE `id` = ?";
 
-  const values = [
-    req.body.usr_nome,
-    req.body.usr_email,
-    req.body.usr_fone,
-    req.body.usr_data_nascimento,
-    req.body.date_update,
-  ];
+  if (req.body.pw !== "PÃO DA VÓ") {
+    return res
+      .status(400)
+      .json("Usuário sem permissão para atualizar agendamento.");
+  }
 
-  db.query(queryUpdate, [...values, req.params.id], (err) => {
+  const status =
+    req.body.age_status === "APROVAR"
+      ? "APROVADO"
+      : req.body.age_status === "CANCELAR"
+      ? "CANCELADO"
+      : req.body.age_status === "REPROVAR"
+      ? "REPROVADO"
+      : "PENDENTE";
+
+  db.query(queryUpdate, [...[status], req.params.id], (err) => {
     if (err) return res.json(err);
 
-    return res.status(200).json("Usuário atualizado com sucesso.");
+    return res.status(200).json("Agendamento " + status + " com sucesso.");
   });
 };
 
