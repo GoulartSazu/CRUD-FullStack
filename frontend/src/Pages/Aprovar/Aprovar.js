@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { TextField, Button, Detalhes } from "./Styles";
+import { TextField, Button, Detalhes, ButtonAtualizar } from "./Styles";
 import DataTable from "react-data-table-component";
 import { Container } from "../../styles/global";
 import Modal from "react-modal";
@@ -30,7 +30,7 @@ const FilterGlobal = ({ filterText, onFilter, selectedRows, handleClick }) => (
       className={selectedRows?.length > 0 ? "active" : "inative"}
       onClick={() => handleClick("CANCELAR")}
     >
-      CANCELAR ❗️
+      CANCELAR 🚫
     </Button>
     <TextField
       id="search"
@@ -40,12 +40,19 @@ const FilterGlobal = ({ filterText, onFilter, selectedRows, handleClick }) => (
       value={filterText}
       onChange={onFilter}
     />
+    <ButtonAtualizar
+      id="atualizar"
+      type="button"
+      className="active"
+      onClick={() => handleClick("ATUALIZAR")}
+    >
+      🔄
+    </ButtonAtualizar>
   </>
 );
 
-const Aprovar = ({ users, setUsers, setOnEdit }) => {
+const Aprovar = () => {
   const [agendamentos, setAgendamentos] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [contentWidth, setContentWidth] = useState("40%");
   const [selectedRows, setSelectedRows] = useState([]);
   const [toggledClearRows, setToggleClearRows] = useState(false);
@@ -66,6 +73,20 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
       (item.nome_dono_veiculo &&
         item.nome_dono_veiculo.toUpperCase().includes(filterText.toUpperCase()))
   );
+  const getAgendamentos = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:8800/agendamento/getAgendamentos"
+      );
+      setSelectedRows([]);
+      setFilterText("");
+      setFilterTextService("");
+      setToggleClearRows(!toggledClearRows);
+      setAgendamentos(res.data);
+    } catch (error) {
+      toast.error(error);
+    }
+  };
 
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
@@ -80,7 +101,7 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
     };
 
     const handleClick = (acao) => {
-      if (selectedRows.length > 0) {
+      if (selectedRows.length > 0 || acao === "ATUALIZAR") {
         const id = selectedRows[0]?.id;
         if (acao === "APROVAR") {
           setInfosAgendamento({ id, acao: "APROVAR" });
@@ -88,7 +109,10 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
           setInfosAgendamento({ id, acao: "REPROVAR" });
         } else if (acao === "CANCELAR") {
           setInfosAgendamento({ id, acao: "CANCELAR" });
+        } else if (acao === "ATUALIZAR") {
+          return getAgendamentos();
         }
+
         setIsModalOpen(true);
 
         const contentElement = document.querySelector(".content");
@@ -109,32 +133,19 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
         />
       </>
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterText, resetPaginationToggle, filterTextService, selectedRows]);
-
-  const getAgendamentos = async () => {
-    try {
-      const res = await axios.get(
-        "http://localhost:8800/agendamento/getAgendamentos"
-      );
-      setSelectedRows([]);
-      setToggleClearRows(!toggledClearRows);
-      setAgendamentos(res.data);
-      setLoading(false);
-    } catch (error) {
-      toast.error(error);
-    }
-  };
 
   useEffect(() => {
     const fetchData = async () => {
-      if (loading) {
+      if (login) {
         await getAgendamentos();
       }
     };
 
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading, agendamentos]);
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -151,8 +162,9 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const formatDate = (dateString) => {
+  const formatDate = (dateString, hours = false) => {
     const date = new Date(dateString);
+    if (hours) return date.toLocaleString("pt-BR");
     return date.toLocaleDateString("pt-BR");
   };
 
@@ -258,7 +270,7 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
               setIsModalOpen(true);
             }}
           >
-            ❗️
+            🚫
           </Button>
         </div>
       ),
@@ -303,7 +315,27 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
         <div>
           TELEFONE 📱 {props.data.telefone_dono_veiculo ?? "(NÃO PREENCHIDO)"}
         </div>
-        <div>INSERIDO EM 📁 {formatDate(props.data?.date_insert)}</div>
+        <div>
+          INSERIDO EM 📁{" "}
+          {formatDate(props.data?.date_insert, true).replace(",", "")}
+        </div>
+      </div>
+      <div>
+        <div>
+          QNTD. DE AGENDAMENTOS APROVADOS ✔️{" "}
+          {props.data.qtd_agendamentos_aprovados}
+        </div>
+        <div>
+          QNTD. DE AGENDAMENTOS REPROVADOS ❌{" "}
+          {props.data.qtd_agendamentos_reprovados}
+        </div>
+      </div>
+      <div>
+        <div>
+          QNTD. DE AGENDAMENTOS PENDENTES ⚠️{" "}
+          {props.data.qtd_agendamentos_pendentes}
+        </div>
+        <div>TOTAL DE AGENDAMENTOS ✅ {props.data.qtd_agendamentos_total}</div>
       </div>
     </Detalhes>
   );
@@ -411,6 +443,7 @@ const Aprovar = ({ users, setUsers, setOnEdit }) => {
             onChange={(e) => {
               if (e.target.value === "PÃO DA VÓ") {
                 setLogin(true);
+                getAgendamentos();
               }
             }}
           ></input>

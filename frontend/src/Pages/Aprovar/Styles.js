@@ -151,6 +151,39 @@ export const ClearButton = styled.button`
   justify-content: center;
 `;
 
+export const ButtonAtualizar = styled.button`
+font-size: 30px;
+text-align: center;
+border-radius: 5px;
+border: none;
+color: white;
+letter-spacing: 1px;
+cursor: pointer;
+background-color: transparent;
+border: none;
+font-weight: 400;
+margin: 20px 0px;
+line-height: 24px;
+justify-content: center;
+display: flex;
+transition: all 0.3s;
+opacity: 0.5;
+pointer-events: none;
+
+:hover {
+  cursor: not-allowed;
+  filter: brightness(130%);
+}
+:focus-visible {
+  border: none;
+  outline: none;
+}
+::placeholder {
+  color: white;
+  opacity: 0.7;
+}
+`;
+
 export const Button = styled.button`
   font-size: 18px;
   text-align: center;

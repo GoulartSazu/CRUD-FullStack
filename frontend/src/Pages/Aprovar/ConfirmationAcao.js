@@ -47,7 +47,7 @@ const ConfirmationAcao = ({ data, onCloseModal, onGetAgendamentos }) => {
             {data.acao === "REPROVAR"
               ? "❌"
               : data.acao === "CANCELAR"
-              ? "❗️"
+              ? "🚫"
               : "✔️"}
           </ButtonConfirm>
           <ButtonVoltar className="mob" onClick={() => onCloseModal()}>
