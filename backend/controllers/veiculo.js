@@ -94,6 +94,7 @@ export const addVeiculo = (req, res) => {
 
 export const updateVeiculo = async (req, res) => {
   const today = new Date().toISOString().slice(0, 19).replace("T", " ");
+  let qtdAgendamentos = 0;
   const queryUpdate =
     "UPDATE veiculos SET `vei_placa` = ?, `vei_nome_dono` = ?, `vei_telefone_dono` = ?, `date_update` = ? WHERE `id` = ?";
 
@@ -105,7 +106,6 @@ export const updateVeiculo = async (req, res) => {
   ];
 
   if (req.body.vei_id > 0) {
-    let qtdAgendamentos = 0;
     qtdAgendamentos = await obterQuantidadeAgendamentos(req.body.vei_id);
 
     return res
@@ -116,10 +116,12 @@ export const updateVeiculo = async (req, res) => {
       ]);
   }
 
+  qtdAgendamentos = await obterQuantidadeAgendamentos(req.params.id);
   db.query(queryUpdate, [...values, req.params.id], (err) => {
+
     if (err) return res.json(err);
 
-    return res.status(200).json(["Veículo atualizado com sucesso.", 5]);
+    return res.status(200).json(["Veículo atualizado com sucesso.", qtdAgendamentos]);
   });
 };
 

@@ -1,6 +1,12 @@
 import { db } from "../db.js";
 import moment from "moment";
 
+const formatDate = (dateString, hours = false) => {
+  const date = new Date(dateString);
+  if (hours) return date.toLocaleString("pt-BR");
+  return date.toLocaleDateString("pt-BR");
+};
+
 export const getUsers = (_, res) => {
   const q = "SELECT * FROM users";
 
@@ -81,6 +87,9 @@ function updateQtdServicos(veiculoId) {
 
 export const addAgendamento = (req, res) => {
   const hash = req.body.age_hash;
+  const horario = req.body.age_horario;
+  const data = req.body.age_data;
+  const servico = req.body.age_servico;
   const placa = req.body.vei_placa;
   let veiculoId = null;
 
@@ -109,6 +118,24 @@ export const addAgendamento = (req, res) => {
         .json("Já existe um agendamento com todos esses mesmos dados.");
     }
 
+
+  const queryCheckTime =
+    "SELECT * FROM agendamentos WHERE age_data = ? and age_horario = ? and age_status in ('PENDENTE', 'APROVADO') and age_servico = ?";
+  db.query(queryCheckTime, [data, horario, servico], (err, results) => {
+    if (err) {
+      return res.status(500).json(err);
+    }
+
+    // Se já existir um registro com o mesmo hash, retornar uma mensagem de erro
+    if (results.length > 0) {
+      return res
+        .status(400)
+        .json(
+          `Desculpe, horário de ${horario.toLowerCase()} no dia ${formatDate(
+            data
+          )} está reservado. Por favor escolha outro horário.`
+        );
+    }
     // Se não existir, proceder com a inserção
     const queryInsert =
       "INSERT INTO agendamentos(`age_servico`, `age_id_veiculo`,`age_tamanho_veiculo`, `age_local`, `age_data`, `age_horario`,  `age_valor_total`,  `age_status`, `age_endereco`, `age_hash`) VALUES(?)";
@@ -138,6 +165,8 @@ export const addAgendamento = (req, res) => {
       return res.status(200).json("Agendamento criado com sucesso.");
     });
   });
+  });
+
 };
 
 export const updateAgendamento = (req, res) => {
