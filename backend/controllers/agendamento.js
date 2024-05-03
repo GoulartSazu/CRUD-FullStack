@@ -89,9 +89,13 @@ export const addAgendamento = (req, res) => {
   const hash = req.body.age_hash;
   const horario = req.body.age_horario;
   const data = req.body.age_data;
-  const servico = req.body.age_servico;
   const placa = req.body.vei_placa;
   let veiculoId = null;
+  let local = ["LEVATRAS", "ESPACOSPLASH"];
+
+  if (req.body.age_local === "DELIVERY") {
+    local = [req.body.age_local];
+  }
 
   if (placa) {
     const queryCheckPlaca = "SELECT id FROM veiculos WHERE vei_placa = ? ";
@@ -118,55 +122,53 @@ export const addAgendamento = (req, res) => {
         .json("Já existe um agendamento com todos esses mesmos dados.");
     }
 
-
-  const queryCheckTime =
-    "SELECT * FROM agendamentos WHERE age_data = ? and age_horario = ? and age_status in ('PENDENTE', 'APROVADO') and age_servico = ?";
-  db.query(queryCheckTime, [data, horario, servico], (err, results) => {
-    if (err) {
-      return res.status(500).json(err);
-    }
-
-    // Se já existir um registro com o mesmo hash, retornar uma mensagem de erro
-    if (results.length > 0) {
-      return res
-        .status(400)
-        .json(
-          `Desculpe, horário de ${horario.toLowerCase()} no dia ${formatDate(
-            data
-          )} está reservado. Por favor escolha outro horário.`
-        );
-    }
-    // Se não existir, proceder com a inserção
-    const queryInsert =
-      "INSERT INTO agendamentos(`age_servico`, `age_id_veiculo`,`age_tamanho_veiculo`, `age_local`, `age_data`, `age_horario`,  `age_valor_total`,  `age_status`, `age_endereco`, `age_hash`) VALUES(?)";
-
-    const values = [
-      req.body.age_servico,
-      veiculoId,
-      req.body.age_veiculo,
-      req.body.age_local,
-      req.body.age_data,
-      req.body.age_horario,
-      req.body.age_valor_total,
-      "PENDENTE",
-      req.body.age_endereco,
-      hash,
-    ];
-
-    db.query(queryInsert, [values], (err) => {
+    const queryCheckTime =
+      "SELECT * FROM agendamentos WHERE age_data = ? and age_horario = ? and age_status in ('PENDENTE', 'APROVADO') and age_local in (?)";
+    db.query(queryCheckTime, [data, horario, local], (err, results) => {
       if (err) {
         return res.status(500).json(err);
       }
 
-      if (veiculoId) {
-        updateQtdServicos(veiculoId);
+      // Se já existir um registro com o mesmo hash, retornar uma mensagem de erro
+      if (results.length > 0) {
+        return res
+          .status(400)
+          .json(
+            `Desculpe, horário de ${horario.toLowerCase()} no dia ${formatDate(
+              data
+            )} está reservado. Por favor escolha outro horário.`
+          );
       }
+      // Se não existir, proceder com a inserção
+      const queryInsert =
+        "INSERT INTO agendamentos(`age_servico`, `age_id_veiculo`,`age_tamanho_veiculo`, `age_local`, `age_data`, `age_horario`,  `age_valor_total`,  `age_status`, `age_endereco`, `age_hash`) VALUES(?)";
 
-      return res.status(200).json("Agendamento criado com sucesso.");
+      const values = [
+        req.body.age_servico,
+        veiculoId,
+        req.body.age_veiculo,
+        req.body.age_local,
+        req.body.age_data,
+        req.body.age_horario,
+        req.body.age_valor_total,
+        "PENDENTE",
+        req.body.age_endereco,
+        hash,
+      ];
+
+      db.query(queryInsert, [values], (err) => {
+        if (err) {
+          return res.status(500).json(err);
+        }
+
+        if (veiculoId) {
+          updateQtdServicos(veiculoId);
+        }
+
+        return res.status(200).json("Agendamento criado com sucesso.");
+      });
     });
   });
-  });
-
 };
 
 export const updateAgendamento = (req, res) => {

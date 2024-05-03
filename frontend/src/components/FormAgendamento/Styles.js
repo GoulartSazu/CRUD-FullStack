@@ -208,6 +208,9 @@ export const InputContainer = styled.div`
 
   @media only screen and (max-width: 950px) {
     flex-direction: column;
+    .wd {
+      width: 100%;
+    }
   }
 `;
 
@@ -278,16 +281,20 @@ export const InputArea = styled.div`
       cursor: pointer;
     }
   }
-  .yesNot{
+  .yesNot {
     box-shadow: rgb(255, 255, 255, 1) 2px 2px 20px;
     background: linear-gradient(to bottom right, green, #723172);
     opacity: 1;
   }
   @media only screen and (max-width: 950px) {
     flex-direction: column;
+    width: 100%;
+    margin: auto;
     input {
       width: 80%;
       padding: 10px;
+      margin: auto;
+      display: flex;
       margin-bottom: 20px;
     }
     p {
@@ -304,7 +311,7 @@ export const InputAreaYesNot = styled.div`
   justify-content: space-between;
   margin: auto;
 
-  .yesNot{
+  .yesNot {
     box-shadow: rgb(255, 255, 255, 0.5) 2px 2px 20px;
     background: linear-gradient(to bottom right, green, #723172);
     opacity: 1;
@@ -330,7 +337,6 @@ export const InputAreaDate = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
-
 
   p {
     margin-bottom: 0;
@@ -446,9 +452,13 @@ export const InputAreaName = styled.div`
   }
   @media only screen and (max-width: 950px) {
     flex-direction: column;
+    width: 100%;
+    margin: auto;
     input {
       width: 80%;
       padding: 10px;
+      margin: auto;
+      display: flex;
       margin-bottom: 20px;
     }
     p {
@@ -465,7 +475,14 @@ export const InputAreaName = styled.div`
     margin: 20px 0;
   }
   .end {
-    width: 50%;
+  }
+  @media only screen and (max-width: 950px) {
+    .end {
+      width: 80%;
+      margin-right: auto;
+      margin-left: auto;
+      display: flex;
+    }
   }
 `;
 
@@ -595,7 +612,6 @@ export const Button = styled.button`
     padding: 10px 20px;
     text-align: center;
   }
-  
 `;
 
 export const ButtonParticipar = styled.button`
@@ -632,11 +648,10 @@ export const ButtonParticipar = styled.button`
     cursor: not-allowed; /* Muda o cursor para 'not-allowed' quando o botão está desativado */
     background: linear-gradient(to bottom right, black, #4b0082);
   }
-  
+
   @media only screen and (max-width: 950px) {
     font-size: 20px;
     padding: 10px 20px;
     text-align: center;
   }
-  
 `;

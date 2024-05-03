@@ -422,7 +422,7 @@ const Aprovar = () => {
             borderRadius: "10px",
             border: "0px",
             padding: "40px",
-            height: "300px",
+            height: "350px",
             display: "flex",
             alignItems: "center",
           },

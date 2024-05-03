@@ -163,11 +163,19 @@ export const Finish = styled.div`
       :hover {
         box-shadow: none;
         border-radius: 5px;
-        background: linear-gradient(to bottom right, #800080, #BC1B1B, #4b0082);
+        background: linear-gradient(to bottom right, #800080, #bc1b1b, #4b0082);
       }
     }
   }
   @media only screen and (max-width: 950px) {
+    .cancel {
+      button {
+        font-size: 15px;
+        i {
+          display: none;
+        }
+      }
+    }
     h1 {
       font-size: 30px;
       top: 9px;

@@ -56,6 +56,13 @@ export const Confirmation = styled.div`
     margin-bottom: 50px;
   }
   @media only screen and (max-width: 950px) {
+    strong {
+    padding: 1px 10px;
+    border-radius: 2px;
+  }
+  div {
+    flex-direction: column;
+  }
     h2 {
       font-size: 20px;
     }

@@ -146,6 +146,19 @@ export const Container = styled.div`
     }
   }
   @media only screen and (max-width: 950px) {
+    .dataTable {
+      header {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        button,
+        input {
+          width: 85%;
+          margin: 10px auto;
+          display: flex;
+        }
+      }
+    }
     .mob {
       width: 100%;
       font-size: 14px;
