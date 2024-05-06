@@ -38,6 +38,10 @@ export const getAgendamentos = (_, res) => {
      FROM agendamentos
     WHERE age_id_veiculo = v.id
       AND age_status = 'PENDENTE') AS qtd_agendamentos_pendentes,
+      (SELECT COUNT(*)
+      FROM agendamentos
+     WHERE age_id_veiculo = v.id
+       AND age_status = 'FINALIZADO') AS qtd_agendamentos_finalizados,
   (SELECT COUNT(*)
      FROM agendamentos
     WHERE age_id_veiculo = v.id
@@ -49,7 +53,6 @@ export const getAgendamentos = (_, res) => {
   (SELECT COUNT(*)
      FROM agendamentos
     WHERE age_id_veiculo = v.id) AS qtd_agendamentos_total
-
      FROM agendamentos ag
      LEFT JOIN veiculos v 
        ON v.id = ag.age_id_veiculo
@@ -57,8 +60,9 @@ export const getAgendamentos = (_, res) => {
     CASE 
         WHEN ag.age_status = 'PENDENTE' THEN 1
         WHEN ag.age_status = 'APROVADO' THEN 2
-        WHEN ag.age_status = 'REPROVADO' THEN 3
-        WHEN ag.age_status = 'CANCELADO' THEN 4
+        WHEN ag.age_status = 'FINALIZADO' THEN 3
+        WHEN ag.age_status = 'REPROVADO' THEN 4
+        WHEN ag.age_status = 'CANCELADO' THEN 5
         ELSE 5 
     END, ag.age_data`;
 
@@ -188,6 +192,8 @@ export const updateAgendamento = (req, res) => {
       ? "CANCELADO"
       : req.body.age_status === "REPROVAR"
       ? "REPROVADO"
+      : req.body.age_status === "FINALIZAR"
+      ? "FINALIZADO"
       : "PENDENTE";
 
   db.query(queryUpdate, [...[status], req.params.id], (err) => {

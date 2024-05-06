@@ -135,6 +135,9 @@ export const Container = styled.div`
   #reprovar {
     background: linear-gradient(to bottom right, #ff0000, #900000, #6e0000);
   }
+  #aprovar{
+    background: linear-gradient(to bottom right, #3661bb, #224eac, #03205e);
+  }
   #cancelar {
     background: linear-gradient(to bottom right, #4e4c4c, #272424, #000000);
   }

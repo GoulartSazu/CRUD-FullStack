@@ -11,10 +11,19 @@ const FilterGlobal = ({ filterText, onFilter, selectedRows, handleClick }) => (
   <>
     <Button
       type="button"
+      id="aprovar"
       className={selectedRows?.length > 0 ? "active" : "inative"}
       onClick={() => handleClick("APROVAR")}
     >
       APROVAR ✔️
+    </Button>
+    <Button
+      type="button"
+      id="finalizar"
+      className={selectedRows?.length > 0 ? "active" : "inative"}
+      onClick={() => handleClick("FINALIZAR")}
+    >
+      FINALIZAR 🆗
     </Button>
     <Button
       id="reprovar"
@@ -70,6 +79,8 @@ const Aprovar = () => {
         item.veiculo_placa.toUpperCase().includes(filterText.toUpperCase())) ||
       (item.servico &&
         item.servico.toUpperCase().includes(filterText.toUpperCase())) ||
+        (item.status &&
+          item.status.includes(filterText.toUpperCase())) ||
       (item.nome_dono_veiculo &&
         item.nome_dono_veiculo.toUpperCase().includes(filterText.toUpperCase()))
   );
@@ -107,6 +118,8 @@ const Aprovar = () => {
           setInfosAgendamento({ id, acao: "APROVAR" });
         } else if (acao === "REPROVAR") {
           setInfosAgendamento({ id, acao: "REPROVAR" });
+        } else if (acao === "FINALIZAR") {
+          setInfosAgendamento({ id, acao: "FINALIZAR" });
         } else if (acao === "CANCELAR") {
           setInfosAgendamento({ id, acao: "CANCELAR" });
         } else if (acao === "ATUALIZAR") {
@@ -239,6 +252,7 @@ const Aprovar = () => {
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Button
             type="button"
+            id="aprovar"
             className={selectedRows?.[0]?.id === row?.id ? "active" : "inative"}
             onClick={(e) => {
               e.preventDefault();
@@ -247,6 +261,18 @@ const Aprovar = () => {
             }}
           >
             ✔️
+          </Button>
+          <Button
+            type="button"
+            id="atualizar"
+            className={selectedRows?.[0]?.id === row?.id ? "active" : "inative"}
+            onClick={(e) => {
+              e.preventDefault();
+              setInfosAgendamento({ id: row?.id, acao: "FINALIZAR" });
+              setIsModalOpen(true);
+            }}
+          >
+            🆗
           </Button>
           <Button
             id="reprovar"
@@ -260,7 +286,7 @@ const Aprovar = () => {
           >
             ❌
           </Button>
-          <Button
+          {/* <Button
             id="cancelar"
             type="button"
             className={selectedRows?.[0]?.id === row?.id ? "active" : "inative"}
@@ -271,7 +297,7 @@ const Aprovar = () => {
             }}
           >
             🚫
-          </Button>
+          </Button> */}
         </div>
       ),
       allowOverflow: true,
@@ -363,7 +389,7 @@ const Aprovar = () => {
     {
       when: (row) => row.status === "PENDENTE",
       style: {
-        backgroundColor: "rgba(0, 63, 163, 0.4)",
+        backgroundColor: "rgba(52, 0, 80, 0.9)",
         color: "white",
         "&:hover": {
           cursor: "pointer",
@@ -372,6 +398,16 @@ const Aprovar = () => {
     },
     {
       when: (row) => row.status === "APROVADO",
+      style: {
+        backgroundColor: "rgba(0, 63, 163, 0.4)",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
+        },
+      },
+    },
+    {
+      when: (row) => row.status === "FINALIZADO",
       style: {
         backgroundColor: "rgba(0, 128, 0, 0.9)",
         color: "white",

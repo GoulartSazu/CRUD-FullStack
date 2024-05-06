@@ -17,6 +17,14 @@ export const Head = styled.div`
       filter: brightness(140%);
     }
   }
+  div {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    a {
+      margin-left: 50px;
+    }
+  }
 
   h1 {
     color: white;
@@ -26,9 +34,37 @@ export const Head = styled.div`
     font-weight: 300;
     font-size: 40px;
   }
+  .ancora {
+    color: white;
+    text-decoration: none;
+    letter-spacing: 1px;
+    font-weight: 300;
+    font-size: 30px;
+    position: relative;
+    ::after {
+      content: '';
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      background-color: white;
+      bottom: -5px;
+      left: 0;
+      border-radius: 10px;
+      transition: all 0.3s;
+    }
+    :hover {
+      ::after {
+      width: 100%;
+      }
+
+    }
+  }
   @media only screen and (max-width: 950px) {
     img {
       width: 100px;
+    }
+    .ancora {
+      display: none;
     }
     height: 55px;
     h1 {

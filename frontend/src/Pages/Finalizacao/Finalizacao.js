@@ -68,13 +68,24 @@ function Finalizacao() {
             </button>
           </Link>
           <Link
+            to={`/feedback`}
+            target="_blank"
+            className="link cancel avaliar"
+          >
+            <button>
+              <div className="left"></div>
+              AVALIE NOSSO SERVIÇO 🌟
+              <div className="right"></div>
+            </button>
+          </Link>
+          <Link
             to={`https://api.whatsapp.com/send?phone=554299858888&text=Olá!%20🙂%0A*Gostaria%20de%20cancelar%20meu%20agendamento*%20❌%0AEstou%20ciente%20da%20taxa%20de%20*30%*%20*do*%20*valor*%20*total*%20caso%20o%20cancelamento%20esteja%20ocorrendo%20em%20menos%20de%2012%20horas%20da%20realização%20do%20serviço.`}
             target="_blank"
             className="link cancel"
           >
             <button>
               <div className="left"></div>
-              ❌ CANCELAR AGENDAMENTO VIA WHATSAPP <i className="fab fa-whatsapp"></i>
+               CANCELAR AGENDAMENTO VIA WHATSAPP ❌
               <div className="right"></div>
             </button>
           </Link>

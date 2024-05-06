@@ -25,9 +25,17 @@ const Header = () => {
   return (
     <Head>
       <h1>{title}</h1>
-      <Link to="/" className="link">
-        <img src={logo} alt="Logo Splash" />
-      </Link>
+      <div>
+        <Link to={`/agendamento`} className="ancora">
+          AGENDAR
+        </Link>
+        <Link to={`/feedback`} className="ancora">
+          FEEDBACK
+        </Link>
+        <Link to="/" className="link">
+          <img src={logo} alt="Logo Splash" />
+        </Link>
+      </div>
     </Head>
   );
 };

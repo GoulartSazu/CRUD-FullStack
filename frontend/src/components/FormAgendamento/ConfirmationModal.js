@@ -88,6 +88,9 @@ const ConfirmationModal = ({ data }) => {
       data.local.toUpperCase(),
       true
     )}*%20`;
+    const hashEndereco = data.endereco
+      ? `%0A%0A🔹%20Endereço:%20*${data.endereco.toUpperCase()}*%20`
+      : "";
     const hashVeiculo = `%0A%0A🔹%20Veículo:%20*${formatInfo(
       data.car.toUpperCase(),
       true
@@ -100,11 +103,14 @@ const ConfirmationModal = ({ data }) => {
       data.time.toUpperCase(),
       true
     )}*%20`;
-    const qtdServico = `%0A%0A🔹%20Serviço%20de%20Número:%20*${data.qtdFidelidade}*%20`;
+    const qtdServico = data.qtdFidelidade
+      ? `%0A%0A🔹%20Serviço%20de%20Número:%20*${data.qtdFidelidade}*%20`
+      : "";
     const hashPrice = `%0A%0A🔹%20*Valor%20Total%20R$%20${data.totalPrice},00*`;
     const hash =
       hashService +
       hashLocal +
+      hashEndereco +
       hashVeiculo +
       hashDate +
       hashTime +
@@ -187,7 +193,8 @@ const ConfirmationModal = ({ data }) => {
         <h4>VALOR TOTAL R${data.totalPrice},00</h4>
         <p>
           *Sujeito a mudanças de valores de acordo com a localização e veículos
-          de altos padrões. Cancelamento sem custos até 12 horas antes do serviço, após isso será cobrado uma taxa de 30% do preço total.
+          de altos padrões. Cancelamento sem custos até 12 horas antes do
+          serviço, após isso será cobrado uma taxa de 30% do preço total.
         </p>
       </Confirmation>
       <Button

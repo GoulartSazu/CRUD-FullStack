@@ -12,10 +12,13 @@ export const Confirmation = styled.div`
   .REPROVAR {
     background: linear-gradient(to bottom right, #ff0000, #900000, #6e0000);
   }
+  .APROVAR {
+    background: linear-gradient(to bottom right, #3661bb, #224eac, #03205e);
+  }
   .CANCELAR {
     background: linear-gradient(to bottom right, #4e4c4c, #272424, #000000);
   }
-  .APROVAR {
+  .FINALIZAR {
     background: linear-gradient(to bottom right, #00ff20, #01980d, #005006);
   }
 
@@ -196,7 +199,7 @@ export const Button = styled.button`
   text-align: center;
   padding: 10px 30px;
   border-radius: 5px;
-  width: 20%;
+  width: 15%;
   border: none;
   background: linear-gradient(to bottom right, #00ff20, #01980d, #005006);
   color: white;

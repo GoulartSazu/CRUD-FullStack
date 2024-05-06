@@ -167,6 +167,19 @@ export const Finish = styled.div`
       }
     }
   }
+  .avaliar {
+    button {
+      padding: 20px;
+      font-size: 20px;
+      background: linear-gradient(to bottom right, #800080, green, #4b0082);
+      box-shadow: none;
+      :hover {
+        box-shadow: none;
+        border-radius: 5px;
+        background: linear-gradient(to bottom right, #800080, #29ab49, #4b0082);
+      }
+    }
+  }
   @media only screen and (max-width: 950px) {
     .cancel {
       button {
