@@ -28,6 +28,7 @@ export const getAgendamentos = (_, res) => {
   age_servico AS servico,
   age_tamanho_veiculo AS tamanho_veiculo,
   age_local AS local,
+  age_free_servico AS free_servico,
   age_data AS data_agendamento,
   age_horario AS horario_agendamento,
   age_valor_total AS valor_total,
@@ -143,9 +144,9 @@ export const addAgendamento = (req, res) => {
             )} está reservado. Por favor escolha outro horário.`
           );
       }
-      // Se não existir, proceder com a inserção
+
       const queryInsert =
-        "INSERT INTO agendamentos(`age_servico`, `age_id_veiculo`,`age_tamanho_veiculo`, `age_local`, `age_data`, `age_horario`,  `age_valor_total`,  `age_status`, `age_endereco`, `age_hash`) VALUES(?)";
+        "INSERT INTO agendamentos(`age_servico`, `age_id_veiculo`,`age_tamanho_veiculo`, `age_local`, `age_data`, `age_horario`,  `age_valor_total`,  `age_status`, `age_free_servico`, `age_endereco`, `age_hash`) VALUES(?)";
 
       const values = [
         req.body.age_servico,
@@ -156,6 +157,7 @@ export const addAgendamento = (req, res) => {
         req.body.age_horario,
         req.body.age_valor_total,
         "PENDENTE",
+        req.body.vei_free_servicos,
         req.body.age_endereco,
         hash,
       ];

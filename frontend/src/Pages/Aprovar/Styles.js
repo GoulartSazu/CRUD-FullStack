@@ -177,7 +177,7 @@ line-height: 24px;
 justify-content: center;
 display: flex;
 transition: all 0.3s;
-opacity: 0.5;
+opacity: 0.75;
 pointer-events: none;
 
 :hover {
@@ -214,7 +214,7 @@ export const Button = styled.button`
   display: flex;
   color: white;
   transition: all 0.3s;
-  opacity: 0.5;
+  opacity: 0.75;
   pointer-events: none;
 
   :hover {

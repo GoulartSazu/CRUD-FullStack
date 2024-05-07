@@ -225,6 +225,13 @@ const Aprovar = () => {
       reorder: true,
     },
     {
+      name: "Grátis?",
+      selector: (row) => row.free_servico === 1 ? "SIM 🌟" : "NÃO",
+      sortable: true,
+      width: "115px",
+      reorder: true,
+    },
+    {
       name: "Local",
       selector: (row) => formatServicoLocal(row.local),
       sortable: true,
@@ -396,7 +403,7 @@ const Aprovar = () => {
         },
       },
     },
-    {
+        {
       when: (row) => row.status === "APROVADO",
       style: {
         backgroundColor: "rgba(0, 63, 163, 0.4)",
@@ -410,6 +417,16 @@ const Aprovar = () => {
       when: (row) => row.status === "FINALIZADO",
       style: {
         backgroundColor: "rgba(0, 128, 0, 0.9)",
+        color: "white",
+        "&:hover": {
+          cursor: "pointer",
+        },
+      },
+    },
+    {
+      when: (row) => row.free_servico === 1,
+      style: {
+        backgroundColor: "rgba(173, 190, 31, 0.9)",
         color: "white",
         "&:hover": {
           cursor: "pointer",

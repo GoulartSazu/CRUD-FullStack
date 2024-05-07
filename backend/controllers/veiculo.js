@@ -13,7 +13,7 @@ export const getVeiculos = (_, res) => {
 };
 
 async function obterQuantidadeAgendamentos(veiculoId) {
-  const queryQtdAgendamentos = `SELECT COUNT(*) AS qtdAgendamentos FROM agendamentos WHERE age_id_veiculo = ${veiculoId}`;
+  const queryQtdAgendamentos = `SELECT COUNT(*) AS qtdAgendamentos FROM agendamentos WHERE age_id_veiculo = ${veiculoId} and age_status not in ('REPROVADO','CANCELADO')`;
   try {
     const results = await queryAsync(queryQtdAgendamentos);
 
@@ -49,7 +49,7 @@ export const addVeiculo = (req, res) => {
         .status(200)
         .json([
           "Parabéns, você está participando do programa de fidelidade!",
-          qtdAgendamentos,
+          qtdAgendamentos + 1,
         ]);
     } else {
       if (!atualizar) {
@@ -68,10 +68,7 @@ export const addVeiculo = (req, res) => {
               ]);
           }
 
-          // Se não existir, proceder com a inserção
-          const queryInsert =
-            "INSERT INTO veiculos(`vei_placa`, `vei_free_servicos`, `vei_nome_dono`, `vei_telefone_dono`) VALUES(?)";
-
+          const queryInsert = "INSERT INTO veiculos(`vei_placa`, `vei_free_servicos`, `vei_nome_dono`, `vei_telefone_dono`) VALUES(?)";
           const values = [placa, 0, nome, phone];
 
           db.query(queryInsert, [values], (err) => {
@@ -112,7 +109,7 @@ export const updateVeiculo = async (req, res) => {
       .status(200)
       .json([
         "Parabéns, você está participando do programa de fidelidade!",
-        qtdAgendamentos,
+        qtdAgendamentos + 1,
       ]);
   }
 
@@ -121,7 +118,7 @@ export const updateVeiculo = async (req, res) => {
 
     if (err) return res.json(err);
 
-    return res.status(200).json(["Veículo atualizado com sucesso.", qtdAgendamentos]);
+    return res.status(200).json(["Veículo atualizado com sucesso.", qtdAgendamentos + 1]);
   });
 };
 

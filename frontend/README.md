@@ -111,3 +111,7 @@ CREATE TABLE `splash`.`users` (
 
 ALTER TABLE `splash`.`agendamentos` 
 ADD COLUMN `age_endereco` VARCHAR(300) NULL AFTER `age_status`;
+
+ALTER TABLE `splash`.`agendamentos` 
+ADD COLUMN `age_free_servico` INT NULL DEFAULT 0 AFTER `age_status`;
+

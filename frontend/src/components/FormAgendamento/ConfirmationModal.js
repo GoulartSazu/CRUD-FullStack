@@ -132,8 +132,8 @@ const ConfirmationModal = ({ data }) => {
         vei_telefone: data.telefone,
         vei_nome: data.nome,
         vei_free_servicos: free.toUpperCase().includes("PARABÉNS!")
-          ? true
-          : false,
+          ? 1
+          : 0,
       })
       .then(({ data }) => {
         toast.success(data);
