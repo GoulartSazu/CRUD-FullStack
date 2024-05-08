@@ -11,6 +11,7 @@ import Gerenciar from "./Pages/Gerenciar/Gerenciar.js";
 import Aprovar from "./Pages/Aprovar/Aprovar.js";
 import Finalizacao from "./Pages/Finalizacao/Finalizacao.js";
 import FeedBack from "./Pages/FeedBack/FeedBack.js";
+import FeedBackList from "./Pages/FeedBackList/FeedBackList.js";
 import Modal from 'react-modal';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/dashboard/aprovar-horarios" element={<Aprovar />} />
         <Route path="/dashboard/gerenciar-horarios" element={<Gerenciar />} />
+        <Route path="/dashboard/lista-feedbacks" element={<FeedBackList/>} />
         <Route path="/finalizacao" element={<Finalizacao/>} />
         <Route path="/feedback" element={<FeedBack/>} />
       </Routes>
