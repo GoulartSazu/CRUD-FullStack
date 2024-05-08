@@ -5,7 +5,7 @@ import { TextField, Detalhes, ButtonAtualizar } from "./Styles.js";
 import DataTable from "react-data-table-component";
 import { Container } from "../../styles/global.js";
 
-const FilterGlobal = ({ filterText, onFilter, selectedRows, handleClick }) => (
+const FilterGlobal = ({ filterText, onFilter, handleClick }) => (
   <>
     <TextField
       id="search"
