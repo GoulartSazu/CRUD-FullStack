@@ -48,7 +48,7 @@ const FeedBackList = () => {
   const getFeedBacks = async () => {
     try {
       const res = await axios.get(
-        "https://splashpg.com.br/ap/feedback/getFeedbacks"
+        "https://splashpg.com.br/api/feedback/getFeedbacks"
       );
       setSelectedRows([]);
       setFilterText("");
