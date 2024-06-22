@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { HomePage } from "./Styles";
 import { Container } from "../../styles/global";
 import { Link } from "react-router-dom";
-import video from "../../images/video1.mp4";
 
 function Home() {
   const [title, setTitle] = useState("");
