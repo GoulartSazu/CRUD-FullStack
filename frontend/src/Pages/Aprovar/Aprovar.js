@@ -87,7 +87,7 @@ const Aprovar = () => {
   const getAgendamentos = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8800/agendamento/getAgendamentos"
+        "https://splashpg.com.br/ap/agendamento/getAgendamentos"
       );
       setSelectedRows([]);
       setFilterText("");

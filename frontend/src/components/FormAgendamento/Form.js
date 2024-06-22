@@ -173,7 +173,7 @@ const Form = ({ onEdit }) => {
 
       if (yesNot.update && yesNot.veiculoId) {
         await axios
-          .put(`http://localhost:8800/veiculo/${yesNot.veiculoId}`, {
+          .put(`https://splashpg.com.br/ap/veiculo/${yesNot.veiculoId}`, {
             vei_placa: form.vei_placa.value.toUpperCase(),
             vei_nome_dono: form.vei_nome.value.toUpperCase(),
             vei_telefone_dono: form.vei_telefone.value.toUpperCase(),
@@ -230,7 +230,7 @@ const Form = ({ onEdit }) => {
 
       if (!yesNot.update && yesNot.veiculoId) {
         await axios
-          .put(`http://localhost:8800/veiculo/${yesNot.veiculoId}`, {
+          .put(`https://splashpg.com.br/ap/veiculo/${yesNot.veiculoId}`, {
             vei_id: yesNot.veiculoId,
           })
           .then(({ data }) => {
@@ -293,7 +293,7 @@ const Form = ({ onEdit }) => {
         !yesNot.veiculoId
       ) {
         await axios
-          .post("http://localhost:8800/veiculo", {
+          .post("https://splashpg.com.br/ap/veiculo", {
             vei_placa: form.vei_placa.value.toUpperCase(),
             vei_nome_dono: form.vei_nome.value.toUpperCase(),
             vei_telefone_dono: form.vei_telefone.value.toUpperCase(),

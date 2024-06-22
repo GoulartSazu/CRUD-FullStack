@@ -57,7 +57,7 @@ function FeedBack() {
     e.preventDefault();
 
     await axios
-      .post(`http://localhost:8800/feedback`, {
+      .post(`https://splashpg.com.br/ap/feedback`, {
         fdb_message: feedbackMessage.toUpperCase(),
         fdb_stars: rating,
         fdb_placa: placa ?? "-",

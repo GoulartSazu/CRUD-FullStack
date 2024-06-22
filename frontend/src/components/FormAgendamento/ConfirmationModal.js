@@ -119,7 +119,7 @@ const ConfirmationModal = ({ data }) => {
     localStorage.setItem("placa", data.placa ?? "-");
     localStorage.setItem("hash", hash);
     await axios
-      .post("http://localhost:8800/agendamento", {
+      .post("https://splashpg.com.br/ap/agendamento", {
         age_servico: data.service.toUpperCase(),
         age_veiculo: data.car.toUpperCase(),
         age_local: data.local.toUpperCase(),

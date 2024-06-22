@@ -11,7 +11,7 @@ const ConfirmationAcao = ({ data, onCloseModal, onGetAgendamentos }) => {
     }
 
     await axios
-      .put("http://localhost:8800/agendamento/" + data.id, {
+      .put("https://splashpg.com.br/ap/agendamento/" + data.id, {
         age_status: data.acao,
         pw: localStorage.getItem("log"),
       })
