@@ -15,7 +15,7 @@ function FeedBack() {
   const hash = localStorage.getItem("hash");
   const placa = localStorage.getItem("placa");
   const phrase = "QUEREMOS SEU FEEDBACK PARA EVOLUIR! 🚀";
-  const phrase2 = "FIQUE A VONTADE PARA COLOCAR SUA AVALIAÇÃO ABAIXO XD! 🙏";
+  const phrase2 = "FIQUE A VONTADE PARA COLOCAR SUA AVALIAÇÃO ABAIXO! 🙏";
   const delay = 40;
 
   useEffect(() => {
