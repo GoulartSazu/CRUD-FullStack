@@ -90,7 +90,7 @@ function Finalizacao() {
             </button>
           </Link>
           <div className="videos">
-            <video muted autoPlay="autoplay" loop>
+            {/* <video muted autoPlay="autoplay" loop>
               <source
                 src="http://fleming.mapa360.com.br/wp-content/uploads/2024/03/copy_BFC2B67E-ABF3-48B8-B80E-1CEC3E91E9C3.mp4"
                 type="video/mp4"
@@ -101,7 +101,7 @@ function Finalizacao() {
                 src="http://fleming.mapa360.com.br/wp-content/uploads/2024/03/copy_4E66255D-E4E9-4C68-B5D4-9518B4C3A12D.mp4"
                 type="video/mp4"
               />
-            </video>
+            </video> */}
           </div>
         </Finish>
       </Container>
