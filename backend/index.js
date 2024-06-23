@@ -10,8 +10,8 @@ app.use(express.json());
 
 app.use(cors());
 
-app.use("/agendamento", agendamentoRoutes);
-app.use("/veiculo", veiculoRoutes);
-app.use("/feedback", feedbackRoutes);
+app.use("api/agendamento", agendamentoRoutes);
+app.use("api/veiculo", veiculoRoutes);
+app.use("api/feedback", feedbackRoutes);
 
 app.listen(8800);
