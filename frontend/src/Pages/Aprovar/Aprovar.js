@@ -495,6 +495,7 @@ const Aprovar = () => {
             className="log"
             onChange={(e) => {
               if (e.target.value === "PÃO DA VÓ") {
+                localStorage.setItem("log", "PÃO DA VÓ");
                 setLogin(true);
                 getAgendamentos();
               }
