@@ -3,6 +3,7 @@ import agendamentoRoutes from "./routes/agendamentos.js";
 import veiculoRoutes from "./routes/veiculos.js";
 import feedbackRoutes from "./routes/feedbacks.js";
 import cors from "cors";
+import { db } from "./db.js";
 
 const app = express();
 
