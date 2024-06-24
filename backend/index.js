@@ -10,9 +10,9 @@ app.use(express.json());
 
 app.use(cors());
 
-app.use("api/agendamento", agendamentoRoutes);
-app.use("api/veiculo", veiculoRoutes);
-app.use("api/feedback", feedbackRoutes);
+app.use("/api/agendamento", agendamentoRoutes);
+app.use("/api/veiculo", veiculoRoutes);
+app.use("/api/feedback", feedbackRoutes);
 
 app.listen(8800, () => {
   console.log("Server is running on port 8800");
