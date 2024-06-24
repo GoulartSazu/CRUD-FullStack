@@ -5,5 +5,6 @@ export const db = mysql.createConnection({
     user: 'splash-admin',
     password: 'sazu',
     database: 'splash',
-    charset: 'utf8mb4'
+    charset: 'utf8mb4',
+    port: 3306
 })
