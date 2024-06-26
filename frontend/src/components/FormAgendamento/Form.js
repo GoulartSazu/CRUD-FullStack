@@ -406,7 +406,9 @@ const Form = ({ onEdit }) => {
       car: checkCar,
       local: checkLocal,
       time: checkTime,
-      endereco: form.age_endereco?.value ? form.age_endereco.value.toUpperCase() : null,
+      endereco: form.age_endereco?.value
+        ? form.age_endereco.value.toUpperCase()
+        : null,
       agendamentoDate: selectedDate,
       agendamentoDateValue: form.age_data.value,
       totalPrice: totalPrice,
@@ -477,8 +479,8 @@ const Form = ({ onEdit }) => {
                 handleCheckCar("medio");
               }}
             >
-              <span>Médio</span> <i className="fas fa-angle-right"></i> HB20,
-              Celta, Onix, Kwid, Sandero, Corsa
+              <span>Médio</span> <i className="fas fa-angle-right"></i> Nivus,
+              Compass, Polo, Saveiro. Em geral 5 lugares.
             </CheckboxButton>
             <CheckboxButton
               checked={checkCar === "grande"}
@@ -488,8 +490,8 @@ const Form = ({ onEdit }) => {
                 handleCheckCar("grande");
               }}
             >
-              <span>Grande</span> <i className="fas fa-angle-right"></i> S10,
-              Montana, Amarok, Ranger, Hilux, Strada
+              <span>Grande</span> <i className="fas fa-angle-right"></i> Ranger,
+              Sw4, Commander, Pajero. Em geral caminhonetes e 7 lugares.
             </CheckboxButton>
           </SelectionContainer>
         </div>
@@ -505,8 +507,9 @@ const Form = ({ onEdit }) => {
                 handleCheckLocal("delivery");
               }}
             >
-              <span>Delivery</span> <i className="fas fa-angle-right"></i>{" "}
-              Iremos até o local do seu veículo para realizar o serviço
+              <span>Delivery</span> <i className="fas fa-angle-right"></i> Vamos
+              até sua residência e levamos todo o equipamento necessário pra
+              realizar o serviço no local.
             </CheckboxButton>
             <CheckboxButton
               checked={checkLocal === "espacoSplash"}
@@ -516,7 +519,7 @@ const Form = ({ onEdit }) => {
               }}
             >
               <span>Espaco Splash</span> <i className="fas fa-angle-right"></i>{" "}
-              Você irá trazer seu veículo em nosso endereço
+              Você irá trazer seu veículo em nosso endereço.
             </CheckboxButton>
             <CheckboxButton
               checked={checkLocal === "levaTras"}
@@ -526,8 +529,8 @@ const Form = ({ onEdit }) => {
               }}
             >
               <span>Leva e Traz</span> <i className="fas fa-angle-right"></i>{" "}
-              Iremos buscar seu veículo, realizar o serviçoe levar novamente
-              para você
+              Buscamos seu veículo, realizamos o serviço escolhido e levamos
+              novamente para o local de onde foi pego.
             </CheckboxButton>
           </SelectionContainer>
           {(checkLocal === "levaTras" || checkLocal === "delivery") && (

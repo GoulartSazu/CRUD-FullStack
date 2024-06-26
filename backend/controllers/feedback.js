@@ -1,7 +1,7 @@
 import { db } from "../db.js";
 
 export const getFeedbacks = (_, res) => {
-  const q = "SELECT * FROM feedbacks";
+  const q = "SELECT * FROM feedbacks order by date_insert desc";
 
   db.query(q, (err, data) => {
     if (err) return res.json(err);
