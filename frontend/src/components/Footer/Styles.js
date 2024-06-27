@@ -29,7 +29,7 @@ export const Foot = styled.div`
     font-size: 16px;
     letter-spacing: 1px;
     color: #ffffff;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     margin-bottom: 35px;
     font-weight: 300;
     position: relative;
@@ -56,7 +56,7 @@ export const Foot = styled.div`
   }
   .footer-col ul li a {
     font-size: 16px;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     color: #ffffff;
     text-decoration: none;
     display: block;

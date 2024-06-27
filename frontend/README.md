@@ -83,13 +83,16 @@ CREATE TABLE `splash`.`feedbacks` (
 CREATE TABLE `splash`.`agendamentos` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `age_servico` VARCHAR(45) NOT NULL,
-  `age_veiculo` VARCHAR(45) NOT NULL,
+  `age_id_veiculo` INT NULL,
+  `age_tamanho_veiculo` VARCHAR(45) NOT NULL,
   `age_local` VARCHAR(45) NOT NULL,
   `age_data` DATE NOT NULL,
   `age_horario` VARCHAR(45) NULL,
   `age_valor_total` numeric NOT NULL,
   `age_status`  VARCHAR(25) NOT NULL,
-  `age_hash` VARCHAR(300),
+  `age_free_servico` INT NULL DEFAULT 0,
+  `age_endereco` VARCHAR(500) NULL,
+  `age_hash` VARCHAR(600),
   `date_insert` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_update` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -114,4 +117,7 @@ ADD COLUMN `age_endereco` VARCHAR(300) NULL AFTER `age_status`;
 
 ALTER TABLE `splash`.`agendamentos` 
 ADD COLUMN `age_free_servico` INT NULL DEFAULT 0 AFTER `age_status`;
+
+ALTER TABLE `splash`.`agendamentos` 
+ADD COLUMN `age_id_veiculo` INT NULL DEFAULT 0 AFTER `age_servico`;
 

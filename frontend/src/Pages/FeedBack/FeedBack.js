@@ -15,8 +15,9 @@ function FeedBack() {
   const hash = localStorage.getItem("hash");
   const placa = localStorage.getItem("placa");
   const phrase = "QUEREMOS SEU FEEDBACK PARA EVOLUIR! 🚀";
-  const phrase2 = "FIQUE A VONTADE PARA COLOCAR SUA AVALIAÇÃO ABAIXO! 🙏";
+  const phrase2 = "FIQUE Á VONTADE PARA COLOCAR SUA AVALIAÇÃO ABAIXO! 🙏";
   const delay = 40;
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     let currentIndex = 0;
@@ -48,7 +49,6 @@ function FeedBack() {
     return () => clearInterval(typingInterval2);
   }, [phrase2, delay]);
 
-
   const changeRating = (newRating) => {
     setRating(newRating);
   };
@@ -57,7 +57,7 @@ function FeedBack() {
     e.preventDefault();
 
     await axios
-      .post(`https://splashpg.com.br/api/feedback`, {
+      .post(`${apiUrl}feedback`, {
         fdb_message: feedbackMessage.toUpperCase(),
         fdb_stars: rating,
         fdb_placa: placa ?? "-",
@@ -68,7 +68,6 @@ function FeedBack() {
         setTimeout(() => {
           navigate("/");
         }, 2000);
-        
       })
       .catch(({ response }) => toast.error(response.data));
   };
@@ -102,9 +101,7 @@ function FeedBack() {
               starEmptyColor="white"
               starDimension="80px"
             />
-            <h2 className="nota">
-              {ratingTexts[rating]}
-            </h2>
+            <h2 className="nota">{ratingTexts[rating]}</h2>
             <Input
               placeholder="Sugestão, melhoria ou crítica"
               name="feedback"
@@ -115,7 +112,7 @@ function FeedBack() {
             />
             <button type="submit">
               <div className="left"></div>
-              ENVIAR FEEDBACK
+              AVALIAR
               <div className="right"></div>
             </button>
           </form>

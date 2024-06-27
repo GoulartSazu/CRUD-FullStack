@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 function Home() {
   const [title, setTitle] = useState("");
   const phrase =
-    "BEM - VINDO AO PRIMEIRO E ÚNICO LAVACAR DELIVERY DE PONTA GROSSA";
+    "BEM - VINDO AO PRIMEIRO E ÚNICO LAVA CAR DELIVERY DE PONTA GROSSA";
   const delay = 70;
   useEffect(() => {
     let currentIndex = 0;

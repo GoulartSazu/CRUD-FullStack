@@ -1,9 +1,12 @@
-import React from "react";
+import { useState } from "react";
 import { Foot } from "./Styles";
 import { Container } from "../../styles/global";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const Footer = () => {
+  const [login] = useState(
+    localStorage.getItem("log") === "PÃO DA VÓ" ?? false
+  );
   return (
     <Foot>
       <Container>
@@ -11,14 +14,30 @@ const Footer = () => {
           <div className="footer-col">
             <h4>Agende seu horário</h4>
             <ul>
+              {login && (
+                <li>
+                  <Link to="/dashboard/aprovar-horarios" className="link">
+                    Dashboard
+                  </Link>
+                </li>
+              )}
               <li>
-              <Link to="/agendamento" className="link">
-                Agendar</Link>
+                <Link to="/agendamento" className="link">
+                  Agendar
+                </Link>
               </li>
               <li>
-              <Link to="/feedback" className="link">
-                Avaliar</Link>
+                <Link to="/feedback" className="link">
+                  Avaliar
+                </Link>
               </li>
+              {login && (
+                <li>
+                  <Link to="/dashboard/lista-feedbacks" className="link">
+                    Feedbacks
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
           <div className="footer-col">
@@ -42,14 +61,15 @@ const Footer = () => {
           </div>
           <div className="footer-col">
             <h4>
-              Desenvolvido por <span>X</span>{' '}{' '}{' '}{' '}
+              Desenvolvido por <span>X</span>{" "}
               <a
                 href="https://www.instagram.com/_goulartmatheus/"
                 target="_blank"
                 rel="noreferrer"
                 className="insta-sazu"
               >
-                {' '} @_goulartMatheus
+                {" "}
+                @_goulartMatheus
               </a>
             </h4>
             <div className="social-links">
