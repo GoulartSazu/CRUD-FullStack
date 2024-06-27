@@ -166,7 +166,7 @@ const FeedBackList = () => {
         DETALHES DO FEEDBACK DE NÚMERO <strong>{props.data?.id}</strong>
       </h3>
       <div>
-        <div>COMENTÁRIO COMPLETO 🔥 {props.data?.fdb_message}</div>
+        <div>COMENTÁRIO COMPLETO 🔥<br /> {props.data?.fdb_message}</div>
       </div>
     </Detalhes>
   );
