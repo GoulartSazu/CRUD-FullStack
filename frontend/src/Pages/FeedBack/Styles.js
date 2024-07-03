@@ -12,6 +12,12 @@ export const Finish = styled.div`
     width: 100%;
     justify-content: center;
     display: flex !important;
+    @media only screen and (max-width: 950px) {
+      svg {
+        width: 40px !important;
+        height: 40px !important;
+      }
+    }
   }
   .videos {
     display: flex;
@@ -184,7 +190,7 @@ export const Finish = styled.div`
       justify-content: center;
     }
     video {
-      width: 88%;
+      width: 60%;
       margin: 0 auto 40px;
     }
     .videos {
@@ -236,4 +242,9 @@ export const Input = styled.textarea`
   display: flex;
   height: 200px;
   resize: none;
+  @media only screen and (max-width: 950px) {
+    font-size: 14px;
+    height: 100px;
+    width: 70%;
+  }
 `;

@@ -39,7 +39,7 @@ export const Head = styled.div`
     text-decoration: none;
     letter-spacing: 1px;
     font-weight: 300;
-    font-size: 30px;
+    font-size: 24px;
     position: relative;
     ::after {
       content: '';

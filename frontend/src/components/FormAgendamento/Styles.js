@@ -92,7 +92,7 @@ export const CheckboxButton = styled.button`
   font-weight: 300;
   transition: all 0.3s;
   transform: ${({ checked }) => (checked ? "scale(1.05)" : "scale(1)")};
-  width: 30%;
+  width: 100%;
   line-height: 24px;
   :hover {
     box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.9);
@@ -185,13 +185,66 @@ export const FormContainer = styled.form`
   }
 `;
 
+export const TotalPrice = styled.div`
+  background: linear-gradient(to bottom right, #00ff20, #01980d, #005006);
+  color: white;
+  position: fixed;
+  right: 0;
+  z-index: 9999999;
+  top: 120px;
+  padding: 15px;
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  @media only screen and (max-width: 950px) {
+    bottom: 0;
+    top: inherit;
+    font-size: 12px;
+    padding: 10px;
+    border-bottom-left-radius: 0px;
+  }
+`;
+
 export const SelectionContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  div {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .price {
+      border: none;
+      box-shadow: 0px 0px 5px rgba(255, 255, 255, 0.9);
+      margin-top: -5px;
+      z-index: 999999999;
+      position: relative;
+      border-top-right-radius: 0px;
+      border-top-left-radius: 0px;
+    }
+    .checked {
+      transform: scale(1.05);
+      margin-top: -1.5px;
+    }
+  }
 
   @media only screen and (max-width: 950px) {
     flex-direction: column;
+    height: inherit;
+    div {
+      margin-bottom: 20px;
+      width: 100%;
+      .price {
+        font-size: 12px;
+      }
+      .checked {
+        transform: scale(1);
+        margin-top: -4.5px;
+      }
+    }
   }
 `;
 
@@ -474,13 +527,16 @@ export const InputAreaName = styled.div`
     color: white;
     margin: 20px 0;
   }
-  .end {
-  }
+
   @media only screen and (max-width: 950px) {
+    .endereco {
+      font-size: 14px;
+    }
     .end {
       width: 80%;
       margin-right: auto;
       margin-left: auto;
+      font-size: 14px;
       display: flex;
     }
   }

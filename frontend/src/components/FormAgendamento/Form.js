@@ -10,6 +10,7 @@ import {
   InputContainer,
   InputAreaName,
   ButtonParticipar,
+  TotalPrice,
   InputAreaDate,
   InputAreaYesNot,
 } from "./Styles.js";
@@ -21,7 +22,7 @@ import Modal from "react-modal";
 const Form = ({ onEdit }) => {
   const ref = useRef();
   const [checkService, setCheckService] = useState("lavagemCompleta");
-  const [checkCar, setCheckCar] = useState(null);
+  const [checkCar, setCheckCar] = useState("medio");
   const [checkLocal, setCheckLocal] = useState(null);
   const [checkTime, setCheckTime] = useState(null);
   const [selectedDate, setSelectedDate] = useState("");
@@ -118,6 +119,29 @@ const Form = ({ onEdit }) => {
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  function calcTotalPrice() {
+    let totalPrice = 0;
+
+    if (checkService === "lavagemCompleta") {
+      totalPrice = 105;
+      if (checkCar === "medio") {
+        totalPrice = 85;
+      }
+    }
+
+    if (checkService !== "lavagemCompleta") {
+      totalPrice = 65;
+      if (checkCar === "medio") {
+        totalPrice = 55;
+      }
+    }
+
+    if (checkLocal === "delivery") {
+      totalPrice = totalPrice + 20;
+    }
+    return totalPrice;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -381,26 +405,6 @@ const Form = ({ onEdit }) => {
       return toast.warn("Data passada não permitida!");
     }
 
-    let totalPrice = 0;
-
-    if (checkService === "lavagemCompleta") {
-      totalPrice = 105;
-      if (checkCar === "medio") {
-        totalPrice = 85;
-      }
-    }
-
-    if (checkService !== "lavagemCompleta") {
-      totalPrice = 65;
-      if (checkCar === "medio") {
-        totalPrice = 55;
-      }
-    }
-
-    if (checkLocal === "delivery") {
-      totalPrice = totalPrice + 20;
-    }
-
     const data = {
       service: checkService,
       car: checkCar,
@@ -411,7 +415,7 @@ const Form = ({ onEdit }) => {
         : null,
       agendamentoDate: selectedDate,
       agendamentoDateValue: form.age_data.value,
-      totalPrice: totalPrice,
+      totalPrice: calcTotalPrice(),
       fidelidade: fidelidade,
       placa: form.vei_placa.value ? form.vei_placa.value.toUpperCase() : null,
       telefone: form.vei_telefone.value
@@ -429,41 +433,72 @@ const Form = ({ onEdit }) => {
 
   return (
     <Container>
+      <TotalPrice>VALOR TOTAL: R$ {calcTotalPrice()},00</TotalPrice>
       <FormContainer ref={ref} onSubmit={handleSubmit}>
         <div className="section">
           <h3>Serviço</h3>
           <p>Qual serviço deseja contratar?</p>
           <SelectionContainer>
-            <CheckboxButton
-              checked={checkService === "lavagemCompleta"}
-              onClick={(e) => {
-                e.preventDefault();
-                handleCheckService("lavagemCompleta");
-              }}
-            >
-              <span>Lavagem Completa</span>{" "}
-              <i className="fas fa-angle-right"></i> Interna e externa
-            </CheckboxButton>
-            <CheckboxButton
-              checked={checkService === "aparencia"}
-              onClick={(e) => {
-                e.preventDefault();
-                handleCheckService("aparencia");
-              }}
-            >
-              <span>Aparência</span> <i className="fas fa-angle-right"></i>{" "}
-              Lavagem externa
-            </CheckboxButton>
-            <CheckboxButton
-              checked={checkService === "interna"}
-              onClick={(e) => {
-                e.preventDefault();
-                handleCheckService("interna");
-              }}
-            >
-              <span>Interna</span> <i className="fas fa-angle-right"></i>{" "}
-              Limpeza interna
-            </CheckboxButton>
+            <div>
+              <CheckboxButton
+                checked={checkService === "lavagemCompleta"}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleCheckService("lavagemCompleta");
+                }}
+              >
+                <span>Lavagem Completa</span>{" "}
+                <i className="fas fa-angle-right"></i> Interna e externa.
+              </CheckboxButton>
+              <span
+                className={`price ${
+                  checkService === "lavagemCompleta" ? "checked" : ""
+                }`}
+              >
+                {/* {checkCar === "grande" ? "R$ 105,00" : "R$ 85,00"} */}
+                R$ 85,00
+              </span>
+            </div>
+            <div>
+              <CheckboxButton
+                checked={checkService === "aparencia"}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleCheckService("aparencia");
+                }}
+              >
+                <span>Aparência</span> <i className="fas fa-angle-right"></i>{" "}
+                Lavagem externa.
+              </CheckboxButton>
+              <span
+                className={`price ${
+                  checkService === "aparencia" ? "checked" : ""
+                }`}
+              >
+                {/* {checkCar === "grande" ? "R$ 65,00" : "R$ 55,00"} */}
+                R$ 55,00
+              </span>
+            </div>
+            <div>
+              <CheckboxButton
+                checked={checkService === "interna"}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleCheckService("interna");
+                }}
+              >
+                <span>Interna</span> <i className="fas fa-angle-right"></i>{" "}
+                Limpeza interna.
+              </CheckboxButton>
+              <span
+                className={`price ${
+                  checkService === "interna" ? "checked" : ""
+                }`}
+              >
+                {/* {checkCar === "grande" ? "R$ 65,00" : "R$ 55,00"} */}
+                R$ 55,00
+              </span>
+            </div>
           </SelectionContainer>
         </div>
 
@@ -471,28 +506,39 @@ const Form = ({ onEdit }) => {
           <h3>Veículo</h3>
           <p>Qual o tamanho do seu veículo?</p>
           <SelectionContainer>
-            <CheckboxButton
-              checked={checkCar === "medio"}
-              className="car"
-              onClick={(e) => {
-                e.preventDefault();
-                handleCheckCar("medio");
-              }}
-            >
-              <span>Médio</span> <i className="fas fa-angle-right"></i> Nivus,
-              Compass, Polo, Saveiro. Em geral 5 lugares.
-            </CheckboxButton>
-            <CheckboxButton
-              checked={checkCar === "grande"}
-              className="car"
-              onClick={(e) => {
-                e.preventDefault();
-                handleCheckCar("grande");
-              }}
-            >
-              <span>Grande</span> <i className="fas fa-angle-right"></i> Ranger,
-              Sw4, Commander, Pajero. Em geral caminhonetes e 7 lugares.
-            </CheckboxButton>
+            <div className="car">
+              <CheckboxButton
+                checked={checkCar === "medio"}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleCheckCar("medio");
+                }}
+              >
+                <span>Médio</span> <i className="fas fa-angle-right"></i> Nivus,
+                Compass, Polo, Saveiro. Em geral veículos de 5 lugares.
+              </CheckboxButton>
+              <span
+                className={`price ${checkCar === "medio" ? "checked" : ""}`}
+              >
+                + R$ 00,00
+              </span>
+            </div>
+            <div className="car">
+              <CheckboxButton
+                checked={checkCar === "grande"}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleCheckCar("grande");
+                }}
+              >
+                <span>Grande</span> <i className="fas fa-angle-right"></i>{" "}
+                Ranger, Sw4, Commander, Pajero. Em geral caminhonetes e 7
+                lugares.
+              </CheckboxButton>
+              <span className={`price ${checkCar === "medio" ? "grande" : ""}`}>
+                + R$ 20,00
+              </span>
+            </div>
           </SelectionContainer>
         </div>
 
@@ -500,38 +546,66 @@ const Form = ({ onEdit }) => {
           <h3>Local</h3>
           <p>Qual local seria o serviço?</p>
           <SelectionContainer>
-            <CheckboxButton
-              checked={checkLocal === "delivery"}
-              onClick={(e) => {
-                e.preventDefault();
-                handleCheckLocal("delivery");
-              }}
-            >
-              <span>Delivery</span> <i className="fas fa-angle-right"></i> Vamos
-              até sua residência e levamos todo o equipamento necessário pra
-              realizar o serviço no local.
-            </CheckboxButton>
-            <CheckboxButton
-              checked={checkLocal === "espacoSplash"}
-              onClick={(e) => {
-                e.preventDefault();
-                handleCheckLocal("espacoSplash");
-              }}
-            >
-              <span>Espaco Splash</span> <i className="fas fa-angle-right"></i>{" "}
-              Você irá trazer seu veículo em nosso endereço.
-            </CheckboxButton>
-            <CheckboxButton
-              checked={checkLocal === "levaTras"}
-              onClick={(e) => {
-                e.preventDefault();
-                handleCheckLocal("levaTras");
-              }}
-            >
-              <span>Leva e Traz</span> <i className="fas fa-angle-right"></i>{" "}
-              Buscamos seu veículo, realizamos o serviço escolhido e levamos
-              novamente para o local de onde foi pego.
-            </CheckboxButton>
+            <div>
+              <CheckboxButton
+                checked={checkLocal === "delivery"}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleCheckLocal("delivery");
+                }}
+              >
+                <span>Delivery</span> <i className="fas fa-angle-right"></i>{" "}
+                Vamos até sua residência e levamos todo o equipamento necessário
+                pra realizar o serviço no local.
+              </CheckboxButton>
+              <span
+                className={`price ${
+                  checkService === "lavagemCompleta" ? "checked" : ""
+                }`}
+              >
+                + R$ 20,00
+              </span>
+            </div>
+            <div>
+              <CheckboxButton
+                checked={checkLocal === "espacoSplash"}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleCheckLocal("espacoSplash");
+                }}
+              >
+                <span>Espaco Splash</span>{" "}
+                <i className="fas fa-angle-right"></i> Você irá trazer seu
+                veículo em nosso endereço: Rua Quinze de Novembro, 773 - Centro.
+              </CheckboxButton>
+              <span
+                className={`price ${
+                  checkService === "lavagemCompleta" ? "checked" : ""
+                }`}
+              >
+                + R$ 00,00
+              </span>
+            </div>
+            <div>
+              <CheckboxButton
+                checked={checkLocal === "levaTras"}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleCheckLocal("levaTras");
+                }}
+              >
+                <span>Leva e Traz</span> <i className="fas fa-angle-right"></i>{" "}
+                Buscamos seu veículo, realizamos o serviço escolhido e levamos
+                novamente para o local de onde foi pego.
+              </CheckboxButton>
+              <span
+                className={`price ${
+                  checkService === "lavagemCompleta" ? "checked" : ""
+                }`}
+              >
+                + R$ 00,00
+              </span>
+            </div>
           </SelectionContainer>
           {(checkLocal === "levaTras" || checkLocal === "delivery") && (
             <InputAreaName className="loc">

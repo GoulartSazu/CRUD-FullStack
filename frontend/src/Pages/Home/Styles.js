@@ -166,7 +166,7 @@ export const HomePage = styled.div`
       justify-content: center;
     }
     video {
-      width: 88%;
+      width: 60%;
       margin: 0 auto 40px;
     }
     .videos {

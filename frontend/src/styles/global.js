@@ -149,6 +149,7 @@ export const Container = styled.div`
     }
   }
   @media only screen and (max-width: 950px) {
+    width: inherit;
     .dataTable {
       header {
         display: flex;
