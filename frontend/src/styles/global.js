@@ -166,6 +166,7 @@ export const Container = styled.div`
     .mob {
       width: 100%;
       font-size: 14px;
+      justify-content: center;
     }
   }
 `;
