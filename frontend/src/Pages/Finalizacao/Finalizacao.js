@@ -15,7 +15,6 @@ function Finalizacao() {
 
   useEffect(() => {
     let currentIndex = 0;
-    window.scrollTo(0, 0);
 
     if (hash.length < 50) {
       navigate("/");
@@ -32,6 +31,14 @@ function Finalizacao() {
 
     return () => clearInterval(typingInterval);
   }, [phrase, delay, navigate, hash]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 1000); // ajuste o tempo conforme necessário
+
+    return () => clearTimeout(timeout);
+  }, []);
 
   useEffect(() => {
     let currentIndex = 0;
