@@ -15,6 +15,7 @@ function Finalizacao() {
 
   useEffect(() => {
     let currentIndex = 0;
+    window.scrollTo(0, 0);
 
     if (hash.length < 50) {
       navigate("/");
