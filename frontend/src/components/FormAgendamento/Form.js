@@ -435,6 +435,46 @@ const Form = ({ onEdit }) => {
     <Container>
       <TotalPrice>VALOR TOTAL: R$ {calcTotalPrice()},00</TotalPrice>
       <FormContainer ref={ref} onSubmit={handleSubmit}>
+      <div className="section">
+          <h3>Veículo</h3>
+          <p>Qual o tamanho do seu veículo?</p>
+          <SelectionContainer>
+            <div className="car">
+              <CheckboxButton
+                checked={checkCar === "medio"}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleCheckCar("medio");
+                }}
+              >
+                <span>Médio</span> <i className="fas fa-angle-right"></i> Nivus,
+                Compass, Polo, Saveiro. Em geral veículos de 5 lugares.
+              </CheckboxButton>
+              {/* <span
+                className={`price ${checkCar === "medio" ? "checked" : ""}`}
+              >
+                + R$ 00,00
+              </span> */}
+            </div>
+            <div className="car">
+              <CheckboxButton
+                checked={checkCar === "grande"}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleCheckCar("grande");
+                }}
+              >
+                <span>Grande</span> <i className="fas fa-angle-right"></i>{" "}
+                Ranger, Sw4, Commander, Pajero. Em geral caminhonetes e 7
+                lugares.
+              </CheckboxButton>
+              {/* <span className={`price ${checkCar === "medio" ? "grande" : ""}`}>
+                + R$ 20,00
+              </span> */}
+            </div>
+          </SelectionContainer>
+        </div>
+
         <div className="section">
           <h3>Serviço</h3>
           <p>Qual serviço deseja contratar?</p>
@@ -455,8 +495,7 @@ const Form = ({ onEdit }) => {
                   checkService === "lavagemCompleta" ? "checked" : ""
                 }`}
               >
-                {/* {checkCar === "grande" ? "R$ 105,00" : "R$ 85,00"} */}
-                R$ 85,00
+                {checkCar === "grande" ? "R$ 105,00" : "R$ 85,00"}
               </span>
             </div>
             <div>
@@ -475,8 +514,7 @@ const Form = ({ onEdit }) => {
                   checkService === "aparencia" ? "checked" : ""
                 }`}
               >
-                {/* {checkCar === "grande" ? "R$ 65,00" : "R$ 55,00"} */}
-                R$ 55,00
+                {checkCar === "grande" ? "R$ 65,00" : "R$ 55,00"}
               </span>
             </div>
             <div>
@@ -495,48 +533,7 @@ const Form = ({ onEdit }) => {
                   checkService === "interna" ? "checked" : ""
                 }`}
               >
-                {/* {checkCar === "grande" ? "R$ 65,00" : "R$ 55,00"} */}
-                R$ 55,00
-              </span>
-            </div>
-          </SelectionContainer>
-        </div>
-
-        <div className="section">
-          <h3>Veículo</h3>
-          <p>Qual o tamanho do seu veículo?</p>
-          <SelectionContainer>
-            <div className="car">
-              <CheckboxButton
-                checked={checkCar === "medio"}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleCheckCar("medio");
-                }}
-              >
-                <span>Médio</span> <i className="fas fa-angle-right"></i> Nivus,
-                Compass, Polo, Saveiro. Em geral veículos de 5 lugares.
-              </CheckboxButton>
-              <span
-                className={`price ${checkCar === "medio" ? "checked" : ""}`}
-              >
-                + R$ 00,00
-              </span>
-            </div>
-            <div className="car">
-              <CheckboxButton
-                checked={checkCar === "grande"}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleCheckCar("grande");
-                }}
-              >
-                <span>Grande</span> <i className="fas fa-angle-right"></i>{" "}
-                Ranger, Sw4, Commander, Pajero. Em geral caminhonetes e 7
-                lugares.
-              </CheckboxButton>
-              <span className={`price ${checkCar === "medio" ? "grande" : ""}`}>
-                + R$ 20,00
+                {checkCar === "grande" ? "R$ 65,00" : "R$ 55,00"}
               </span>
             </div>
           </SelectionContainer>

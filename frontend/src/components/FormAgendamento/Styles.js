@@ -141,7 +141,7 @@ export const FormContainer = styled.form`
     color: white;
   }
   .section {
-    margin-bottom: 100px;
+    margin-bottom: 50px;
     .loc {
       width: 100%;
     }
@@ -193,15 +193,15 @@ export const TotalPrice = styled.div`
   z-index: 9999999;
   top: 120px;
   padding: 15px;
-  border-bottom-left-radius: 10px;
-  border-top-left-radius: 10px;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
   font-weight: 400;
   letter-spacing: 1px;
   @media only screen and (max-width: 950px) {
     bottom: 0;
     top: inherit;
-    font-size: 12px;
-    padding: 10px;
+    font-size: 14px;
+    padding: 20px;
     border-bottom-left-radius: 0px;
   }
 `;
