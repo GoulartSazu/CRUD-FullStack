@@ -137,20 +137,7 @@ const ConfirmationModal = ({ data }) => {
       })
       .then(({ data }) => {
         toast.success(data);
-        setTimeout(() => {
-          toast.success("Você será direcionado em 3");
-        }, 1000);
-
-        setTimeout(() => {
-          toast.success("Você será direcionado em 2");
-        }, 2000);
-
-        setTimeout(() => {
-          toast.success("Você será direcionado em 1");
-          setTimeout(() => {
-            navigate("/finalizacao");
-          }, 1000);
-        }, 3000);
+        navigate("/finalizacao");
       })
 
       .catch(({ response }) => toast.error(response.data));

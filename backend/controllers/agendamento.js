@@ -171,7 +171,7 @@ export const addAgendamento = (req, res) => {
           updateQtdServicos(veiculoId);
         }
 
-        return res.status(200).json("Agendamento criado com sucesso.");
+        return res.status(200).json("Agendamento realizado com sucesso!");
       });
     });
   });

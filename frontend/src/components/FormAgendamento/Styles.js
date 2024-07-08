@@ -562,7 +562,7 @@ export const Button = styled.button`
   margin: auto;
   background: linear-gradient(to bottom right, #800080, #4b0082);
   box-shadow: rgb(255, 255, 255, 0.5) 0px 0px 55px;
-  border-radius: 10px;
+  border-radius: 5px;
   z-index: 0;
   overflow: hidden;
   display: flex;
@@ -664,7 +664,9 @@ export const Button = styled.button`
     }
   }
   @media only screen and (max-width: 950px) {
-    font-size: 20px;
+    font-size: 14px;
+    width: 80%;
+    justify-content: center;
     padding: 10px 20px;
     text-align: center;
   }
@@ -706,8 +708,9 @@ export const ButtonParticipar = styled.button`
   }
 
   @media only screen and (max-width: 950px) {
-    font-size: 20px;
+    font-size: 14px;
     padding: 10px 20px;
+    width: 80%;
     text-align: center;
   }
 `;

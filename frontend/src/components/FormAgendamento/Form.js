@@ -31,7 +31,7 @@ const Form = ({ onEdit }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [infosForm, setInfosForm] = useState({});
   const [contentWidth, setContentWidth] = useState("40%");
-  const [active, setActive] = useState("PARTICIPAR");
+  const [active, setActive] = useState("SALVAR");
   const [fidelidade, setFidelidade] = useState("");
   const [agendamento, setAgendamento] = useState(false);
   const [qtdFidelidade, setQtdFidelidade] = useState(null);
@@ -158,13 +158,13 @@ const Form = ({ onEdit }) => {
       }
     }
 
-    if (!agendamento) {
+    if (agendamento) {
       if (form.vei_placa.value) {
         if (form.vei_placa.value.length !== 7) {
           return toast.warn("A Placa deve possuir 7 caracteres");
         }
         if (!form.vei_nome.value || !form.vei_telefone.value) {
-          setActive("PARTICIPAR");
+          setActive("SALVAR");
           setFidelidade("");
           return toast.warn(
             "Preencha o nome e o telefone para participar do programa de fidelidade!"
@@ -174,7 +174,7 @@ const Form = ({ onEdit }) => {
 
       if (form.vei_nome.value) {
         if (!form.vei_placa.value || !form.vei_telefone.value) {
-          setActive("PARTICIPAR");
+          setActive("SALVAR");
           setFidelidade("");
           return toast.warn(
             "Preencha a placa e o telefone para participar do programa de fidelidade!"
@@ -187,7 +187,7 @@ const Form = ({ onEdit }) => {
           return toast.warn("O Número de Telefone deve possuir 15 caracteres");
         }
         if (!form.vei_placa.value || !form.vei_nome.value) {
-          setActive("PARTICIPAR");
+          setActive("SALVAR");
           setFidelidade("");
           return toast.warn(
             "Preencha o nome e a placa para participar do programa de fidelidade!"
@@ -378,7 +378,6 @@ const Form = ({ onEdit }) => {
           })
           .catch(({ response }) => toast.error(response.data));
       }
-      return;
     }
 
     if (!form.age_data.value) {
@@ -399,6 +398,18 @@ const Form = ({ onEdit }) => {
 
     if (!checkService) {
       return toast.warn("Por favor, selecione qual o tipo de serviço!");
+    }
+
+    if (!form.vei_placa.value) {
+      return toast.warn("Por favor, informe a placa do veículo.");
+    }
+
+    if (!form.vei_nome.value) {
+      return toast.warn("Por favor, informe o nome.");
+    }
+
+    if (!form.vei_telefone.value) {
+      return toast.warn("Por favor, informe o telefone.");
     }
 
     if (selectedDate.includes("passado")) {
@@ -435,7 +446,7 @@ const Form = ({ onEdit }) => {
     <Container>
       <TotalPrice>VALOR TOTAL: R$ {calcTotalPrice()},00</TotalPrice>
       <FormContainer ref={ref} onSubmit={handleSubmit}>
-      <div className="section">
+        <div className="section">
           <h3>Veículo</h3>
           <p>Qual o tamanho do seu veículo?</p>
           <SelectionContainer>
@@ -686,10 +697,10 @@ const Form = ({ onEdit }) => {
           <h3>Programa Fidelidade</h3>
 
           <p>
-            Gostaria de ganhar uma <strong>lavagem totalmente gratuita?</strong>{" "}
-            A cada 10 lavagens conosco a próxima é por nossa conta! 🤩
+            A cada 10 lavagens conosco a próxima é por{" "}
+            <strong>nossa conta!</strong> 🤩
           </p>
-          <p>Para participar basta preencher as 3 informações abaixo! ⬇️</p>
+          <p>Por favor preencha as as 3 informações abaixo! ⬇️</p>
           <InputContainer>
             <InputAreaName>
               {/* <h5>Nome Completo</h5> */}
@@ -698,7 +709,7 @@ const Form = ({ onEdit }) => {
                 name="vei_nome"
                 type="text"
                 onChange={() => {
-                  setActive("PARTICIPAR");
+                  setActive("SALVAR");
                   setFidelidade("");
                 }}
               />
@@ -725,7 +736,7 @@ const Form = ({ onEdit }) => {
                       2
                     )}) ${phoneNumber.slice(2, 7)}-${phoneNumber.slice(7)}`; // Adiciona o formato (99) 99999-9999
                   }
-                  setActive("PARTICIPAR");
+                  setActive("SALVAR");
                   setFidelidade("");
                 }}
               />
@@ -737,14 +748,14 @@ const Form = ({ onEdit }) => {
                 maxLength={7}
                 type="text"
                 onChange={() => {
-                  setActive("PARTICIPAR");
+                  setActive("SALVAR");
                   setFidelidade("");
                 }}
               />
             </InputArea>
             <InputArea className="wd">
               {/* <h5 className="transp">Placa do veículo</h5> */}
-              <ButtonParticipar
+              {/* <ButtonParticipar
                 className={active}
                 type="submit"
                 disabled={weekDay === "DOMINGO"}
@@ -753,7 +764,7 @@ const Form = ({ onEdit }) => {
                 }}
               >
                 {active} ✅
-              </ButtonParticipar>
+              </ButtonParticipar> */}
             </InputArea>
           </InputContainer>
           <p>{fidelidade}</p>

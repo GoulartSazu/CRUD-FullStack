@@ -153,13 +153,13 @@ export const Container = styled.div`
     .dataTable {
       header {
         display: flex;
-        flex-direction: column;
         justify-content: center;
         button,
         input {
-          width: 85%;
+          width: 15%;
           margin: 10px auto;
           display: flex;
+          font-size: 10px;
         }
       }
     }
