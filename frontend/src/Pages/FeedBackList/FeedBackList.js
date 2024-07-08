@@ -28,11 +28,13 @@ const FilterGlobal = ({ filterText, onFilter, handleClick }) => (
 
 const FeedBackList = () => {
   const [feedbacks, setFeedbacks] = useState([]);
+  
   const [selectedRows, setSelectedRows] = useState([]);
   const [toggledClearRows, setToggleClearRows] = useState(false);
   const [filterText, setFilterText] = useState("");
   const [filterTextService, setFilterTextService] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
+  const apiUrl = process.env.REACT_APP_API_URL;
   const [login, setLogin] = useState(
     localStorage.getItem("log") === "PÃO DA VÓ" ?? false
   );
@@ -43,12 +45,10 @@ const FeedBackList = () => {
       (item.fdb_message &&
         item.fdb_message.toUpperCase().includes(filterText.toUpperCase()))
   );
-  console.log(feedbacks);
-  console.log(filteredItems);
   const getFeedBacks = async () => {
     try {
       const res = await axios.get(
-        "https://splashpg.com.br/api/feedback/getFeedbacks"
+        `${apiUrl}feedback/getFeedbacks`
       );
       setSelectedRows([]);
       setFilterText("");

@@ -35,6 +35,7 @@ const Form = ({ onEdit }) => {
   const [fidelidade, setFidelidade] = useState("");
   const [agendamento, setAgendamento] = useState(false);
   const [qtdFidelidade, setQtdFidelidade] = useState(null);
+  const apiUrl = process.env.REACT_APP_API_URL;
   const [yesNot, setYesNot] = useState({
     show: false,
     update: false,
@@ -146,6 +147,8 @@ const Form = ({ onEdit }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = ref.current;
+    let fidelidadeMsg = "";
+    let quantidadeAtt = 0;
 
     if (checkLocal === "levaTras" || checkLocal === "delivery") {
       if (form.age_endereco?.value?.length < 10) {
@@ -195,188 +198,132 @@ const Form = ({ onEdit }) => {
         }
       }
 
-      if (yesNot.update && yesNot.veiculoId) {
-        await axios
-          .put(`https://splashpg.com.br/api/veiculo/${yesNot.veiculoId}`, {
-            vei_placa: form.vei_placa.value.toUpperCase(),
-            vei_nome_dono: form.vei_nome.value.toUpperCase(),
-            vei_telefone_dono: form.vei_telefone.value.toUpperCase(),
-          })
-          .then(({ data }) => {
-            setActive("PARTICIPANDO");
-            setYesNot({
-              show: false,
-              update: yesNot.update,
-              veiculoId: yesNot.veiculoId,
-            });
-
-            let qtdAgendamentos = 0;
-
-            if (data[1] < 10) {
-              qtdAgendamentos = 10 - data[1];
-            }
-
-            if (data[1] >= 10) {
-              if (data[1] % 10 === 1) {
-                toast.success(data[0]);
-                console.log("1", data[1]);
-                setQtdFidelidade(data[1]);
-                return setFidelidade(
-                  `🌟 Parabéns! Esse é seu agendamento de número ${data[1]}! Essa lavagem será 100% gratuita! 🌟`
-                );
-              }
-              if (data[1] % 10 === 0) {
-                toast.success(data[0]);
-                console.log("2", data[1]);
-                setQtdFidelidade(data[1]);
-                return setFidelidade(
-                  `Esse é seu agendamento de número ${data[1]}! Sua próxima lavagem será por nossa conta! 😎`
-                );
-              }
-              qtdAgendamentos = 10 - (data[1] % 10);
-              console.log("3", data[1]);
-              setQtdFidelidade(data[1]);
-            }
-            setQtdFidelidade(data[1]);
-            setFidelidade(
-              `Esse é seu agendamento de número ${data[1]}, contrate mais ${qtdAgendamentos} lavagens para obter o serviço gratuito!`
-            );
-
-            if (data[1] === 0) {
-              setFidelidade(
-                `Esse é seu primeiro agendamento com fidelidade, contrate mais 9 lavagens para obter o serviço gratuito!`
-              );
-            }
-            return toast.success(data[0]);
-          })
-          .catch(({ response }) => toast.error(response.data));
-      }
-
-      if (!yesNot.update && yesNot.veiculoId) {
-        await axios
-          .put(`https://splashpg.com.br/api/veiculo/${yesNot.veiculoId}`, {
-            vei_id: yesNot.veiculoId,
-          })
-          .then(({ data }) => {
-            setActive("PARTICIPANDO");
-            setYesNot({
-              show: false,
-              update: yesNot.update,
-              veiculoId: yesNot.veiculoId,
-            });
-
-            let qtdAgendamentos = 0;
-
-            if (data[1] < 10) {
-              qtdAgendamentos = 10 - data[1];
-            }
-
-            if (data[1] >= 10) {
-              if (data[1] % 10 === 1) {
-                toast.success(data[0]);
-                console.log("4", data[1]);
-                setQtdFidelidade(data[1]);
-                return setFidelidade(
-                  `🌟 Parabéns! Esse é seu agendamento de número ${data[1]}! Essa lavagem será 100% gratuita! 🌟`
-                );
-              }
-              if (data[1] % 10 === 0) {
-                toast.success(data[0]);
-                console.log("5", data[1]);
-                setQtdFidelidade(data[1]);
-                return setFidelidade(
-                  `Esse é seu agendamento de número ${data[1]}! Sua próxima lavagem será por nossa conta! 😎`
-                );
-              }
-              qtdAgendamentos = 10 - (data[1] % 10);
-              console.log("6", data[1]);
-              setQtdFidelidade(data[1]);
-            }
-            setQtdFidelidade(data[1]);
-            setFidelidade(
-              `Esse é seu agendamento de número ${data[1]}, contrate mais ${qtdAgendamentos} lavagens para obter o serviço gratuito!`
-            );
-
-            if (data[1] === 0) {
-              setQtdFidelidade(1);
-              setFidelidade(
-                `Esse é seu primeiro agendamento com fidelidade, contrate mais 9 lavagens para obter o serviço gratuito!`
-              );
-            }
-
-            return toast.success(data[0]);
-          })
-          .catch(({ response }) => toast.error(response.data));
-      }
-
       if (
         form.vei_telefone.value &&
         form.vei_nome.value &&
-        form.vei_placa.value &&
-        !yesNot.update &&
-        !yesNot.veiculoId
+        form.vei_placa.value
       ) {
         await axios
-          .post("https://splashpg.com.br/api/veiculo", {
+          .post(`${apiUrl}veiculo`, {
             vei_placa: form.vei_placa.value.toUpperCase(),
             vei_nome_dono: form.vei_nome.value.toUpperCase(),
             vei_telefone_dono: form.vei_telefone.value.toUpperCase(),
             atualizar: yesNot.update,
           })
-          .then(({ data }) => {
+          .then(async ({ data }) => {
             if (data[1] === -1) {
-              setFidelidade(
-                `Já existe um veículo cadastrado com a placa ${form.vei_placa.value.toUpperCase()} porém com dados diferentes, deseja atualizar o nome e telefone?`
-              );
-              setYesNot({
-                show: true,
-                update: yesNot.update,
-                veiculoId: data[2],
-              });
-              return toast.warning(data[0]);
+              if (data[2] > 0) {
+                await axios
+                  .put(`${apiUrl}veiculo/${data[2]}`, {
+                    vei_id: data[2],
+                  })
+                  .then(({ data: response }) => {
+                    setActive("PARTICIPANDO");
+                    setYesNot({
+                      show: false,
+                      update: yesNot.update,
+                      veiculoId: data[2],
+                    });
+
+                    let qtdAgendamentos = 0;
+
+                    if (response[1] < 10) {
+                      qtdAgendamentos = 10 - response[1];
+                    }
+
+                    if (response[1] >= 10) {
+                      if (response[1] % 10 === 1) {
+                        toast.success(response[0]);
+                        setQtdFidelidade(response[1]);
+                        fidelidadeMsg = `🌟 Parabéns! Esse é seu agendamento de número ${response[1]}! Essa lavagem será 100% gratuita! 🌟`;
+                        return setFidelidade(
+                          `🌟 Parabéns! Esse é seu agendamento de número ${response[1]}! Essa lavagem será 100% gratuita! 🌟`
+                        );
+                      }
+                      if (response[1] % 10 === 0) {
+                        toast.success(response[0]);
+                        setQtdFidelidade(response[1]);
+                        fidelidadeMsg = `Esse é seu agendamento de número ${response[1]}! Sua próxima lavagem será por nossa conta! 😎`;
+                        return setFidelidade(
+                          `Esse é seu agendamento de número ${response[1]}! Sua próxima lavagem será por nossa conta! 😎`
+                        );
+                      }
+                      qtdAgendamentos = 10 - (response[1] % 10);
+
+                      setQtdFidelidade(response[1]);
+                    }
+                    setQtdFidelidade(response[1]);
+                    fidelidadeMsg = `Esse é seu agendamento de número ${response[1]}, contrate mais ${qtdAgendamentos} lavagens para obter o serviço gratuito!`;
+                    setFidelidade(
+                      `Esse é seu agendamento de número ${response[1]}, contrate mais ${qtdAgendamentos} lavagens para obter o serviço gratuito!`
+                    );
+
+                    if (response[1] === 0) {
+                      setQtdFidelidade(1);
+                      fidelidadeMsg = `Esse é seu primeiro agendamento com fidelidade, contrate mais 9 lavagens para obter o serviço gratuito!`;
+                      setFidelidade(
+                        `Esse é seu primeiro agendamento com fidelidade, contrate mais 9 lavagens para obter o serviço gratuito!`
+                      );
+                    }
+                    fidelidadeMsg = response[0];
+                    quantidadeAtt = response[1];
+                    return toast.success(response[0]);
+                  })
+                  .catch(({ response }) => toast.error(response.data));
+              }
             }
             setActive("PARTICIPANDO");
             let qtdAgendamentos = 0;
-
-            if (data[1] < 10) {
-              qtdAgendamentos = 10 - data[1];
+            if (quantidadeAtt === 0) {
+              quantidadeAtt = data[1];
             }
 
-            if (data[1] >= 10) {
-              if (data[1] % 10 === 1) {
-                toast.success(data[0]);
-                console.log("7", data[1]);
-                setQtdFidelidade(data[1]);
-                return setFidelidade(
-                  `🌟 Parabéns! Esse é seu agendamento de número ${data[1]}! Essa lavagem será 100% gratuita! 🌟`
-                );
-              }
-              if (data[1] % 10 === 0) {
-                toast.success(data[0]);
-                console.log("8", data[1]);
-                setQtdFidelidade(data[1]);
-                return setFidelidade(
-                  `Esse é seu agendamento de número ${data[1]}! Sua próxima lavagem será por nossa conta! 😎`
-                );
-              }
-              qtdAgendamentos = 10 - (data[1] % 10);
-              console.log("9", data[1]);
-              setQtdFidelidade(data[1]);
+            if (quantidadeAtt < 10) {
+              qtdAgendamentos = 10 - quantidadeAtt;
             }
-            setQtdFidelidade(data[1]);
+
+            if (quantidadeAtt >= 10) {
+              if (quantidadeAtt % 10 === 1) {
+                toast.success(data[0]);
+                setQtdFidelidade(quantidadeAtt);
+                fidelidadeMsg = `🌟 Parabéns! Esse é seu agendamento de número ${quantidadeAtt}! Essa lavagem será 100% gratuita! 🌟`;
+                return setFidelidade(
+                  `🌟 Parabéns! Esse é seu agendamento de número ${quantidadeAtt}! Essa lavagem será 100% gratuita! 🌟`
+                );
+              }
+              if (quantidadeAtt % 10 === 0) {
+                toast.success(data[0]);
+                setQtdFidelidade(quantidadeAtt);
+                fidelidadeMsg = `Esse é seu agendamento de número ${quantidadeAtt}! Sua próxima lavagem será por nossa conta! 😎`;
+                return setFidelidade(
+                  `Esse é seu agendamento de número ${quantidadeAtt}! Sua próxima lavagem será por nossa conta! 😎`
+                );
+              }
+              qtdAgendamentos = 10 - (quantidadeAtt % 10);
+              setQtdFidelidade(quantidadeAtt);
+            }
+            setQtdFidelidade(quantidadeAtt);
+            if (
+              !fidelidadeMsg.includes("conta!") &&
+              !fidelidadeMsg.includes("100%")
+            ) {
+              fidelidadeMsg = `Esse é seu agendamento de número ${quantidadeAtt}, contrate mais ${qtdAgendamentos} lavagens para obter o serviço gratuito!`;
+            }
             setFidelidade(
-              `Esse é seu agendamento de número ${data[1]}, contrate mais ${qtdAgendamentos} lavagens para obter o serviço gratuito!`
+              `Esse é seu agendamento de número ${quantidadeAtt}, contrate mais ${qtdAgendamentos} lavagens para obter o serviço gratuito!`
             );
 
-            if (data[1] === 0) {
+            if (quantidadeAtt === 0) {
+              fidelidadeMsg = `Esse é seu primeiro agendamento com fidelidade, contrate mais 9 lavagens para obter o serviço gratuito!`;
               setFidelidade(
                 `Esse é seu primeiro agendamento com fidelidade, contrate mais 9 lavagens para obter o serviço gratuito!`
               );
             }
-
-            toast.success(data[0]);
+            if (data[0]?.includes("Parabéns")) {
+              toast.success(data[0]);
+            }
           })
-          .catch(({ response }) => toast.error(response.data));
+          .catch(({ response }) => toast.error(response));
       }
     }
 
@@ -427,7 +374,7 @@ const Form = ({ onEdit }) => {
       agendamentoDate: selectedDate,
       agendamentoDateValue: form.age_data.value,
       totalPrice: calcTotalPrice(),
-      fidelidade: fidelidade,
+      fidelidade: fidelidadeMsg,
       placa: form.vei_placa.value ? form.vei_placa.value.toUpperCase() : null,
       telefone: form.vei_telefone.value
         ? form.vei_telefone.value.toUpperCase()
@@ -803,6 +750,11 @@ const Form = ({ onEdit }) => {
         </div>
         <Button
           onClick={() => {
+            setYesNot({
+              show: false,
+              update: false,
+              veiculoId: yesNot.veiculoId,
+            });
             setAgendamento(true);
           }}
           type="submit"

@@ -8,6 +8,7 @@ import { Container } from "../../styles/global";
 const ConfirmationModal = ({ data }) => {
   const [free, setFree] = useState("Não participando.");
   const navigate = useNavigate();
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     if (data.fidelidade) {
@@ -119,7 +120,7 @@ const ConfirmationModal = ({ data }) => {
     localStorage.setItem("placa", data.placa ?? "-");
     localStorage.setItem("hash", hash);
     await axios
-      .post("https://splashpg.com.br/api/agendamento", {
+      .post(`${apiUrl}agendamento`, {
         age_servico: data.service.toUpperCase(),
         age_veiculo: data.car.toUpperCase(),
         age_local: data.local.toUpperCase(),

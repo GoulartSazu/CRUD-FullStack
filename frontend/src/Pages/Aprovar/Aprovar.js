@@ -70,6 +70,7 @@ const Aprovar = () => {
   const [infosAgendamento, setInfosAgendamento] = useState({});
   const [filterTextService, setFilterTextService] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
+  const apiUrl = process.env.REACT_APP_API_URL;
   const [login, setLogin] = useState(
     localStorage.getItem("log") === "PÃO DA VÓ" ?? false
   );
@@ -87,7 +88,7 @@ const Aprovar = () => {
   const getAgendamentos = async () => {
     try {
       const res = await axios.get(
-        "https://splashpg.com.br/api/agendamento/getAgendamentos"
+        `${apiUrl}agendamento/getAgendamentos`
       );
       setSelectedRows([]);
       setFilterText("");

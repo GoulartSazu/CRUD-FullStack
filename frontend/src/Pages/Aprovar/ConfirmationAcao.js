@@ -5,13 +5,14 @@ import { toast } from "react-toastify";
 import { Container } from "../../styles/global";
 
 const ConfirmationAcao = ({ data, onCloseModal, onGetAgendamentos }) => {
+  const apiUrl = process.env.REACT_APP_API_URL;
   const updateAgendamento = async () => {
     if (!data.id || data.id < 1) {
       return toast.warning("Agendamento não localizado.");
     }
 
     await axios
-      .put("https://splashpg.com.br/api/agendamento/" + data.id, {
+      .put(`${apiUrl}agendamento/` + data.id, {
         age_status: data.acao,
         pw: localStorage.getItem("log"),
       })
