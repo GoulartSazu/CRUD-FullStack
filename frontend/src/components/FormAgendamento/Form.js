@@ -594,7 +594,7 @@ const Form = ({ onEdit }) => {
                 + R$ 00,00
               </span>
             </div>
-            <div>
+            {/* <div>
               <CheckboxButton
                 checked={checkLocal === "levaTras"}
                 onClick={(e) => {
@@ -613,7 +613,7 @@ const Form = ({ onEdit }) => {
               >
                 + R$ 00,00
               </span>
-            </div>
+            </div> */}
           </SelectionContainer>
           {(checkLocal === "levaTras" || checkLocal === "delivery") && (
             <InputAreaName className="loc">
