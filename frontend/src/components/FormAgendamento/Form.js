@@ -753,9 +753,9 @@ const Form = ({ onEdit }) => {
                 }}
               />
             </InputArea>
-            <InputArea className="wd">
-              {/* <h5 className="transp">Placa do veículo</h5> */}
-              {/* <ButtonParticipar
+            {/* <InputArea className="wd">
+              <h5 className="transp">Placa do veículo</h5>
+              <ButtonParticipar
                 className={active}
                 type="submit"
                 disabled={weekDay === "DOMINGO"}
@@ -764,8 +764,8 @@ const Form = ({ onEdit }) => {
                 }}
               >
                 {active} ✅
-              </ButtonParticipar> */}
-            </InputArea>
+              </ButtonParticipar>
+            </InputArea> */}
           </InputContainer>
           <p>{fidelidade}</p>
           {yesNot.show && (

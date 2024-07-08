@@ -268,7 +268,7 @@ export const InputContainer = styled.div`
 `;
 
 export const InputArea = styled.div`
-  width: 20%;
+  width: 30%;
   .transp {
     color: transparent;
   }
@@ -451,7 +451,7 @@ export const InputAreaDate = styled.div`
 `;
 
 export const InputAreaName = styled.div`
-  width: 20%;
+  width: 30%;
   p {
     margin-bottom: 0;
     margin-left: 20px;
